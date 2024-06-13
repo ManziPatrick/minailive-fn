@@ -1,13 +1,18 @@
 
 import ImageUpload from "../component/page";
 import Dashboard from "../component/dashboard"
+import Header from "../component/header";
 function ImageDashbord() {
     return ( 
         <>
-        <div className=" flex flex-row">
+        <div className=" flex  w-full">
       
-          <Dashboard/>  
-          <ImageUpload/>
+          <Dashboard/> 
+          <div className="w-[60%]">
+            <Header/>
+            <ImageUpload/>
+            </div> 
+          
         </div>
         </>
      );
