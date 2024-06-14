@@ -5,7 +5,7 @@ import card from "../assets/Vector (9).png"
 function Dashboard() {
     return ( 
         <>
-        <div className=" p-6 h-[100vh] bg-white w-[40%] shadow-2xl border-r-2 ">
+        <div className=" p-6 h-[100vh] bg-white w-[100%] shadow-2xl border-r-2 ">
 <div className=" flex align-middle justify-center"> 
 <img src={log}/>
 </div>
