@@ -2,8 +2,8 @@ function Header() {
     return ( 
         <>
        
-        <div className='shadow-md py-6  w-[70vw] h-[10hv] pl-4 text-[14px] items-center '>
-       <h1 className=''>Face Recognition</h1>
+        <div className='shadow-md py-6  w-[100vw] h-[10hv] pl-4 text-[14px] items-center '>
+       <h1 className='font-extrabold text-[16px]'>Face Recognition</h1>
    
         </div>
         </>
