@@ -1,9 +1,9 @@
 
-import ImageUpload from "../component/page";
-import ImageDash from "../component/idrecognition"
+import CreditCardUpload from "../component/page";
 import Dashboard from "../component/dashboard"
+import CreditCard from "../component/creditcard"
 import Header from "../component/header";
-function IdCard() {
+function CreditCardDashbord() {
     return ( 
         <div className="w-[100vw] h-[100vh] overflow-hidden">
         <div className="flex h-full">
@@ -11,12 +11,12 @@ function IdCard() {
                 <Dashboard />
             </div>
             <div className="w-[80%] flex flex-col h-full overflow-hidden">
-            <Header title='Id card' />
-                <ImageDash/>
+                <Header title='Credit Card recognition' />
+                <CreditCard />
             </div>
         </div>
     </div>
      );
 }
 
-export default IdCard;
+export default CreditCardDashbord;

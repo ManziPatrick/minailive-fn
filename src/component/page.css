@@ -48,3 +48,15 @@
     transform: rotate(360deg);
   }
 }
+
+.active {
+  color: #FF5000;
+  border-left: 4px solid #FF5000;
+  background-color: #FF50000A;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  display: block;
+  font-size: 0.875rem; 
+}
