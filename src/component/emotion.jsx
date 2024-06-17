@@ -80,12 +80,13 @@ const Emotion = () => {
     formData.append('file', dataURLtoFile(uploadedImage || capturedImage, 'image.jpg'));
 
     try {
-      const response = await fetch('http://191.96.31.183:8080/face_compare', {
+      const response = await fetch('http://191.96.31.183:8080/face_emotion', {
         method: 'POST',
         body: formData
       });
       const result = await response.json();
       setResults(result);
+      console.log("hhhhhhhhhhh",result)
     } catch (error) {
       console.error('Error submitting images:', error);
     } finally {
@@ -182,20 +183,20 @@ const Emotion = () => {
                 results ? (
                   <div className="flex flex-col gap-4">
                     <div className='bg-white flex flex-col p-4 gap-4 h-[60%]'>
-                      <span className='font-extrabold'>Results</span>
+                      <span className='font-extrabold'>Emotion Results</span>
                       <button className='bg-[#ff510034] text-left p-4 rounded-lg'>
                         {results.match ? "Same Person" : "Not Same Person"}
                       </button>
                       <div className='grid grid-cols-2 gap-x-2'>
                         <img src={results.image1} alt="Result 1" className='w-full object-cover rounded-lg' />
-                        <img src={results.image2} alt="Result 2" className='w-full object-cover rounded-lg' />
+                        
                       </div>
                     </div>
                     <div className='bg-white grid grid-cols-2 gap-y-3 p-6'>
-                      <div>Matching Probability:</div>
-                      <div>{results.matchingProbability}</div>
-                      <div>Confidence Score:</div>
-                      <div>{results.confidenceScore}</div>
+                    <div>{results.matchingProbability}</div>
+                    <div>{results.matchingProbability}</div>
+                      <div>Emotion_result:</div>
+                      <div>{results.emotion_result}</div>
                     </div>
                   </div>
                 ) : (

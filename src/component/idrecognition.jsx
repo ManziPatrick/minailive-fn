@@ -15,7 +15,7 @@ const Idrecognition = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const [showCamera, setShowCamera] = useState(false);
-  const [activeSection, setActiveSection] = useState('extractedData'); // State for active section
+  const [activeSection, setActiveSection] = useState('extractedData');
 
   const openCamera2 = () => {
     setShowCamera(true);

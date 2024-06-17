@@ -80,7 +80,7 @@ const Facelive = () => {
     formData.append('file', dataURLtoFile(uploadedImage || capturedImage, 'image.jpg'));
 
     try {
-      const response = await fetch('http://191.96.31.183:8080/face_compare', {
+      const response = await fetch('http://191.96.31.183:8080/face_liveness_check', {
         method: 'POST',
         body: formData
       });
