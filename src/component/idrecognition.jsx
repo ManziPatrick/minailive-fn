@@ -8,6 +8,9 @@ import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import cantact from "../component/Images/contact.png";
 import imageRes from "../component/Images/Vector (10).png";
 import Apimage from "../component/Images/Vector (11).png";
+import card1 from "../component/Images/Rectangle 43.png"
+import card2 from "../component/Images/Rectangle 45.png"
+import card3 from "../component/Images/Rectangle 46.png"
 import './page.css'
 
 const Idrecognition = () => {
@@ -98,13 +101,17 @@ const Idrecognition = () => {
   };
 
   const renderTableData = (data) => {
-    return Object.entries(data).map(([key, value]) => (
-      <tr key={key}>
-        <td className="border px-4 py-2">{key}</td>
-        <td className="border px-4 py-2">{typeof value === 'object' ? renderTableData(value) : value}</td>
-      </tr>
-    ));
-  };
+    return Object.entries(data).map(([key, value]) => {
+      if (key === 'Images') {
+        return null;
+      }
+      return (
+        <tr key={key}>
+          <td className="border px-4 bold py-2">{key}</td>
+          <td className="border px-4 py-2">{typeof value === 'object' ? renderTableData(value) : value}</td>
+        </tr>
+      );
+    });}
 
   return (
     <div>
@@ -138,6 +145,16 @@ const Idrecognition = () => {
               <select name="optionid" id="optionId" className='py-2 bg-white rounded-xl text-sm w-full px-4 mb-4 '>
                 <option value="idReference">ID References</option>
               </select>
+              <div className='grid grid-cols-4  gap-x-2  gap-y-2'>
+                  <img src={card1} alt="image" className='w-full  shadow-md  object-cover  rounded-lg' />
+                  <img src={card2} alt="image" className='w-full  object-cover  rounded-lg' />
+                  <img src={card3} alt="image" className='w-full  object-cover rounded-lg' />
+                  <img src={card1} alt="image" className='w-full  object-cover  rounded-lg' />
+                  <img src={card2} alt="image" className='w-full  object-cover  rounded-lg' />
+                  <img src={card1} alt="image" className='w-full  object-cover  rounded-lg' />
+                  <img src={card2} alt="image" className='w-full  object-cover  rounded-lg' />
+                  <img src={card1} alt="image" className='w-full  object-cover  rounded-lg' />
+                </div>
             </div>
             <div className='text-[#00000049] text-center p-5'>
               We offer advanced security solutions with facial recognition,
@@ -145,19 +162,18 @@ const Idrecognition = () => {
               integrating with your existing systems
             </div>
           </div>
-
-          <div className='bg-gray-200 rounded-xl w-[50%] p-4'>
+          <div className='bg-gray-200 rounded-xl w-[50%] '>
             <nav>
-              <div className='flex justify-between px-4 bg-white h-12 items-center '>
-                <div className='flex cursor-pointer gap-4' onClick={() => handleTabClick('extractedData')} activeClassName="active" >
+              <div className='flex flex-wrap justify-between px-4 bg-white h-12 items-center'>
+                <div className={`flex cursor-pointer gap-4 ${activeSection === 'extractedData' ? 'text-orange-500' : ''}`} onClick={() => handleTabClick('extractedData')} >
                   <img src={cantact} alt="" className='h-5 ' />
-                  <span className=' '>Extracted Data</span>
+                  <span>Extracted Data</span>
                 </div>
-                <div className='flex cursor-pointer gap-4 items-center' onClick={() => handleTabClick('images')} activeClassName="active" >
+                <div className={`flex cursor-pointer gap-4 items-center ${activeSection === 'images' ? 'text-orange-500' : ''}`} onClick={() => handleTabClick('images')} >
                   <img src={imageRes} alt="" className='h-4 '/>
                   <span>Images</span>
                 </div>
-                <div className='flex cursor-pointer gap-4 items-center' onClick={() => handleTabClick('apiResponse')} activeClassName="active" >
+                <div className={`flex cursor-pointer gap-4 items-center ${activeSection === 'apiResponse' ? 'text-orange-500' : ''}`} onClick={() => handleTabClick('apiResponse')} >
                   <img src={Apimage} alt="" className='h-4  '/>
                   <span>API Response </span>
                 </div>
@@ -167,7 +183,7 @@ const Idrecognition = () => {
 
             {activeSection === 'extractedData' && (
               <div className="p-4">
-                <div className="bg-white p-4 rounded-lg">
+                <div className="bg-white p-4 rounded-lg max-h-[70vh] overflow-y-auto">
                   {extractedData ? (
                     <table className="w-full">
                       <tbody>
@@ -180,10 +196,9 @@ const Idrecognition = () => {
                 </div>
               </div>
             )}
-
             {activeSection === 'images' && (
               <div className="p-4">
-                <div className="bg-white p-4 rounded-lg">
+                <div className="bg-white p-4 rounded-lg max-h-[70vh]">
                   {extractedImages ? (
                     <div className="grid grid-cols-2 gap-x-2">
                       {Object.entries(extractedImages).map(([key, value]) => (
@@ -199,7 +214,7 @@ const Idrecognition = () => {
 
             {activeSection === 'apiResponse' && (
               <div className="p-4">
-                <div className="bg-white p-4 rounded-lg">
+                <div className="bg-white p-4 rounded-lg p-4 max-h-[70vh] overflow-y-auto">
                   {apiResponse ? (
                     <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
                   ) : (
