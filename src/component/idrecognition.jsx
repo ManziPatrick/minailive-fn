@@ -5,17 +5,19 @@ import upload from '../assets/lets-icons_upload.png';
 import upload2 from '../assets/lets-icons_upload (1).png';
 import camera from '../assets/icon-park-outline_camera-one.png';
 import docs from '../assets/fluent_clipboard-edit-20-regular.png';
-import resulti from "../component/Images/Rectangle 53.png";
-import resultl from "../component/Images/Rectangle 50.png";
 import cantact from "../component/Images/contact.png";
 import imageRes from "../component/Images/Vector (10).png";
 import Apimage from "../component/Images/Vector (11).png";
+import './page.css'
 
 const Idrecognition = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const [showCamera, setShowCamera] = useState(false);
   const [activeSection, setActiveSection] = useState('extractedData');
+  const [apiResponse, setApiResponse] = useState(null);
+  const [extractedData, setExtractedData] = useState(null);
+  const [extractedImages, setExtractedImages] = useState(null);
 
   const openCamera2 = () => {
     setShowCamera(true);
@@ -50,19 +52,43 @@ const Idrecognition = () => {
       canvas.height = video.videoHeight;
       canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      const imageUrl = canvas.toDataURL('image/jpeg');
-      setCapturedImage(imageUrl);
-
+      canvas.toBlob(blob => {
+        const imageUrl = URL.createObjectURL(blob);
+        setCapturedImage(imageUrl);
+        sendImageToApi(blob);
+      }, 'image/jpeg');
+      
       closeCamera();
     }
   };
 
   const onDrop = (acceptedFiles) => {
+    const file = acceptedFiles[0];
     const reader = new FileReader();
     reader.onload = () => {
       setUploadedImage(reader.result);
     };
-    reader.readAsDataURL(acceptedFiles[0]);
+    reader.readAsDataURL(file);
+    sendImageToApi(file);
+  };
+
+  const sendImageToApi = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('http://191.96.31.183:8081/idcard_recognition', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      setApiResponse(data);
+      setExtractedData(data);
+      setExtractedImages(data.Images);
+    } catch (error) {
+      console.error('Error sending image to API:', error);
+    }
   };
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
@@ -71,111 +97,120 @@ const Idrecognition = () => {
     setActiveSection(section);
   };
 
+  const renderTableData = (data) => {
+    return Object.entries(data).map(([key, value]) => (
+      <tr key={key}>
+        <td className="border px-4 py-2">{key}</td>
+        <td className="border px-4 py-2">{typeof value === 'object' ? renderTableData(value) : value}</td>
+      </tr>
+    ));
+  };
+
   return (
     <div>
       <div className='flex w-full'>
-        <div className='w-full'>
-          <div {...getRootProps()} className='flex items-center border-2 border-orange-100 w-96 border-dashed rounded-xl h-[280px]'>
-            <input {...getInputProps()} />
-            {uploadedImage || capturedImage ? (
-              <img src={uploadedImage || capturedImage} alt="Image" className='w-full h-full object-cover rounded-xl' />
-            ) : (
-              <div className='text-center flex flex-col items-center justify-center gap-4 w-full'>
-                <img src={image22} alt="" />
-                <div>
-                  <img src={upload} alt="" />
+        <div className='w-full py-8 px-4 flex gap-4 mb-10'>
+          <div className='w-[50%] flex-col '>
+            <div {...getRootProps()} className='flex items-center border-2 border-orange-100 w-full border-dashed rounded-xl h-[280px]'>
+              <input {...getInputProps()} />
+              {uploadedImage || capturedImage ? (
+                <img src={uploadedImage || capturedImage} alt="Image" className='w-full h-full object-cover rounded-xl' />
+              ) : (
+                <div className='text-center flex flex-col items-center justify-center gap-4 w-full'>
+                  <img src={image22} alt="" />
+                  <div>
+                    <img src={upload} alt="" />
+                  </div>
+                  <h1 className='text-orange-500 text-[18px] font-bold'>Drag & Drop image</h1>
                 </div>
-                <h1 className='text-orange-500 text-[18px] font-bold'>Drag & Drop image</h1>
+              )}
+            </div>
+
+            <div className='flex justify-center mt-1 w-full'>
+              <div className='flex gap-2 justify-center shadow-lg rounded-sm bg-white w-32 p-4'>
+                <div><img src={upload2} alt="" /></div>
+                <div onClick={openCamera2}><img src={camera} alt="" /></div>
+                <div><img src={docs} alt="" /></div>
+              </div>
+            </div>
+
+            <div className='bg-gray-200 w-full p-2 rounded-lg py-2'>
+              <select name="optionid" id="optionId" className='py-2 bg-white rounded-xl text-sm w-full px-4 mb-4 '>
+                <option value="idReference">ID References</option>
+              </select>
+            </div>
+            <div className='text-[#00000049] text-center p-5'>
+              We offer advanced security solutions with facial recognition,
+              liveness detection, and ID document recognition, seamlessly
+              integrating with your existing systems
+            </div>
+          </div>
+
+          <div className='bg-gray-200 rounded-xl w-[50%] p-4'>
+            <nav>
+              <div className='flex justify-between px-4 bg-white h-12 items-center '>
+                <div className='flex cursor-pointer gap-4' onClick={() => handleTabClick('extractedData')} activeClassName="active" >
+                  <img src={cantact} alt="" className='h-5 ' />
+                  <span className=' '>Extracted Data</span>
+                </div>
+                <div className='flex cursor-pointer gap-4 items-center' onClick={() => handleTabClick('images')} activeClassName="active" >
+                  <img src={imageRes} alt="" className='h-4 '/>
+                  <span>Images</span>
+                </div>
+                <div className='flex cursor-pointer gap-4 items-center' onClick={() => handleTabClick('apiResponse')} activeClassName="active" >
+                  <img src={Apimage} alt="" className='h-4  '/>
+                  <span>API Response </span>
+                </div>
+              </div>
+              <div className=' h-[0.14rem] w-[10.5rem]'></div>
+            </nav>
+
+            {activeSection === 'extractedData' && (
+              <div className="p-4">
+                <div className="bg-white p-4 rounded-lg">
+                  {extractedData ? (
+                    <table className="w-full">
+                      <tbody>
+                        {renderTableData(extractedData)}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <div>No extracted data available.</div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {activeSection === 'images' && (
+              <div className="p-4">
+                <div className="bg-white p-4 rounded-lg">
+                  {extractedImages ? (
+                    <div className="grid grid-cols-2 gap-x-2">
+                      {Object.entries(extractedImages).map(([key, value]) => (
+                        <img key={key} src={`data:image/jpeg;base64,${value}`} alt={key} className='w-full object-cover rounded-lg' />
+                      ))}
+                    </div>
+                  ) : (
+                    <div>No images available.</div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {activeSection === 'apiResponse' && (
+              <div className="p-4">
+                <div className="bg-white p-4 rounded-lg">
+                  {apiResponse ? (
+                    <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
+                  ) : (
+                    <div>No API response available.</div>
+                  )}
+                </div>
               </div>
             )}
           </div>
-
-          <div className='flex justify-center mt-1 w-full'>
-            <div className='flex gap-2 justify-center bg-white shadow-lg rounded-sm w-32 p-4'>
-              <div><img src={upload2} alt="" /></div>
-              <div onClick={openCamera2}><img src={camera} alt="" /></div>
-              <div><img src={docs} alt="" /></div>
-            </div>
-          </div>
-        </div>
-        <div className='bg-gray-200 mt-4 rounded-xl w-[62%]'>
-          <nav className='flex justify-around'>
-            <div className='flex cursor-pointer' onClick={() => handleTabClick('extractedData')}>
-              <img src={cantact} alt="" />
-              <span>Extracted Data</span>
-            </div>
-            
-            <div className='flex cursor-pointer' onClick={() => handleTabClick('images')}>
-              <img src={imageRes} alt="" />
-              <span>Images</span>
-            </div>
-            <div className='flex cursor-pointer' onClick={() => handleTabClick('apiResponse')}>
-              <img src={Apimage} alt="" />
-              <span>API Response </span>
-            </div>
-          </nav>
-          
-          {activeSection === 'extractedData' && (
-            <div className="p-4">
-              <div className="bg-white flex flex-col p-4 gap-4 h-[60%]">
-                <span className='font-extrabold'>Results</span>
-                <button className='bg-[#ff510034] text-left p-4 rounded-lg'>Not Same Person</button>
-                <div className='grid grid-cols-2 gap-x-2'>
-                  <img src={resulti} alt=" " className='w-full object-cover rounded-lg'/>
-                  <img src={resultl} alt="" className='w-full object-cover rounded-lg' />
-                </div>
-              </div>
-              <div className='bg-white grid grid-cols-2 gap-y-3 p-6 mt-4'>
-                <div>Matching Probability:</div>
-                <div>Very Low</div>
-                <div>Confidence Score:</div>
-                <div>0.90</div>
-              </div>
-            </div>
-          )}
-          
-          {activeSection === 'images' && (
-            <div className="p-4">
-              <div className="bg-white p-4 rounded-lg">
-                {/* Add content for Images section */}
-                Images Content Here
-              </div>
-            </div>
-          )}
-          
-          {activeSection === 'apiResponse' && (
-            <div className="p-4">
-              <div className="bg-white p-4 rounded-lg">
-                {/* Add content for API Response section */}
-                API Response Content Here
-              </div>
-            </div>
-          )}
         </div>
       </div>
-
-     
-
-
-      {showCamera && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
-          <div className="relative max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6">
-            <video id="camera-preview" autoPlay className="w-full rounded-lg"></video>
-            <div className="absolute top-0 right-0 m-4">
-              <button onClick={closeCamera} className="text-gray-200 hover:text-white">
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="flex justify-center mt-4">
-              <button onClick={captureImage} className="bg-orange-500 text-white px-4 py-2 rounded-lg">
-                Capture Image
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
