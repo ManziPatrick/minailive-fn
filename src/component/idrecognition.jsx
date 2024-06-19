@@ -8,9 +8,9 @@ import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import cantact from "../component/Images/contact.png";
 import imageRes from "../component/Images/Vector (10).png";
 import Apimage from "../component/Images/Vector (11).png";
-import card1 from "../component/Images/Rectangle 43.png"
-import card2 from "../component/Images/Rectangle 45.png"
-import card3 from "../component/Images/Rectangle 46.png"
+import card1 from "../component/Images/1.jpg"
+import card2 from "../component/Images/2.jpg"
+import card3 from "../component/Images/3.jpg"
 import './page.css'
 
 const Idrecognition = () => {
@@ -21,6 +21,8 @@ const Idrecognition = () => {
   const [apiResponse, setApiResponse] = useState(null);
   const [extractedData, setExtractedData] = useState(null);
   const [extractedImages, setExtractedImages] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const fileInputRef = useRef(null);
 
   const openCamera2 = () => {
     setShowCamera(true);
@@ -58,7 +60,8 @@ const Idrecognition = () => {
       canvas.toBlob(blob => {
         const imageUrl = URL.createObjectURL(blob);
         setCapturedImage(imageUrl);
-        sendImageToApi(blob);
+        // Move the API call to the button click handler
+        // sendImageToApi(blob);
       }, 'image/jpeg');
       
       closeCamera();
@@ -72,11 +75,13 @@ const Idrecognition = () => {
       setUploadedImage(reader.result);
     };
     reader.readAsDataURL(file);
-    sendImageToApi(file);
+    // Move the API call to the button click handler
+    // sendImageToApi(file);
   };
 
   const sendImageToApi = async (file) => {
     try {
+      setLoading(true);
       const formData = new FormData();
       formData.append('file', file);
 
@@ -91,6 +96,18 @@ const Idrecognition = () => {
       setExtractedImages(data.Images);
     } catch (error) {
       console.error('Error sending image to API:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRecognitionClick = () => {
+    const file = capturedImage || uploadedImage;
+    if (file) {
+      fetch(file)
+        .then(res => res.blob())
+        .then(blob => sendImageToApi(blob))
+        .catch(err => console.error('Error fetching the image:', err));
     }
   };
 
@@ -100,6 +117,14 @@ const Idrecognition = () => {
     setActiveSection(section);
   };
 
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleImageClick = (imageSrc) => {
+    setUploadedImage(imageSrc);
+  };
+
   const renderTableData = (data) => {
     return Object.entries(data).map(([key, value]) => {
       if (key === 'Images') {
@@ -107,28 +132,29 @@ const Idrecognition = () => {
       }
       return (
         <tr key={key}>
-          <td className="border px-4 bold py-2">{key}</td>
+          <td className="border px-4  font-bold py-2">{key}</td>
           <td className="border px-4 py-2">{typeof value === 'object' ? renderTableData(value) : value}</td>
         </tr>
       );
-    });}
+    });
+  };
 
   return (
     <div>
       <div className='flex w-full'>
         <div className='w-full py-8 px-4 flex gap-4 mb-10'>
           <div className='w-[50%] flex-col '>
-            <div {...getRootProps()} className='flex items-center border-2 border-orange-100 w-full border-dashed rounded-xl h-[280px]'>
-              <input {...getInputProps()} />
+            <div {...getRootProps()} className='flex items-center border-2 border-orange-100 w-full border-dashed rounded-xl h-[280px]' onClick={handleUploadClick}>
+              <input {...getInputProps()} ref={fileInputRef} style={{ display: 'none' }} />
               {uploadedImage || capturedImage ? (
-                <img src={uploadedImage || capturedImage} alt="Image" className='w-full h-full object-cover rounded-xl' />
+                <img src={uploadedImage || capturedImage} alt="Image" className='w-full h-full object-contain rounded-xl' />
               ) : (
                 <div className='text-center flex flex-col items-center justify-center gap-4 w-full'>
                   <img src={image22} alt="" />
                   <div>
                     <img src={upload} alt="" />
                   </div>
-                  <h1 className='text-orange-500 text-[18px] font-bold'>Drag & Drop image</h1>
+                  <h1 className='text-orange-500 text-[18px] font-bold'>Drag & Drop image or click to upload</h1>
                 </div>
               )}
             </div>
@@ -145,16 +171,16 @@ const Idrecognition = () => {
               <select name="optionid" id="optionId" className='py-2 bg-white rounded-xl text-sm w-full px-4 mb-4 '>
                 <option value="idReference">ID References</option>
               </select>
-              <div className='grid grid-cols-4  gap-x-2  gap-y-2'>
-                  <img src={card1} alt="image" className='w-full  shadow-md  object-cover  rounded-lg' />
-                  <img src={card2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={card3} alt="image" className='w-full  object-cover rounded-lg' />
-                  <img src={card1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={card2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={card1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={card2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={card1} alt="image" className='w-full  object-cover  rounded-lg' />
-                </div>
+              <div className='grid grid-cols-3 bg-white p-2  gap-x-2  gap-y-2'>
+                <img src={card3} alt="image" className='w-full  object-cover rounded-lg' onClick={() => handleImageClick(card3)} />
+                <img src={card1} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(card1)} />
+                <img src={card2} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(card2)} />
+              </div>
+            </div>
+            <div className='flex justify-center  pt-4'>
+            <button className='bg-orange-500 text-white px-4  w-[80%] self-center rounded-[20px] py-2 text-[15px]' onClick={handleRecognitionClick} disabled={loading}>
+              {loading ? 'Processing...' : 'Id card recognition'}
+            </button>
             </div>
             <div className='text-[#00000049] text-center p-5'>
               We offer advanced security solutions with facial recognition,
@@ -173,10 +199,10 @@ const Idrecognition = () => {
                   <img src={imageRes} alt="" className='h-4 '/>
                   <span>Images</span>
                 </div>
-                <div className={`flex cursor-pointer gap-4 items-center ${activeSection === 'apiResponse' ? 'text-orange-500' : ''}`} onClick={() => handleTabClick('apiResponse')} >
+                {/* <div className={`flex cursor-pointer gap-4 items-center ${activeSection === 'apiResponse' ? 'text-orange-500' : ''}`} onClick={() => handleTabClick('apiResponse')} >
                   <img src={Apimage} alt="" className='h-4  '/>
                   <span>API Response </span>
-                </div>
+                </div> */}
               </div>
               <div className=' h-[0.14rem] w-[10.5rem]'></div>
             </nav>
@@ -202,7 +228,7 @@ const Idrecognition = () => {
                   {extractedImages ? (
                     <div className="grid grid-cols-2 gap-x-2">
                       {Object.entries(extractedImages).map(([key, value]) => (
-                        <img key={key} src={`data:image/jpeg;base64,${value}`} alt={key} className='w-full object-cover rounded-lg' />
+                        <img key={key} src={`data:image/jpeg;base64,${value}`} alt={key} className='w-full object-contain rounded-lg' />
                       ))}
                     </div>
                   ) : (
@@ -211,7 +237,7 @@ const Idrecognition = () => {
                 </div>
               </div>
             )}
-
+{/* 
             {activeSection === 'apiResponse' && (
               <div className="p-4">
                 <div className="bg-white p-4 rounded-lg p-4 max-h-[70vh] overflow-y-auto">
@@ -222,7 +248,7 @@ const Idrecognition = () => {
                   )}
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
