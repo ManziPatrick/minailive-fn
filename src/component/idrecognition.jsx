@@ -171,10 +171,10 @@ const Idrecognition = () => {
               <select name="optionid" id="optionId" className='py-2 bg-white rounded-xl text-sm w-full px-4 mb-4 '>
                 <option value="idReference">ID References</option>
               </select>
-              <div className='grid grid-cols-3 bg-white p-2  gap-x-2  gap-y-2'>
-                <img src={card3} alt="image" className='w-full  object-cover rounded-lg' onClick={() => handleImageClick(card3)} />
-                <img src={card1} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(card1)} />
-                <img src={card2} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(card2)} />
+              <div className='grid grid-cols-3 bg-white p-2  gap-x-2 h-32  gap-y-2'>
+                <img src={card3} alt="image" className='w-full  object-cover h-28 rounded-lg' onClick={() => handleImageClick(card3)} />
+                <img src={card1} alt="image" className='w-full  object-cover h-28 rounded-lg' onClick={() => handleImageClick(card1)} />
+                <img src={card2} alt="image" className='w-full  object-cover h-28 rounded-lg' onClick={() => handleImageClick(card2)} />
               </div>
             </div>
             <div className='flex justify-center  pt-4'>
