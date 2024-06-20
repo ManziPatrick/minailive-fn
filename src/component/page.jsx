@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import "./page.css";
-import image1 from '../component/Images/Rectangle 50.png';
-import image2 from '../component/Images/Rectangle 47.png';
+import image1 from '../component/Images/1 (1).jpg';
+import image2 from '../component/Images/2 (1).jpg';
+import image4 from '../component/Images/3 (1).jpg';
+import image5 from '../component/Images/5.jpg';
+import image6 from '../component/Images/6.jpg';
+import image7 from '../component/Images/7.jpg';
+import image8 from '../component/Images/8.jpg';
+import image9 from '../component/Images/9.jpg';
 import upload from '../assets/lets-icons_upload.png';
 import image3 from '../component/Images/3.jpeg';
 import image11 from '../assets/Frame 8.png';
@@ -121,7 +127,7 @@ const ImageUpload = () => {
   const { getRootProps: getRootProps2, getInputProps: getInputProps2 } = useDropzone({ onDrop: onDrop2 });
 
   const handleSubmit = async () => {
-    // setLoading(true); 
+     setLoading(true); 
     const formData = new FormData();
     formData.append('file1', dataURLtoFile(uploadedImage1 || capturedImage1, 'image1.jpg'));
     formData.append('file2', dataURLtoFile(uploadedImage2 || capturedImage2, 'image2.jpg'));
@@ -197,7 +203,7 @@ const ImageUpload = () => {
     }
   };
   return (
-    <div className='flex w-[95%] '>
+    <div className='flex w-[98%] '>
       <div className=' w-full h-full'>
         <div className='flex ' id=''>
           <div className=' flex flex-col justify-center w-full'>
@@ -257,10 +263,10 @@ const ImageUpload = () => {
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-2 gap-y-2'>
-                  <img src={image1} alt="image" className=' w-full  object-cover   rounded-lg'  onClick={() => handleImageClick(image1)} />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg'   onClick={() => handleImageClick(image2)}/>
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick(image1)}/>
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick(image2)}/>
+                  <img src={image1} alt="image" className=' w-full   object-cover h-20   rounded-lg'  onClick={() => handleImageClick(image1)} />
+                  <img src={image2} alt="image" className='w-full   object-cover h-20  rounded-lg'   onClick={() => handleImageClick(image2)}/>
+                  <img src={image4} alt="image" className='w-full   object-cover h-20  rounded-lg'  onClick={() => handleImageClick(image4)}/>
+                  <img src={image5} alt="image" className='w-full   object-cover h-20  rounded-lg'  onClick={() => handleImageClick(image5)}/>
 
                 </div>
               </div>
@@ -269,14 +275,15 @@ const ImageUpload = () => {
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-3 gap-y-2'>
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick2(image1)}/>
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick2(image2)}/>
-                  <img src={image1} alt="image" className='w-full  object-cover rounded-lg'  onClick={() => handleImageClick2(image1)}/>
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick2(image2)}/>
+                  <img src={image6} alt="image" className='w-full   object-cover h-20  rounded-lg'  onClick={() => handleImageClick2(image6)}/>
+                  <img src={image7} alt="image" className='w-full   object-cover h-20  rounded-lg'  onClick={() => handleImageClick2(image7)}/>
+                  <img src={image8} alt="image" className='w-full   object-cover h-20 rounded-lg'  onClick={() => handleImageClick2(image8)}/>
+                  <img src={image9} alt="image" className='w-full   object-cover h-20  rounded-lg'  onClick={() => handleImageClick2(image9)}/>
 
                 </div>
               </div>
             </div>
+            <button onClick={handleSubmit} className='bg-orange-500 text-white px-4 rounded-[20px] py-2 w-[80%] self-center mt-2 text-[15px]'> {loading ? 'Processing...' : 'Check your comparisons'}</button>
             <div className='text-[#00000049] text-center p-5'>
               We offer advanced security solutions with facial recognition, liveness detection, and ID document recognition, seamlessly integrating with your existing systems.
             </div>
@@ -301,7 +308,7 @@ const ImageUpload = () => {
                 ) : (
                   <div className='text-center'>
                     <img src={image3} alt="image" className='pb-4 mx-auto' />
-                    <button onClick={handleSubmit} className='bg-orange-500 text-white px-4 rounded-[20px] py-2 text-[15px]'>Check your comparisons</button>
+                    
                   </div>
                 )
               )}

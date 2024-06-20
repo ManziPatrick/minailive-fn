@@ -1,34 +1,30 @@
-import React, { useState } from 'react';
-import "./page.css";
-import image2 from '../component/Images/Rectangle 47.png';
-import image1 from '../component/Images/Rectangle 50.png';
+import React, { useState, useRef } from 'react';
+import { useDropzone } from 'react-dropzone';
+import image22 from '../assets/Frame 11.png';
 import upload from '../assets/lets-icons_upload.png';
-import image11 from '../assets/Frame 8.png';
 import upload2 from '../assets/lets-icons_upload (1).png';
 import camera from '../assets/icon-park-outline_camera-one.png';
 import docs from '../assets/fluent_clipboard-edit-20-regular.png';
-import { useDropzone } from 'react-dropzone';
-import dote1 from '../component/Images/Group.png';
+import cantact from "../component/Images/contact.png";
+import imageRes from "../component/Images/Vector (10).png";
+import Apimage from "../component/Images/Vector (11).png";
+import card1 from "../component/Images/1.jpg"
+import card2 from "../component/Images/2.jpg"
+import card3 from "../component/Images/3.jpg"
+import './page.css'
 
 const CreditCard = () => {
-  const [loading, setLoading] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
-  const [showCamera, setShowCamera] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [results, setResults] = useState(null);
+  const [showCamera, setShowCamera] = useState(false);
+  const [activeSection, setActiveSection] = useState('extractedData');
+  const [apiResponse, setApiResponse] = useState(null);
+  const [extractedData, setExtractedData] = useState(null);
+  const [extractedImages, setExtractedImages] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const fileInputRef = useRef(null);
 
-  // const handleClick = () => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 2000);
-  // };
-  
-  const handleImageClick = (imageSrc) => {
-    setUploadedImage(imageSrc);
-  };
-
-  const openCamera = () => {
+  const openCamera2 = () => {
     setShowCamera(true);
     const constraints = { video: true };
 
@@ -61,166 +57,201 @@ const CreditCard = () => {
       canvas.height = video.videoHeight;
       canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      const imageUrl = canvas.toDataURL('image/jpeg');
-      setCapturedImage(imageUrl);
-
+      canvas.toBlob(blob => {
+        const imageUrl = URL.createObjectURL(blob);
+        setCapturedImage(imageUrl);
+     
+      }, 'image/jpeg');
+      
       closeCamera();
     }
   };
 
   const onDrop = (acceptedFiles) => {
+    const file = acceptedFiles[0];
     const reader = new FileReader();
     reader.onload = () => {
       setUploadedImage(reader.result);
     };
-    reader.readAsDataURL(acceptedFiles[0]);
+    reader.readAsDataURL(file);
+
   };
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
-  const handleSubmit = async () => {
-    setLoading(true);
-    const formData = new FormData();
-    formData.append('file', dataURLtoFile(uploadedImage || capturedImage, 'image.jpg'));
-
+  const sendImageToApi = async (file) => {
     try {
-      const response = await fetch('http://191.96.31.183:8080/face_compare', {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('http://191.96.31.183:8081/idcard_recognition', {
         method: 'POST',
-        body: formData
+        body: formData,
       });
-      const result = await response.json();
-      setResults(result);
+
+      const data = await response.json();
+      setApiResponse(data);
+      setExtractedData(data);
+      setExtractedImages(data.Images);
     } catch (error) {
-      console.error('Error submitting images:', error);
+      console.error('Error sending image to API:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const dataURLtoFile = (dataurl, filename) => {
-    const arr = dataurl.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
+  const handleRecognitionClick = () => {
+    const file = capturedImage || uploadedImage;
+    if (file) {
+      fetch(file)
+        .then(res => res.blob())
+        .then(blob => sendImageToApi(blob))
+        .catch(err => console.error('Error fetching the image:', err));
     }
-    return new File([u8arr], filename, { type: mime });
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
+  const handleTabClick = (section) => {
+    setActiveSection(section);
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleImageClick = (imageSrc) => {
+    setUploadedImage(imageSrc);
+  };
+
+  const renderTableData = (data) => {
+    return Object.entries(data).map(([key, value]) => {
+      if (key === 'Images') {
+        return null;
+      }
+      return (
+        <tr key={key}>
+          <td className="border px-4  font-bold py-2">{key}</td>
+          <td className="border px-4 py-2">{typeof value === 'object' ? renderTableData(value) : value}</td>
+        </tr>
+      );
+    });
   };
 
   return (
-    <div className='flex w-[95%] md:wfull '>
-      <div className=' w-full h-full'>
-        <div className='flex md:flex-col md:justify-center ' id=''>
-          <div className=' flex flex-col justify-center w-full'>
-            <div className=' w-[100%] gap-10 pt-6 pl-4'>
-              <div className=' flex justify-around  '>
-                <div className=''>
-                  <div {...getRootProps()} className='flex items-center border-2 border-orange-200 w-[300px] border-dashed rounded-xl h-[280px]'>
-                    <input {...getInputProps()} />
-                    {uploadedImage || capturedImage ? (
-                      <img src={uploadedImage || capturedImage} alt="Uploaded" className='w-full h-full object-cover rounded-xl' />
-                    ) : (
-                      <div className='text-center flex flex-col items-center justify-center gap-4 w-full'>
-                        <img src={image11} alt="" />
-                        <div>
-                          <img src={upload} alt="" />
-                        </div>
-                        <h1 className='text-orange-500 text-[18px] font-bold'>Drag & Drop image</h1>
-                      </div>
-                    )}
-                  </div>
-                  <div className='flex justify-center mt-1 w-full'>
-                    <div className='flex gap-2 justify-center shadow-lg rounded-sm bg-white w-32 p-4'>
-                      <div><img src={upload2} alt="" /></div>
-                      <div onClick={openCamera}><img src={camera} alt="" /></div>
-                      <div><img src={docs} alt="" /></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='flex justify-around md:flex-col gap-3 md:justify-center  mt-1 px-2'>
-              <div className='bg-gray-200  w-4/5 md:w-[100%] md:self-center  p-2 rounded-lg py-2'>
-                <select name="option" id="option" className='py-2 bg-white rounded-xl text-[15px] w-[100%]  px-2  mb-4'>
-                  <option value="example">Examples</option>
-                </select>
-                <div className='grid grid-cols-4  gap-x-2 p-2 gap-y-2'>
-                  <img src={image1} alt="image" className=' w-full  object-cover   rounded-lg' onClick={() => handleImageClick(image1)}  />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(image2)} />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(image1)} />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(image1)}/>
- 
-                </div>
-              </div>
-             
-            </div>
-            <div className='text-[#00000049] text-center p-5'>
-              We offer advanced security solutions with facial recognition, liveness detection, and ID document recognition, seamlessly integrating with your existing systems.
-            </div>
-          </div>
-          <div className='bg-gray-200 mt-4 flex items-center justify-center rounded-xl w-[62%] md:w-[100%]'>
-            <div className="w-[90%] flex flex-col p-4 gap-4 h-[90%]">
-              {loading ? (
-                <div className='flex flex-col gap-8'>
-                  <div className="">
-                    <img src={dote1} alt="" />
-                  </div>
-                  <div className='text-[#FF5000] text-center'>Loading Results....</div>
-                </div>
+    <div>
+      <div className='flex w-full'>
+        <div className='w-full py-8 px-4 flex gap-4 mb-10'>
+          <div className='w-[40%] flex-col '>
+            <div {...getRootProps()} className='flex items-center border-2 border-orange-100 w-full border-dashed rounded-xl h-[280px]' onClick={handleUploadClick}>
+              <input {...getInputProps()} ref={fileInputRef} style={{ display: 'none' }} />
+              {uploadedImage || capturedImage ? (
+                <img src={uploadedImage || capturedImage} alt="Image" className='w-full h-full object-contain rounded-xl' />
               ) : (
-                results ? (
-                  <div className="flex flex-col gap-4">
-                    <div className='bg-white flex flex-col p-4 gap-4 h-[60%]'>
-                      <span className='font-extrabold'>Results</span>
-                      <button className='bg-[#ff510034] text-left p-4 rounded-lg'>
-                        {results.match ? "Same Person" : "Not Same Person"}
-                      </button>
-                      <div className='grid grid-cols-2 gap-x-2'>
-                        <img src={results.image1} alt="Result 1" className='w-full object-cover rounded-lg' />
-                        <img src={results.image2} alt="Result 2" className='w-full object-cover rounded-lg' />
-                      </div>
-                    </div>
-                    <div className='bg-white grid grid-cols-2 gap-y-3 p-6'>
-                      <div>Matching Probability:</div>
-                      <div>{results.matchingProbability}</div>
-                      <div>Confidence Score:</div>
-                      <div>{results.confidenceScore}</div>
-                    </div>
+                <div className='text-center flex flex-col items-center justify-center gap-4 w-full'>
+                  <img src={image22} alt="" />
+                  <div>
+                    <img src={upload} alt="" />
                   </div>
-                ) : (
-                  <div className='text-center'>
-                    <img src={image1} alt="image" className='pb-4 mx-auto' />
-                    <button onClick={handleSubmit} className='bg-orange-500 text-white px-4 rounded-[20px] py-2 text-[15px]'>Check your comparisons</button>
-                  </div>
-                )
+                  <h1 className='text-orange-500 text-[18px] font-bold'>Drag & Drop image or click to upload</h1>
+                </div>
               )}
             </div>
+
+            <div className='flex justify-center mt-1 w-full'>
+              <div className='flex gap-2 justify-center shadow-lg rounded-sm bg-white w-32 p-4'>
+                <div><img src={upload2} alt="" /></div>
+                <div onClick={openCamera2}><img src={camera} alt="" /></div>
+                <div><img src={docs} alt="" /></div>
+              </div>
+            </div>
+
+            <div className='bg-gray-200 w-full p-2 rounded-lg py-2'>
+              <select name="optionid" id="optionId" className='py-2 bg-white rounded-xl text-sm w-full px-4 mb-4 '>
+                <option value="idReference">ID References</option>
+              </select>
+              <div className='grid grid-cols-3 bg-white p-2  gap-x-2 h-32  gap-y-2'>
+                <img src={card3} alt="image" className='w-full  object-cover h-28 rounded-lg' onClick={() => handleImageClick(card3)} />
+                <img src={card1} alt="image" className='w-full  object-cover h-28 rounded-lg' onClick={() => handleImageClick(card1)} />
+                <img src={card2} alt="image" className='w-full  object-cover h-28 rounded-lg' onClick={() => handleImageClick(card2)} />
+              </div>
+            </div>
+            <div className='flex justify-center  pt-4'>
+            <button className='bg-orange-500 text-white px-4  w-[80%] self-center rounded-[20px] py-2 text-[15px]' onClick={handleRecognitionClick} disabled={loading}>
+              {loading ? 'Processing...' : 'Id card recognition'}
+            </button>
+            </div>
+            <div className='text-[#00000049] text-center p-5'>
+              We offer advanced security solutions with facial recognition,
+              liveness detection, and ID document recognition, seamlessly
+              integrating with your existing systems
+            </div>
+          </div>
+          <div className='bg-gray-200 rounded-xl w-[60%] '>
+            <nav>
+              <div className='flex flex-wrap justify-between px-4 bg-white h-12 items-center'>
+                <div className={`flex cursor-pointer gap-4 ${activeSection === 'extractedData' ? 'text-orange-500' : ''}`} onClick={() => handleTabClick('extractedData')} >
+                  <img src={cantact} alt="" className='h-5 ' />
+                  <span>Extracted Data</span>
+                </div>
+                <div className={`flex cursor-pointer gap-4 items-center ${activeSection === 'images' ? 'text-orange-500' : ''}`} onClick={() => handleTabClick('images')} >
+                  <img src={imageRes} alt="" className='h-4 '/>
+                  <span>Images</span>
+                </div>
+                {/* <div className={`flex cursor-pointer gap-4 items-center ${activeSection === 'apiResponse' ? 'text-orange-500' : ''}`} onClick={() => handleTabClick('apiResponse')} >
+                  <img src={Apimage} alt="" className='h-4  '/>
+                  <span>API Response </span>
+                </div> */}
+              </div>
+              <div className=' h-[0.14rem] w-[10.5rem]'></div>
+            </nav>
+
+            {activeSection === 'extractedData' && (
+              <div className="p-4">
+                <div className="bg-white p-4 rounded-lg max-h-[70vh] overflow-y-auto">
+                  {extractedData ? (
+                    <table className="w-full">
+                      <tbody>
+                        {renderTableData(extractedData)}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <div>No extracted data available.</div>
+                  )}
+                </div>
+              </div>
+            )}
+            {activeSection === 'images' && (
+              <div className="p-4">
+                <div className="bg-white p-4 rounded-lg max-h-[70vh]">
+                  {extractedImages ? (
+                    <div className="grid grid-cols-2 gap-x-2">
+                      {Object.entries(extractedImages).map(([key, value]) => (
+                        <img key={key} src={`data:image/jpeg;base64,${value}`} alt={key} className='w-full object-contain rounded-lg' />
+                      ))}
+                    </div>
+                  ) : (
+                    <div>No images available.</div>
+                  )}
+                </div>
+              </div>
+            )}
+{/* 
+            {activeSection === 'apiResponse' && (
+              <div className="p-4">
+                <div className="bg-white p-4 rounded-lg p-4 max-h-[70vh] overflow-y-auto">
+                  {apiResponse ? (
+                    <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
+                  ) : (
+                    <div>No API response available.</div>
+                  )}
+                </div>
+              </div>
+            )} */}
           </div>
         </div>
       </div>
-      {showCamera && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
-          <div className="relative max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6">
-            <video id="camera-preview" autoPlay className="w-full rounded-lg"></video>
-            <div className="absolute top-0 right-0 m-4">
-              <button onClick={closeCamera} className="text-gray-200 hover:text-white">
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="flex justify-center mt-4">
-              <button onClick={captureImage} className="bg-orange-500 text-white px-4 py-2 rounded-lg">
-                Capture Image
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
-  )
-}
+  );
+};
 
 export default CreditCard;

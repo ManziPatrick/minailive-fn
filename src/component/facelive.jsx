@@ -199,6 +199,7 @@ const Facelive = () => {
               </div>
            
             </div>
+            <button onClick={handleSubmit} className='bg-orange-500 text-white px-4 rounded-[20px]  text-[15px] w-[80%] self-center py-2 mt-4  '> {loading ? 'Processing...' : 'Check your comparisons'} </button>
             <div className='text-[#00000049] text-center p-5'>
               We offer advanced security solutions with facial recognition, liveness detection, and ID document recognition, seamlessly integrating with your existing systems.
             </div>
@@ -223,7 +224,7 @@ const Facelive = () => {
                 ) : (
                   <div className='text-center'>
                     <img src={image1} alt="image" className='pb-4 mx-auto' />
-                    <button onClick={handleSubmit} className='bg-orange-500 text-white px-4 rounded-[20px] py-2 text-[15px]'>Check your comparisons</button>
+                    
                   </div>
                 )
               )}
