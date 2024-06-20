@@ -108,7 +108,7 @@ const CreditCard = () => {
   return (
     <div className='flex w-[95%] '>
       <div className=' w-full h-full'>
-        <div className='flex ' id=''>
+        <div className='flex md:flex-col ' id=''>
           <div className=' flex flex-col justify-center w-full'>
             <div className=' w-[100%] gap-10 pt-6 pl-4'>
               <div className=' flex justify-around  '>
@@ -137,7 +137,7 @@ const CreditCard = () => {
                 </div>
               </div>
             </div>
-            <div className='flex justify-around gap-3 mt-1 px-2'>
+            <div className='flex justify-around md:flex-col gap-3 mt-1 px-2'>
               <div className='bg-gray-200 w-4/5 p-2 rounded-lg py-2'>
                 <select name="option" id="option" className='py-2 bg-white rounded-xl text-[15px] w-[100%]  px-2  mb-4'>
                   <option value="example">Examples</option>

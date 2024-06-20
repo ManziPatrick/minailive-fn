@@ -60,8 +60,7 @@ const Idrecognition = () => {
       canvas.toBlob(blob => {
         const imageUrl = URL.createObjectURL(blob);
         setCapturedImage(imageUrl);
-        // Move the API call to the button click handler
-        // sendImageToApi(blob);
+     
       }, 'image/jpeg');
       
       closeCamera();
@@ -75,8 +74,7 @@ const Idrecognition = () => {
       setUploadedImage(reader.result);
     };
     reader.readAsDataURL(file);
-    // Move the API call to the button click handler
-    // sendImageToApi(file);
+
   };
 
   const sendImageToApi = async (file) => {
@@ -143,7 +141,7 @@ const Idrecognition = () => {
     <div>
       <div className='flex w-full'>
         <div className='w-full py-8 px-4 flex gap-4 mb-10'>
-          <div className='w-[50%] flex-col '>
+          <div className='w-[40%] flex-col '>
             <div {...getRootProps()} className='flex items-center border-2 border-orange-100 w-full border-dashed rounded-xl h-[280px]' onClick={handleUploadClick}>
               <input {...getInputProps()} ref={fileInputRef} style={{ display: 'none' }} />
               {uploadedImage || capturedImage ? (
@@ -188,7 +186,7 @@ const Idrecognition = () => {
               integrating with your existing systems
             </div>
           </div>
-          <div className='bg-gray-200 rounded-xl w-[50%] '>
+          <div className='bg-gray-200 rounded-xl w-[60%] '>
             <nav>
               <div className='flex flex-wrap justify-between px-4 bg-white h-12 items-center'>
                 <div className={`flex cursor-pointer gap-4 ${activeSection === 'extractedData' ? 'text-orange-500' : ''}`} onClick={() => handleTabClick('extractedData')} >

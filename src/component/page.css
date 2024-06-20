@@ -4,7 +4,7 @@
 #sides{
   grid-template-columns: 1fr 0.6fr;
 }
-.dropdown:hover .dropdown-menu,
+.dropdown .dropdown-menu,
 .dropdown:focus-within .dropdown-menu {
   display: block;
 }
@@ -59,4 +59,60 @@
   padding-bottom: 1.25rem;
   display: block;
   font-size: 0.875rem; 
+}
+/* Common styles */
+.sidebar {
+  transition: left 0.3s ease;
+}
+
+.checkbtn {
+  display: none; /* Hidden by default */
+}
+
+/* Styles for screens smaller than 1024px */
+@media screen and (max-width: 1024px) {
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    width: 80%;
+    height: 100vh;
+    z-index: 1000; /* Ensure it overlays the content */
+    background-color: white;
+    overflow-y: auto; /* Ensure scrolling if content overflows */
+  }
+
+  .checkbtn {
+    display: block; /* Display the menu button */
+    position: absolute;
+    top: 15px;
+    right: 15px; /* Position on the right */
+    z-index: 1100; /* Above the sidebar */
+  }
+
+  .checkbtn img {
+    width: 24px;
+    cursor: pointer; /* Cursor changes to pointer */
+  }
+
+  #checkBox:checked ~ .sidebar {
+    left: 0;
+  }
+
+  /* To prevent body from scrolling when sidebar is open */
+  #checkBox:checked ~ .content {
+    overflow: hidden;
+    height: 100vh;
+  }
+}
+
+/* Additional styles for screens smaller than 900px */
+@media screen and (max-width: 900px) {
+  .sidebar {
+    top: 0;
+  }
+
+  #checkBox:checked ~ .sidebar {
+    left: 0;
+  }
 }
