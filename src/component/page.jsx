@@ -22,12 +22,7 @@ const ImageUpload = () => {
   const [activeCamera, setActiveCamera] = useState(null);
   const [results, setResults] = useState(null);
 
-  const handleClick = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  };
+  
 
   const openCamera1 = () => {
     setShowCamera(true);
@@ -68,6 +63,12 @@ const ImageUpload = () => {
       tracks.forEach(track => track.stop());
       video.srcObject = null;
     }
+  };
+  const handleImageClick = (imageSrc) => {
+    setUploadedImage1(imageSrc);
+  };
+  const handleImageClick2 = (imageSrc) => {
+    setUploadedImage2(imageSrc);
   };
 
   const captureImage1 = () => {
@@ -120,7 +121,7 @@ const ImageUpload = () => {
   const { getRootProps: getRootProps2, getInputProps: getInputProps2 } = useDropzone({ onDrop: onDrop2 });
 
   const handleSubmit = async () => {
-    setLoading(true);
+    // setLoading(true); 
     const formData = new FormData();
     formData.append('file1', dataURLtoFile(uploadedImage1 || capturedImage1, 'image1.jpg'));
     formData.append('file2', dataURLtoFile(uploadedImage2 || capturedImage2, 'image2.jpg'));
@@ -151,6 +152,50 @@ const ImageUpload = () => {
     return new File([u8arr], filename, { type: mime });
   };
 
+  
+  const renderTable = (data) => {
+    if (!data) return null;
+
+    return (
+      <div className='max-h-[70vh] overflow-y-auto'>
+        <table className='min-w-full bg-white'>
+          <thead>
+            <tr>
+              <th className='py-2 px-4 bg-gray-200'>Key</th>
+              <th className='py-2 px-4 bg-gray-200'>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.keys(data).map((key, index) => (
+              <tr key={index} className='bg-gray-100'>
+                <td className='py-2 px-4 border'>{key}</td>
+                <td className='py-2 px-4 border'>{renderValue(data[key])}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  const renderValue = (value) => {
+    if (typeof value === 'object') {
+      return (
+        <table className='min-w-full bg-white'>
+          <tbody>
+            {Object.keys(value).map((subKey, subIndex) => (
+              <tr key={subIndex} className='bg-gray-100'>
+                <td className='py-2 px-4 border'>{subKey}</td>
+                <td className='py-2 px-4 border'>{renderValue(value[subKey])}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      );
+    } else {
+      return value.toString();
+    }
+  };
   return (
     <div className='flex w-[95%] '>
       <div className=' w-full h-full'>
@@ -212,12 +257,11 @@ const ImageUpload = () => {
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-2 gap-y-2'>
-                  <img src={image1} alt="image" className=' w-full  object-cover   rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
+                  <img src={image1} alt="image" className=' w-full  object-cover   rounded-lg'  onClick={() => handleImageClick(image1)} />
+                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg'   onClick={() => handleImageClick(image2)}/>
+                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick(image1)}/>
+                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick(image2)}/>
+
                 </div>
               </div>
               <div className='bg-gray-200 w-4/5 p-2 rounded-lg py-2'>
@@ -225,12 +269,11 @@ const ImageUpload = () => {
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-3 gap-y-2'>
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
+                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick2(image1)}/>
+                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick2(image2)}/>
+                  <img src={image1} alt="image" className='w-full  object-cover rounded-lg'  onClick={() => handleImageClick2(image1)}/>
+                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick2(image2)}/>
+
                 </div>
               </div>
             </div>
@@ -238,35 +281,23 @@ const ImageUpload = () => {
               We offer advanced security solutions with facial recognition, liveness detection, and ID document recognition, seamlessly integrating with your existing systems.
             </div>
           </div>
-          <div className='bg-gray-200 mt-4 flex items-center justify-center rounded-xl w-[62%]'>
-            <div className="w-[90%] flex flex-col p-4 gap-4 h-[90%]">
+          <div className='bg-gray-200  flex items-center mt-5 justify-center rounded-xl w-[100%]'>
+            <div className="w-[100%] flex flex-col p-4 gap-4 h-[100%]">
               {loading ? (
-                <div className='flex flex-col gap-8'>
-                  <div className="">
-                    <img src={dote1} alt="" />
+                <div className='flex flex-col align-middle justify-center '>
+                  <div className="flex justify-center ">
+                    <img src={dote1} alt="" className='align-middle' />
                   </div>
                   <div className='text-[#FF5000] text-center'>Loading Results....</div>
                 </div>
               ) : (
                 results ? (
-                  <div className="flex flex-col gap-4">
-                    <div className='bg-white flex flex-col p-4 gap-4 h-[60%]'>
-                      <span className='font-extrabold'>Results</span>
-                      <button className='bg-[#ff510034] text-left p-4 rounded-lg'>
-                        {results.match ? "Same Person" : "Not Same Person"}
-                      </button>
-                      <div className='grid grid-cols-2 gap-x-2'>
-                        <img src={results.image1} alt="Result 1" className='w-full object-cover rounded-lg' />
-                        <img src={results.image2} alt="Result 2" className='w-full object-cover rounded-lg' />
-                      </div>
+                 
+                    <div className='mt-8'>
+                      <h2 className='text-2xl mb-4'>Comparison Results</h2>
+                      <div>{renderTable(results)}</div>
                     </div>
-                    <div className='bg-white grid grid-cols-2 gap-y-3 p-6'>
-                      <div>Matching Probability:</div>
-                      <div>{results.matchingProbability}</div>
-                      <div>Confidence Score:</div>
-                      <div>{results.confidenceScore}</div>
-                    </div>
-                  </div>
+                
                 ) : (
                   <div className='text-center'>
                     <img src={image3} alt="image" className='pb-4 mx-auto' />

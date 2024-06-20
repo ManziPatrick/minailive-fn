@@ -63,6 +63,9 @@ const Facelive = () => {
       closeCamera();
     }
   };
+  const handleImageClick = (imageSrc) => {
+    setUploadedImage(imageSrc);
+  };
 
   const onDrop = (acceptedFiles) => {
     const reader = new FileReader();
@@ -105,6 +108,50 @@ const Facelive = () => {
     return new File([u8arr], filename, { type: mime });
   };
 
+  const renderTable = (data) => {
+    if (!data) return null;
+
+    const renderValue = (value) => {
+      if (Array.isArray(value)) {
+        return value.map((item, index) => (
+          <li key={index}>{renderValue(item)}</li>
+        ));
+      } else if (typeof value === 'object') {
+        return Object.keys(value).map((key, index) => (
+          <li key={index}>
+            {key}: {renderValue(value[key])}
+          </li>
+        ));
+      } else {
+        return value;
+      }
+    };
+
+    return (
+      <div className='max-h-[70vh] pb-10  overflow-y-auto bg-white'>
+        <table className='min-w-full bg-white'>
+        <thead>
+          <tr>
+            <th className='py-2 px-4 bg-gray-200'>Key</th>
+            <th className='py-2 px-4 bg-gray-200'>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.keys(data).map((key, index) => (
+            <tr key={index} className='bg-gray-100'>
+              <td className='py-2 px-4 border'>{key}</td>
+              <td className='py-2 px-4 border'>
+                <ul>{renderValue(data[key])}</ul>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+    );
+  };
+
+
   return (
     <div className='flex w-[95%] '>
       <div className=' w-full h-full'>
@@ -116,7 +163,7 @@ const Facelive = () => {
                   <div {...getRootProps()} className='flex items-center border-2 border-orange-200 w-[300px] border-dashed rounded-xl h-[280px]'>
                     <input {...getInputProps()} />
                     {uploadedImage || capturedImage ? (
-                      <img src={uploadedImage || capturedImage} alt="Uploaded" className='w-full h-full object-cover rounded-xl' />
+                      <img src={uploadedImage || capturedImage} alt="Uploaded" className='w-full h-full  object-fill rounded-xl' />
                     ) : (
                       <div className='text-center flex flex-col items-center justify-center gap-4 w-full'>
                         <img src={image11} alt="" />
@@ -143,33 +190,20 @@ const Facelive = () => {
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-2 gap-y-2'>
-                  <img src={image1} alt="image" className=' w-full  object-cover   rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
+                  <img src={image1} alt="image" className=' w-full  object-cover   rounded-lg' onClick={() => handleImageClick(image1)} />
+                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(image2)} />
+                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(image1)} />
+                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick(image2)}/>
+                  
                 </div>
               </div>
-              <div className='bg-gray-200 w-4/5 p-2 rounded-lg py-2'>
-                <select name="option" id="option" className='py-2 bg-white rounded-xl text-[15px] w-[100%]  px-2  mb-4'>
-                  <option value="example">Examples</option>
-                </select>
-                <div className='grid grid-cols-4  gap-x-2 p-3 gap-y-2'>
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                </div>
-              </div>
+           
             </div>
             <div className='text-[#00000049] text-center p-5'>
               We offer advanced security solutions with facial recognition, liveness detection, and ID document recognition, seamlessly integrating with your existing systems.
             </div>
           </div>
-          <div className='bg-gray-200 mt-4 flex items-center justify-center rounded-xl w-[62%]'>
+          <div className='bg-gray-200 mt-4 flex items-center justify-center rounded-xl w-[100%]'>
             <div className="w-[90%] flex flex-col p-4 gap-4 h-[90%]">
               {loading ? (
                 <div className='flex flex-col gap-8'>
@@ -181,21 +215,9 @@ const Facelive = () => {
               ) : (
                 results ? (
                   <div className="flex flex-col gap-4">
-                    <div className='bg-white flex flex-col p-4 gap-4 h-[60%]'>
+                    <div className='bg-white flex flex-col p-4 gap-4 '>
                       <span className='font-extrabold'>Results</span>
-                      <button className='bg-[#ff510034] text-left p-4 rounded-lg'>
-                        {results.match ? "Same Person" : "Not Same Person"}
-                      </button>
-                      <div className='grid grid-cols-2 gap-x-2'>
-                        <img src={results.image1} alt="Result 1" className='w-full object-cover rounded-lg' />
-                        <img src={results.image2} alt="Result 2" className='w-full object-cover rounded-lg' />
-                      </div>
-                    </div>
-                    <div className='bg-white grid grid-cols-2 gap-y-3 p-6'>
-                      <div>Matching Probability:</div>
-                      <div>{results.matchingProbability}</div>
-                      <div>Confidence Score:</div>
-                      <div>{results.confidenceScore}</div>
+                      {renderTable(results)}
                     </div>
                   </div>
                 ) : (

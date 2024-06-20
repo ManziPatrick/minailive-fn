@@ -17,11 +17,15 @@ const CreditCard = () => {
   const [capturedImage, setCapturedImage] = useState(null);
   const [results, setResults] = useState(null);
 
-  const handleClick = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+  // const handleClick = () => {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  // };
+  
+  const handleImageClick = (imageSrc) => {
+    setUploadedImage(imageSrc);
   };
 
   const openCamera = () => {
@@ -106,9 +110,9 @@ const CreditCard = () => {
   };
 
   return (
-    <div className='flex w-[95%] '>
+    <div className='flex w-[95%] md:wfull '>
       <div className=' w-full h-full'>
-        <div className='flex md:flex-col ' id=''>
+        <div className='flex md:flex-col md:justify-center ' id=''>
           <div className=' flex flex-col justify-center w-full'>
             <div className=' w-[100%] gap-10 pt-6 pl-4'>
               <div className=' flex justify-around  '>
@@ -137,39 +141,26 @@ const CreditCard = () => {
                 </div>
               </div>
             </div>
-            <div className='flex justify-around md:flex-col gap-3 mt-1 px-2'>
-              <div className='bg-gray-200 w-4/5 p-2 rounded-lg py-2'>
+            <div className='flex justify-around md:flex-col gap-3 md:justify-center  mt-1 px-2'>
+              <div className='bg-gray-200  w-4/5 md:w-[100%] md:self-center  p-2 rounded-lg py-2'>
                 <select name="option" id="option" className='py-2 bg-white rounded-xl text-[15px] w-[100%]  px-2  mb-4'>
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-2 gap-y-2'>
-                  <img src={image1} alt="image" className=' w-full  object-cover   rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
+                  <img src={image1} alt="image" className=' w-full  object-cover   rounded-lg' onClick={() => handleImageClick(image1)}  />
+                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(image2)} />
+                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(image1)} />
+                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(image1)}/>
+ 
                 </div>
               </div>
-              <div className='bg-gray-200 w-4/5 p-2 rounded-lg py-2'>
-                <select name="option" id="option" className='py-2 bg-white rounded-xl text-[15px] w-[100%]  px-2  mb-4'>
-                  <option value="example">Examples</option>
-                </select>
-                <div className='grid grid-cols-4  gap-x-2 p-3 gap-y-2'>
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' />
-                </div>
-              </div>
+             
             </div>
             <div className='text-[#00000049] text-center p-5'>
               We offer advanced security solutions with facial recognition, liveness detection, and ID document recognition, seamlessly integrating with your existing systems.
             </div>
           </div>
-          <div className='bg-gray-200 mt-4 flex items-center justify-center rounded-xl w-[62%]'>
+          <div className='bg-gray-200 mt-4 flex items-center justify-center rounded-xl w-[62%] md:w-[100%]'>
             <div className="w-[90%] flex flex-col p-4 gap-4 h-[90%]">
               {loading ? (
                 <div className='flex flex-col gap-8'>
