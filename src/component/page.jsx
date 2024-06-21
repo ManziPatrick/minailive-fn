@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import "./page.css";
 import image1 from '../component/Images/1 (1).jpg';
 import image2 from '../component/Images/2 (1).jpg';
@@ -27,6 +27,8 @@ const ImageUpload = () => {
   const [capturedImage2, setCapturedImage2] = useState(null);
   const [activeCamera, setActiveCamera] = useState(null);
   const [results, setResults] = useState(null);
+  const [comparisonImage1, setComparisonImage1] = useState(null);
+  const [comparisonImage2, setComparisonImage2] = useState(null);
 
   
 
@@ -168,7 +170,8 @@ const ImageUpload = () => {
       setLoading(false);
       return;
     }
-    
+    setComparisonImage1(uploadedImage1 || capturedImage1);
+    setComparisonImage2(uploadedImage2 || capturedImage2);
     const formData = new FormData();
     formData.append('file1', file1);
     formData.append('file2', file2);
@@ -228,6 +231,7 @@ const ImageUpload = () => {
   
   
   
+  
 
   
   const renderTable = (data) => {
@@ -236,32 +240,106 @@ const ImageUpload = () => {
     const { compare_result, compare_similarity } = data;
   
     return (
-      <div className='max-h-[70vh] overflow-y-auto'>
+      <div className='max-h-[70vh] mt-4 overflow-y-auto'>
         <table className='min-w-full bg-white'>
           <thead>
-            <tr>
-              <th className='py-2 px-4 bg-gray-200'>Key</th>
-              <th className='py-2 px-4 bg-gray-200'>Value</th>
-            </tr>
+           
           </thead>
           <tbody>
             
-            <tr className='bg-gray-100'>
-              <td className='py-2 px-4 border font-extrabold'>compare_result</td>
-              <td className='py-2 px-4 border'>{compare_result}</td>
+            <tr className='bg-white'>
+              <td className='py-2 px-4  font-extrabold'>compare_result</td>
+              <td className='py-2 px-4 '>{compare_result}</td>
             </tr>
   
             
-            <tr className='bg-gray-100'>
-              <td className='py-2 px-4 border font-extrabold'>compare_similarity</td>
-              <td className='py-2 px-4 border'>{compare_similarity}</td>
+            <tr className='bg-white'>
+              <td className='py-2 px-4  font-extrabold'>compare_similarity</td>
+              <td className='py-2 px-4 '>{compare_similarity}</td>
             </tr>
           </tbody>
         </table>
       </div>
     );
   };
+
+  const FaceComparisonResult = ({ results, image1, image2 }) => {
+    const canvasRef = useRef(null);
   
+    useEffect(() => {
+      if (results && canvasRef.current && image1 && image2) {
+        drawComparison();
+      }
+    }, [results, image1, image2]);
+  
+    const drawComparison = () => {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      const canvasWidth = 580;
+      const canvasHeight = 280;
+      const padding = 10;
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+  
+      ctx.fillStyle = '#f0f0f0';
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+  
+      const imageWidth = 290;
+      const imageHeight = canvasHeight - padding * 2;
+  
+      drawFace(ctx, image1, results.face1, padding, padding, imageWidth, imageHeight, 'Face 1');
+      drawFace(ctx, image2, results.face2, padding * 2 + imageWidth, padding, imageWidth, imageHeight, 'Face 2');
+    };
+  
+    const drawFace = (ctx, imageSrc, face, x, y, maxWidth, maxHeight, label) => {
+      const img = new Image();
+      img.onload = () => {
+        ctx.fillStyle = 'white';
+        ctx.fillRect(x, y, maxWidth, maxHeight);
+  
+        const aspectRatio = img.width / img.height;
+        let scaledWidth = maxWidth;
+        let scaledHeight = maxWidth / aspectRatio;
+  
+        if (scaledHeight > maxHeight) {
+          scaledHeight = maxHeight;
+          scaledWidth = maxHeight * aspectRatio;
+        }
+  
+        const offsetX = (maxWidth - scaledWidth) / 2;
+        const offsetY = (maxHeight - scaledHeight) / 2;
+  
+        ctx.drawImage(img, x + offsetX, y + offsetY, scaledWidth, scaledHeight);
+  
+        const scale = maxWidth / img.width;
+  
+        const rectX = x + offsetX + face.x1 * scale;
+        const rectY = y + offsetY + face.y1 * scale;
+        const rectWidth = (face.x2 - face.x1) * scale;
+        const rectHeight = (face.y2 - face.y1) * scale;
+  
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+  
+        ctx.font = '14px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText(label, x + maxWidth / 2, y + maxHeight + 20);
+      };
+      img.src = imageSrc;
+    };
+  
+  
+  
+    return (
+      <div>
+        <canvas ref={canvasRef} style={{ maxWidth: '100%', height: 'auto' }} />
+        {renderTable(results)}
+      </div>
+    );
+  };
+
   return (
     <div className='flex w-[98%] '>
       <div className=' w-full h-full'>
@@ -357,39 +435,18 @@ const ImageUpload = () => {
             </div>
           </div>
           <div className='bg-gray-200  flex items-center mt-5 justify-center rounded-xl w-[100%]'>
+
             <div className="w-[100%] flex flex-col p-4 gap-4 h-[100%]">
-              {loading ? (
-                <div className='flex flex-col align-middle justify-center '>
-                  <div className="flex justify-center ">
-                    <img src={dote1} alt="" className='align-middle' />
-                  </div>
-                  <div className='text-[#FF5000] text-center'>Loading Results....</div>
-                </div>
-              ) : (
-                results ? (
-                 
-                    <div className='mt-2'>
-                      <h2 className='text-xl  py-4 font-bold'>Comparison Results</h2>
-                      <div className='grid grid-cols-2'>
-                        <div className='w-full h-[280px]'>
-                         <img src={uploadedImage1 || capturedImage1} alt="Uploaded" className='  object-cover h-[280px] w-full  object-center rounded-xl' />
-                         </div>
-                         <div className='w-full h-[280px] '>
-                         <img src={uploadedImage2 || capturedImage2} alt="Image" className=' object-cover h-[280px] w-full rounded-xl' />
-                         </div>
-                         </div>
-                      
-                      
-                      <div>{renderTable(results)}</div>
-                    </div>
-                
-                ) : (
-                  <div className='text-center'>
-                    <img src={image3} alt="image" className='pb-4 mx-auto' />
-                    
-                  </div>
-                )
-              )}
+              <div className=' font-extrabold text-2xl'>
+                Result
+              </div>
+            {results && comparisonImage1 && comparisonImage2 && (
+        <FaceComparisonResult
+          results={results}
+          image1={comparisonImage1}
+          image2={comparisonImage2}
+        />
+      )}
             </div>
           </div>
         </div>
