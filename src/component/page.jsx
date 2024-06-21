@@ -128,7 +128,7 @@ const ImageUpload = () => {
   const handleSubmit = async () => {
     setLoading(true);
     
-    // Convert uploadedImage1 or capturedImage1 to File
+
     let file1 = null;
     if (uploadedImage1 || capturedImage1) {
       try {
@@ -148,8 +148,7 @@ const ImageUpload = () => {
       setLoading(false);
       return;
     }
-    
-    // Convert uploadedImage2 or capturedImage2 to File
+
     let file2 = null;
     if (uploadedImage2 || capturedImage2) {
       try {

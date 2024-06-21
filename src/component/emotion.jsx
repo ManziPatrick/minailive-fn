@@ -187,7 +187,7 @@ const Emotion = () => {
         </div>
       );
     } else {
-      // No faces detected
+     
       return (
         <div className="">
           <tr  className="bg-gray-100">

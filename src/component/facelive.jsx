@@ -116,7 +116,7 @@ const Facelive = () => {
     try {
       let blob;
   
-      // Check if dataurl starts with 'data:' indicating base64 data URL
+
       if (dataurl.startsWith('data:')) {
         const arr = dataurl.split(',');
         if (arr.length < 2) {
@@ -138,7 +138,7 @@ const Facelive = () => {
   
         blob = new Blob([u8arr], { type });
       } else {
-        // Otherwise, assume dataurl is a URL pointing to a resource
+      
         const response = await fetch(dataurl);
         if (!response.ok) {
           throw new Error(`Failed to fetch data URL: ${response.status} ${response.statusText}`);
@@ -149,7 +149,7 @@ const Facelive = () => {
       return new File([blob], filename, { type: blob.type });
     } catch (error) {
       console.error('Error converting data URL to file:', error);
-      throw error; // Rethrow the error to propagate it further if necessary
+      throw error;
     }
   };
   
