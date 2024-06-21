@@ -9,7 +9,7 @@ import image7 from '../component/Images/7.jpg';
 import image8 from '../component/Images/8.jpg';
 import image9 from '../component/Images/9.jpg';
 import upload from '../assets/lets-icons_upload.png';
-import image3 from '../component/Images/3.jpeg';
+import image3 from '../component/Images/5.jpg';
 import image11 from '../assets/Frame 8.png';
 import image22 from '../assets/Frame 11.png';
 import upload2 from '../assets/lets-icons_upload (1).png';
@@ -125,43 +125,117 @@ const ImageUpload = () => {
 
   const { getRootProps: getRootProps1, getInputProps: getInputProps1 } = useDropzone({ onDrop: onDrop1 });
   const { getRootProps: getRootProps2, getInputProps: getInputProps2 } = useDropzone({ onDrop: onDrop2 });
-
   const handleSubmit = async () => {
-     setLoading(true); 
+    setLoading(true);
+    
+    // Convert uploadedImage1 or capturedImage1 to File
+    let file1 = null;
+    if (uploadedImage1 || capturedImage1) {
+      try {
+        file1 = await dataURLtoFile(uploadedImage1 || capturedImage1, 'image1.jpg');
+        if (!file1) {
+          console.error('Error converting image1 to file.');
+          setLoading(false);
+          return;
+        }
+      } catch (error) {
+        console.error('Error converting image1 to file:', error);
+        setLoading(false);
+        return;
+      }
+    } else {
+      console.error('No image1 or captured image1 found.');
+      setLoading(false);
+      return;
+    }
+    
+    // Convert uploadedImage2 or capturedImage2 to File
+    let file2 = null;
+    if (uploadedImage2 || capturedImage2) {
+      try {
+        file2 = await dataURLtoFile(uploadedImage2 || capturedImage2, 'image2.jpg');
+        if (!file2) {
+          console.error('Error converting image2 to file.');
+          setLoading(false);
+          return;
+        }
+      } catch (error) {
+        console.error('Error converting image2 to file:', error);
+        setLoading(false);
+        return;
+      }
+    } else {
+      console.error('No image2 or captured image2 found.');
+      setLoading(false);
+      return;
+    }
+    
     const formData = new FormData();
-    formData.append('file1', dataURLtoFile(uploadedImage1 || capturedImage1, 'image1.jpg'));
-    formData.append('file2', dataURLtoFile(uploadedImage2 || capturedImage2, 'image2.jpg'));
-
+    formData.append('file1', file1);
+    formData.append('file2', file2);
+  
     try {
       const response = await fetch('http://191.96.31.183:8080/face_compare', {
         method: 'POST',
         body: formData
       });
       const result = await response.json();
-      setResults(result);
+      if (result.face1 === null || result.face2 === null) {
+        console.log('No face detected in one or both images.');
+    
+      } else {
+        setResults(result);
+      }
+      
     } catch (error) {
       console.error('Error submitting images:', error);
     } finally {
       setLoading(false);
     }
   };
-
+  
+  
+  
   const dataURLtoFile = (dataurl, filename) => {
-    const arr = dataurl.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
+    
+    if (dataurl.startsWith('data:')) {
+      const arr = dataurl.split(',');
+      if (arr.length < 2) {
+        console.error('Invalid data URL format:', dataurl);
+        return null;
+      }
+      
+      const mime = arr[0].match(/:(.*?);/);
+      if (!mime || !mime[1]) {
+        console.error('Invalid MIME type in data URL:', dataurl);
+        return null;
+      }
+      
+      const type = mime[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, { type });
+    } else {
+      
+      return fetch(dataurl)
+        .then(response => response.blob())
+        .then(blob => new File([blob], filename));
     }
-    return new File([u8arr], filename, { type: mime });
   };
+  
+  
+  
 
   
   const renderTable = (data) => {
     if (!data) return null;
-
+  
+    const { compare_result, compare_similarity } = data;
+  
     return (
       <div className='max-h-[70vh] overflow-y-auto'>
         <table className='min-w-full bg-white'>
@@ -172,36 +246,23 @@ const ImageUpload = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.keys(data).map((key, index) => (
-              <tr key={index} className='bg-gray-100'>
-                <td className='py-2 px-4 border'>{key}</td>
-                <td className='py-2 px-4 border'>{renderValue(data[key])}</td>
-              </tr>
-            ))}
+            
+            <tr className='bg-gray-100'>
+              <td className='py-2 px-4 border font-extrabold'>compare_result</td>
+              <td className='py-2 px-4 border'>{compare_result}</td>
+            </tr>
+  
+            
+            <tr className='bg-gray-100'>
+              <td className='py-2 px-4 border font-extrabold'>compare_similarity</td>
+              <td className='py-2 px-4 border'>{compare_similarity}</td>
+            </tr>
           </tbody>
         </table>
       </div>
     );
   };
-
-  const renderValue = (value) => {
-    if (typeof value === 'object') {
-      return (
-        <table className='min-w-full bg-white'>
-          <tbody>
-            {Object.keys(value).map((subKey, subIndex) => (
-              <tr key={subIndex} className='bg-gray-100'>
-                <td className='py-2 px-4 border'>{subKey}</td>
-                <td className='py-2 px-4 border'>{renderValue(value[subKey])}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      );
-    } else {
-      return value.toString();
-    }
-  };
+  
   return (
     <div className='flex w-[98%] '>
       <div className=' w-full h-full'>
@@ -263,11 +324,15 @@ const ImageUpload = () => {
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-2 gap-y-2'>
-                  <img src={image1} alt="image" className=' w-full   object-cover h-20   rounded-lg'  onClick={() => handleImageClick(image1)} />
-                  <img src={image2} alt="image" className='w-full   object-cover h-20  rounded-lg'   onClick={() => handleImageClick(image2)}/>
-                  <img src={image4} alt="image" className='w-full   object-cover h-20  rounded-lg'  onClick={() => handleImageClick(image4)}/>
-                  <img src={image5} alt="image" className='w-full   object-cover h-20  rounded-lg'  onClick={() => handleImageClick(image5)}/>
-
+                {[image1, image2, image3, image4].map((img, index) => (
+              <div
+                key={index}
+                className='border rounded-lg overflow-hidden shadow-md cursor-pointer'
+                onClick={() => handleImageClick(img)}
+              >
+                <img src={img} alt={`Image ${index + 1}`} className='h-32 w-32 object-cover' />
+              </div>
+            ))}
                 </div>
               </div>
               <div className='bg-gray-200 w-4/5 p-2 rounded-lg py-2'>
@@ -275,11 +340,15 @@ const ImageUpload = () => {
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-3 gap-y-2'>
-                  <img src={image6} alt="image" className='w-full   object-cover h-20  rounded-lg'  onClick={() => handleImageClick2(image6)}/>
-                  <img src={image7} alt="image" className='w-full   object-cover h-20  rounded-lg'  onClick={() => handleImageClick2(image7)}/>
-                  <img src={image8} alt="image" className='w-full   object-cover h-20 rounded-lg'  onClick={() => handleImageClick2(image8)}/>
-                  <img src={image9} alt="image" className='w-full   object-cover h-20  rounded-lg'  onClick={() => handleImageClick2(image9)}/>
-
+                {[ image6, image7, image8, image9].map((img, index) => (
+              <div
+                key={index=5}
+                className='border rounded-lg overflow-hidden shadow-md cursor-pointer'
+                onClick={() => handleImageClick2(img)}
+              >
+                <img src={img} alt={`Image ${index + 1}`} className='h-32 w-32 object-cover' />
+              </div>
+            ))}
                 </div>
               </div>
             </div>
@@ -300,8 +369,18 @@ const ImageUpload = () => {
               ) : (
                 results ? (
                  
-                    <div className='mt-8'>
-                      <h2 className='text-2xl mb-4'>Comparison Results</h2>
+                    <div className='mt-2'>
+                      <h2 className='text-xl  py-4 font-bold'>Comparison Results</h2>
+                      <div className='grid grid-cols-2'>
+                        <div className='w-full h-[280px]'>
+                         <img src={uploadedImage1 || capturedImage1} alt="Uploaded" className='  object-cover h-[280px] w-full  object-center rounded-xl' />
+                         </div>
+                         <div className='w-full h-[280px] '>
+                         <img src={uploadedImage2 || capturedImage2} alt="Image" className=' object-cover h-[280px] w-full rounded-xl' />
+                         </div>
+                         </div>
+                      
+                      
                       <div>{renderTable(results)}</div>
                     </div>
                 

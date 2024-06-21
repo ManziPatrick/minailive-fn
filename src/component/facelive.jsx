@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import "./page.css";
-import image2 from '../component/Images/Rectangle 47.png';
-import image1 from '../component/Images/Rectangle 50.png';
+import image2 from '../component/Images/2 (2).jpg';
+import image1 from '../component/Images/1 (2).jpg';
+import image3 from '../component/Images/3 (2).jpg';
+import image4 from '../component/Images/4 (1).jpg';
 import upload from '../assets/lets-icons_upload.png';
 import image11 from '../assets/Frame 8.png';
 import upload2 from '../assets/lets-icons_upload (1).png';
@@ -79,34 +81,80 @@ const Facelive = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const formData = new FormData();
-    formData.append('file', dataURLtoFile(uploadedImage || capturedImage, 'image.jpg'));
-
+  
     try {
+
+      const file = await dataURLtoFile(uploadedImage || capturedImage, 'image.jpg');
+      if (!file) {
+        console.error('Error converting image to file.');
+        setLoading(false);
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append('file', file);
+  
       const response = await fetch('http://191.96.31.183:8080/face_liveness_check', {
         method: 'POST',
         body: formData
       });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
       const result = await response.json();
       setResults(result);
     } catch (error) {
-      console.error('Error submitting images:', error);
+      console.error('Error submitting image:', error);
     } finally {
       setLoading(false);
     }
   };
-
-  const dataURLtoFile = (dataurl, filename) => {
-    const arr = dataurl.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
+  
+  const dataURLtoFile = async (dataurl, filename) => {
+    try {
+      let blob;
+  
+      // Check if dataurl starts with 'data:' indicating base64 data URL
+      if (dataurl.startsWith('data:')) {
+        const arr = dataurl.split(',');
+        if (arr.length < 2) {
+          throw new Error('Invalid data URL format');
+        }
+  
+        const mime = arr[0].match(/:(.*?);/);
+        if (!mime || !mime[1]) {
+          throw new Error('Invalid MIME type in data URL');
+        }
+  
+        const type = mime[1];
+        const bstr = atob(arr[1]);
+        const n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        for (let i = 0; i < n; i++) {
+          u8arr[i] = bstr.charCodeAt(i);
+        }
+  
+        blob = new Blob([u8arr], { type });
+      } else {
+        // Otherwise, assume dataurl is a URL pointing to a resource
+        const response = await fetch(dataurl);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data URL: ${response.status} ${response.statusText}`);
+        }
+        blob = await response.blob();
+      }
+  
+      return new File([blob], filename, { type: blob.type });
+    } catch (error) {
+      console.error('Error converting data URL to file:', error);
+      throw error; // Rethrow the error to propagate it further if necessary
     }
-    return new File([u8arr], filename, { type: mime });
   };
+  
+  
+
 
   const renderTable = (data) => {
     if (!data) return null;
@@ -190,10 +238,10 @@ const Facelive = () => {
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-2 gap-y-2'>
-                  <img src={image1} alt="image" className=' w-full  object-cover   rounded-lg' onClick={() => handleImageClick(image1)} />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(image2)} />
-                  <img src={image1} alt="image" className='w-full  object-cover  rounded-lg' onClick={() => handleImageClick(image1)} />
-                  <img src={image2} alt="image" className='w-full  object-cover  rounded-lg'  onClick={() => handleImageClick(image2)}/>
+                  <img src={image1} alt="image" className=' w-full h-36  object-cover   rounded-lg' onClick={() => handleImageClick(image1)} />
+                  <img src={image2} alt="image" className='w-full h-36  object-cover  rounded-lg' onClick={() => handleImageClick(image2)} />
+                  <img src={image3} alt="image" className='w-full h-36 object-cover  rounded-lg' onClick={() => handleImageClick(image3)} />
+                  <img src={image4} alt="image" className='w-full h-36 object-cover  rounded-lg'  onClick={() => handleImageClick(image4)}/>
                   
                 </div>
               </div>

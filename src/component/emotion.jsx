@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import "./page.css";
-import image1 from '../component/Images/Rectangle 50.png';
+import image1 from '../component/Images/10.jpg';
+import image3 from '../component/Images/7.jpg';
+import image4 from '../component/Images/3 (2).jpg';
 import upload from '../assets/lets-icons_upload.png';
 import image11 from '../assets/Frame 8.png';
 import upload2 from '../assets/lets-icons_upload (1).png';
@@ -9,7 +11,7 @@ import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import { useDropzone } from 'react-dropzone';
 import dote1 from '../component/Images/Group.png';
 
-import image2 from '../component/Images/Rectangle 47.png';
+import image2 from '../component/Images/4 (1).jpg';
 const Emotion = () => {
   const [loading, setLoading] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -80,16 +82,29 @@ const Emotion = () => {
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
-    formData.append('file', dataURLtoFile(uploadedImage || capturedImage, 'image.jpg'));
-
     try {
-      const response = await fetch('http://191.96.31.183:8080/face_emotion', {
-        method: 'POST',
-        body: formData
-      });
-      const result = await response.json();
-      setResults(result);
-      console.log("hhhhhhhhhhh",result)
+     
+      if (uploadedImage || capturedImage) {
+        const file = await dataURLtoFile(uploadedImage || capturedImage, 'image.jpg');
+        if (!file) {
+          throw new Error('Error converting image to file.');
+        }
+        formData.append('file', file);
+
+        const response = await fetch('http://191.96.31.183:8080/face_emotion', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        setResults(result);
+      } else {
+        throw new Error('No image selected.');
+      }
     } catch (error) {
       console.error('Error submitting images:', error);
     } finally {
@@ -97,52 +112,93 @@ const Emotion = () => {
     }
   };
 
-  const dataURLtoFile = (dataurl, filename) => {
-    const arr = dataurl.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
+  const dataURLtoFile = async (dataurl, filename) => {
+    try {
+      let blob;
+
+      if (dataurl.startsWith('data:')) {
+        const arr = dataurl.split(',');
+        if (arr.length < 2) {
+          throw new Error('Invalid data URL format');
+        }
+
+        const mime = arr[0].match(/:(.*?);/);
+        if (!mime || !mime[1]) {
+          throw new Error('Invalid MIME type in data URL');
+        }
+
+        const type = mime[1];
+        const bstr = atob(arr[1]);
+        const n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        for (let i = 0; i < n; i++) {
+          u8arr[i] = bstr.charCodeAt(i);
+        }
+
+        blob = new Blob([u8arr], { type });
+      } else {
+      
+        const response = await fetch(dataurl);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data URL: ${response.status} ${response.statusText}`);
+        }
+        blob = await response.blob();
+      }
+
+      return new File([blob], filename, { type: blob.type });
+    } catch (error) {
+      console.error('Error converting data URL to file:', error);
+      return null;
     }
-    return new File([u8arr], filename, { type: mime });
   };
 
   const renderTable = (data) => {
-    if (!data || !data.faces || data.faces.length === 0) return null;
-
-    const face = data.faces[0]; // Assuming only one face is returned
-
-    return (
-      <div className='max-h-[70vh] overflow-y-auto'>
-        <table className='min-w-full bg-white'>
-        <thead>
-          <tr>
-            <th className="py-2 px-4 bg-gray-200">Attribute</th>
-            <th className="py-2 px-4 bg-gray-200">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(face).map(([key, value]) => (
-            <tr key={key} className="bg-gray-100">
-              <td className="py-2 px-4 border">{key}</td>
-              <td className="py-2 px-4 border">{value}</td>
-            </tr>
-          ))}
-          {Object.keys(data)
-            .filter((key) => key !== 'faces')
-            .map((key) => (
-              <tr key={key} className="bg-gray-100">
-                <td className="py-2 px-4 border">{key}</td>
-                <td className="py-2 px-4 border">{data[key]}</td>
+    if (!data) return null;
+  
+    if (data.faces && data.faces.length > 0) {
+      const face = data.faces[0]; 
+  
+      return (
+        <div className='max-h-[70vh] overflow-y-auto'>
+          <table className='min-w-full bg-white'>
+            <thead>
+              <tr>
+                <th className="py-2 px-4 bg-gray-200">Attribute</th>
+                <th className="py-2 px-4 bg-gray-200">Value</th>
               </tr>
-            ))}
-        </tbody>
-      </table>
-      </div>
-    );
+            </thead>
+            <tbody>
+              {Object.entries(face).map(([key, value]) => (
+                <tr key={key} className="bg-gray-100">
+                  <td className="py-2 px-4 border">{key}</td>
+                  <td className="py-2 px-4 border">{value}</td>
+                </tr>
+              ))}
+              {Object.keys(data)
+                .filter((key) => key !== 'faces')
+                .map((key) => (
+                  <tr key={key} className="bg-gray-100">
+                    <td className="py-2 px-4 border">{key}</td>
+                    <td className="py-2 px-4 border">{data[key]}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    } else {
+      // No faces detected
+      return (
+        <div className="">
+          <tr  className="bg-gray-100">
+                    <td className="py-2 px-4 border">emotion_result</td>
+                    <td className="py-2 px-4 border">{data.emotion_result}</td>
+                  </tr>
+        </div>
+      );
+    }
   };
+  
 
   return (
     <div className='flex w-[95%] '>
@@ -182,10 +238,10 @@ const Emotion = () => {
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-2 gap-y-2'>
-                  <img src={image1} alt="image" className=' w-full  object-fill   rounded-lg' onClick={() => handleImageClick(image1)} />
-                  <img src={image2} alt="image" className='w-full   object-contain  rounded-lg' onClick={() => handleImageClick(image2)} />
-                  <img src={image1} alt="image" className='w-full  object-fill  rounded-lg' onClick={() => handleImageClick(image1)} />
-                  <img src={image2} alt="image" className='w-full  object-fill  rounded-lg'  onClick={() => handleImageClick(image2)}/>
+                  <img src={image1} alt="image" className=' w-full h-36  object-fill   rounded-lg' onClick={() => handleImageClick(image1)} />
+                  <img src={image2} alt="image" className='w-full  h-36 object-fill  rounded-lg' onClick={() => handleImageClick(image2)} />
+                  <img src={image3} alt="image" className='w-full h-36 object-fill  rounded-lg' onClick={() => handleImageClick(image3)} />
+                  <img src={image4} alt="image" className='w-full h-36 object-fill  rounded-lg'  onClick={() => handleImageClick(image4)}/>
        
                 </div>
               </div>
