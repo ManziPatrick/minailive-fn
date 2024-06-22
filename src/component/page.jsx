@@ -234,13 +234,13 @@ const ImageUpload = () => {
   
   const FaceComparisonResult = ({ results, image1, image2 }) => {
     const canvasRef = useRef(null);
-
+  
     useEffect(() => {
       if (results && canvasRef.current && image1 && image2) {
         drawComparison();
       }
     }, [results, image1, image2]);
-
+  
     const drawComparison = () => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
@@ -249,49 +249,48 @@ const ImageUpload = () => {
       const padding = 10;
       canvas.width = canvasWidth;
       canvas.height = canvasHeight;
-
+  
       ctx.fillStyle = '#f0f0f0';
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
+  
       const imageWidth = 290;
       const imageHeight = canvasHeight - padding * 2;
-
+  
       drawFace(ctx, image1, results.face1, padding, padding, imageWidth, imageHeight, 'Face 1');
       drawFace(ctx, image2, results.face2, padding * 2 + imageWidth, padding, imageWidth, imageHeight, 'Face 2');
     };
-
+  
     const drawFace = (ctx, imageSrc, face, x, y, maxWidth, maxHeight, label) => {
       const img = new Image();
       img.onload = () => {
         ctx.fillStyle = 'white';
         ctx.fillRect(x, y, maxWidth, maxHeight);
-
-        const aspectRatio = img.width / img.height;
-        let scaledWidth = maxWidth;
-        let scaledHeight = maxWidth / aspectRatio;
-
-        if (scaledHeight > maxHeight) {
-          scaledHeight = maxHeight;
-          scaledWidth = maxHeight * aspectRatio;
+  
+        const faceWidth = face.x2 - face.x1;
+        const faceHeight = face.y2 - face.y1;
+        const faceAspectRatio = faceWidth / faceHeight;
+  
+        let drawWidth = maxWidth;
+        let drawHeight = maxWidth / faceAspectRatio;
+  
+        if (drawHeight > maxHeight) {
+          drawHeight = maxHeight;
+          drawWidth = maxHeight * faceAspectRatio;
         }
-
-        const offsetX = (maxWidth - scaledWidth) / 2;
-        const offsetY = (maxHeight - scaledHeight) / 2;
-
-        ctx.drawImage(img, x + offsetX, y + offsetY, scaledWidth, scaledHeight);
-
-        const scaleX = scaledWidth / img.width;
-        const scaleY = scaledHeight / img.height;
-
-        const rectX = x + offsetX + face.x1 * scaleX;
-        const rectY = y + offsetY + face.y1 * scaleY;
-        const rectWidth = (face.x2 - face.x1) * scaleX;
-        const rectHeight = (face.y2 - face.y1) * scaleY;
-
+  
+        const offsetX = (maxWidth - drawWidth) / 2;
+        const offsetY = (maxHeight - drawHeight) / 2;
+  
+        ctx.drawImage(
+          img,
+          face.x1, face.y1, faceWidth, faceHeight,
+          x + offsetX, y + offsetY, drawWidth, drawHeight
+        );
+  
         ctx.strokeStyle = 'red';
         ctx.lineWidth = 2;
-        ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
-
+        ctx.strokeRect(x + offsetX, y + offsetY, drawWidth, drawHeight);
+  
         ctx.font = '14px Arial';
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
@@ -299,12 +298,12 @@ const ImageUpload = () => {
       };
       img.src = imageSrc;
     };
-
+  
     const renderTable = (data) => {
       if (!data) return null;
-
+  
       const { compare_result, compare_similarity } = data;
-
+  
       return (
         <div className='max-h-[70vh] mt-4 overflow-y-auto'>
           <table className='min-w-full bg-white'>
@@ -328,7 +327,7 @@ const ImageUpload = () => {
         </div>
       );
     };
-
+  
     return (
       <div>
         <canvas ref={canvasRef} style={{ maxWidth: '100%', height: 'auto' }} />
@@ -336,7 +335,8 @@ const ImageUpload = () => {
       </div>
     );
   };
-
+  
+  
   return (
     <div className='flex w-[98%] '>
       <div className=' w-full h-full'>
@@ -444,8 +444,8 @@ const ImageUpload = () => {
       ) : (
         <>
           <button className='bg-[#ff510034] text-left p-4 w-1/4 rounded-lg'>
-            {results && results.compare_result !== undefined ? (
-              results.compare_result > 0.8 ? 'Same Person' : 'Not Same Person'
+            {results && results.compare_similarity !== undefined ? (
+              results.compare_similarity > 0.8 ? 'Same Person' : 'Not Same Person'
             ) : 'Unknown'}
           </button>
           {results && comparisonImage1 && comparisonImage2 && (
