@@ -16,7 +16,7 @@ import upload2 from '../assets/lets-icons_upload (1).png';
 import camera from '../assets/icon-park-outline_camera-one.png';
 import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import { useDropzone } from 'react-dropzone';
-import dote1 from '../component/Images/Group.png';
+import dote1 from '../component/Images/ZKZx.gif';
 
 const ImageUpload = () => {
   const [loading, setLoading] = useState(false);
@@ -232,46 +232,15 @@ const ImageUpload = () => {
   
   
   
-
-  
-  const renderTable = (data) => {
-    if (!data) return null;
-  
-    const { compare_result, compare_similarity } = data;
-  
-    return (
-      <div className='max-h-[70vh] mt-4 overflow-y-auto'>
-        <table className='min-w-full bg-white'>
-          <thead>
-           
-          </thead>
-          <tbody>
-            
-            <tr className='bg-white'>
-              <td className='py-2 px-4  font-extrabold'>compare_result</td>
-              <td className='py-2 px-4 '>{compare_result}</td>
-            </tr>
-  
-            
-            <tr className='bg-white'>
-              <td className='py-2 px-4  font-extrabold'>compare_similarity</td>
-              <td className='py-2 px-4 '>{compare_similarity}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    );
-  };
-
   const FaceComparisonResult = ({ results, image1, image2 }) => {
     const canvasRef = useRef(null);
-  
+
     useEffect(() => {
       if (results && canvasRef.current && image1 && image2) {
         drawComparison();
       }
     }, [results, image1, image2]);
-  
+
     const drawComparison = () => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
@@ -280,48 +249,49 @@ const ImageUpload = () => {
       const padding = 10;
       canvas.width = canvasWidth;
       canvas.height = canvasHeight;
-  
+
       ctx.fillStyle = '#f0f0f0';
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-  
+
       const imageWidth = 290;
       const imageHeight = canvasHeight - padding * 2;
-  
+
       drawFace(ctx, image1, results.face1, padding, padding, imageWidth, imageHeight, 'Face 1');
       drawFace(ctx, image2, results.face2, padding * 2 + imageWidth, padding, imageWidth, imageHeight, 'Face 2');
     };
-  
+
     const drawFace = (ctx, imageSrc, face, x, y, maxWidth, maxHeight, label) => {
       const img = new Image();
       img.onload = () => {
         ctx.fillStyle = 'white';
         ctx.fillRect(x, y, maxWidth, maxHeight);
-  
+
         const aspectRatio = img.width / img.height;
         let scaledWidth = maxWidth;
         let scaledHeight = maxWidth / aspectRatio;
-  
+
         if (scaledHeight > maxHeight) {
           scaledHeight = maxHeight;
           scaledWidth = maxHeight * aspectRatio;
         }
-  
+
         const offsetX = (maxWidth - scaledWidth) / 2;
         const offsetY = (maxHeight - scaledHeight) / 2;
-  
+
         ctx.drawImage(img, x + offsetX, y + offsetY, scaledWidth, scaledHeight);
-  
-        const scale = maxWidth / img.width;
-  
-        const rectX = x + offsetX + face.x1 * scale;
-        const rectY = y + offsetY + face.y1 * scale;
-        const rectWidth = (face.x2 - face.x1) * scale;
-        const rectHeight = (face.y2 - face.y1) * scale;
-  
+
+        const scaleX = scaledWidth / img.width;
+        const scaleY = scaledHeight / img.height;
+
+        const rectX = x + offsetX + face.x1 * scaleX;
+        const rectY = y + offsetY + face.y1 * scaleY;
+        const rectWidth = (face.x2 - face.x1) * scaleX;
+        const rectHeight = (face.y2 - face.y1) * scaleY;
+
         ctx.strokeStyle = 'red';
         ctx.lineWidth = 2;
         ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
-  
+
         ctx.font = '14px Arial';
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
@@ -329,9 +299,36 @@ const ImageUpload = () => {
       };
       img.src = imageSrc;
     };
-  
-  
-  
+
+    const renderTable = (data) => {
+      if (!data) return null;
+
+      const { compare_result, compare_similarity } = data;
+
+      return (
+        <div className='max-h-[70vh] mt-4 overflow-y-auto'>
+          <table className='min-w-full bg-white'>
+            <thead>
+              <tr>
+                <th>Result</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className='bg-white'>
+                <td className='py-2 px-4 font-extrabold'>compare_result</td>
+                <td className='py-2 px-4'>{compare_result}</td>
+              </tr>
+              <tr className='bg-white'>
+                <td className='py-2 px-4 font-extrabold'>compare_similarity</td>
+                <td className='py-2 px-4'>{compare_similarity}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      );
+    };
+
     return (
       <div>
         <canvas ref={canvasRef} style={{ maxWidth: '100%', height: 'auto' }} />
@@ -440,13 +437,27 @@ const ImageUpload = () => {
               <div className=' font-extrabold text-2xl'>
                 Result
               </div>
-            {results && comparisonImage1 && comparisonImage2 && (
-        <FaceComparisonResult
-          results={results}
-          image1={comparisonImage1}
-          image2={comparisonImage2}
-        />
+              {loading ? (
+          <div className='flex items-center justify-center'>
+          <img src={dote1} alt="Loading spinner" />
+        </div> 
+      ) : (
+        <>
+          <button className='bg-[#ff510034] text-left p-4 w-1/4 rounded-lg'>
+            {results && results.compare_result !== undefined ? (
+              results.compare_result > 0.8 ? 'Same Person' : 'Not Same Person'
+            ) : 'Unknown'}
+          </button>
+          {results && comparisonImage1 && comparisonImage2 && (
+            <FaceComparisonResult
+            results={results}
+            image1={comparisonImage1}
+            image2={comparisonImage2}
+          />
+          )}
+        </>
       )}
+
             </div>
           </div>
         </div>
