@@ -7,7 +7,7 @@ import image5 from '../component/Images/5.jpg';
 import image6 from '../component/Images/6.jpg';
 import image7 from '../component/Images/7.jpg';
 import image8 from '../component/Images/8.jpg';
-import image9 from '../component/Images/9.jpg';
+import image9 from '../component/Images/3 (2).jpg';
 import upload from '../assets/lets-icons_upload.png';
 import image3 from '../component/Images/5.jpg';
 import image11 from '../assets/Frame 8.png';
