@@ -35,8 +35,8 @@ function Dashboard() {
                         <div className="right-0 mt-2 w-full rounded-md bg-white ring-1 ring-black ring-opacity-0 focus:outline-none dropdown-menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                             <div className="py-1" role="none">
                                 <NavLink to="/" className="block px-4 py-5 text-sm" activeClassName="active" role="menuitem" tabIndex="-1">Face Recognition</NavLink>
-                                <NavLink to="/face-liveness-detection" className="block px-4 py-5 text-sm text-[#7E7E7EE5]" activeClassName="active" role="menuitem" tabIndex="-1">Face Liveness Detection</NavLink>
-                                <NavLink to="/face-emotions-recognition" className="block px-4 py-5 text-sm text-[#7E7E7EE5]" activeClassName="active" role="menuitem" tabIndex="-1">Face Emotions Recognition</NavLink>
+                                <NavLink to="/face-liveness-detection" className="block px-4 py-5 text-sm " activeClassName="active " role="menuitem" tabIndex="-1">Face Liveness Detection</NavLink>
+                                <NavLink to="/face-emotions-recognition" className="block px-4 py-5 text-sm " activeClassName="active" role="menuitem" tabIndex="-1">Face Emotions Recognition</NavLink>
                             </div>
                         </div>
                     )}
@@ -60,9 +60,9 @@ function Dashboard() {
                     {idSDKOpen && (
                         <div className="right-0 mt-2 w-full rounded-md bg-white ring-1 ring-black ring-opacity-0 focus:outline-none dropdown-menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                             <div className="py-1" role="none">
-                                <NavLink to="/id-card" className="block px-4 py-5 text-sm text-[#7E7E7EE5]" activeClassName="active" role="menuitem" tabIndex="-1">ID Card Recognition</NavLink>
-                                <NavLink to="/credit-card-recognition" className="block px-4 py-5 text-sm text-[#7E7E7EE5]" activeClassName="active" role="menuitem" tabIndex="-1">Credit Card Recognition</NavLink>
-                                <NavLink to="/mrz-barcode-recognition" className="block px-4 py-5 text-sm text-[#7E7E7EE5]" activeClassName="active" role="menuitem" tabIndex="-1">MRz/Barcode Recognition</NavLink>
+                                <NavLink to="/id-card" className="block px-4 py-5 text-sm " activeClassName="active" role="menuitem" tabIndex="-1">ID Card Recognition</NavLink>
+                                <NavLink to="/credit-card-recognition" className="block px-4 py-5 text-sm " activeClassName="active" role="menuitem" tabIndex="-1">Credit Card Recognition</NavLink>
+                                <NavLink to="/mrz-barcode-recognition" className="block px-4 py-5 text-sm " activeClassName="active" role="menuitem" tabIndex="-1">MRz/Barcode Recognition</NavLink>
                             </div>
                         </div>
                     )}

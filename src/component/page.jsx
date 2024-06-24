@@ -443,17 +443,21 @@ const ImageUpload = () => {
         </div> 
       ) : (
         <>
-          <button className='bg-[#ff510034] text-left p-4 w-1/4 rounded-lg'>
-            {results && results.compare_similarity !== undefined ? (
-              results.compare_similarity > 0.8 ? 'Same Person' : 'Not Same Person'
-            ) : 'Unknown'}
-          </button>
+          
           {results && comparisonImage1 && comparisonImage2 && (
+            <div>
+              <button className='bg-[#ff510034] text-left p-4 w-1/4 rounded-lg'>
+            {
+              results.compare_similarity > 0.8 ? 'Same Person' : 'Not Same Person'
+            }
+          </button>
+          
             <FaceComparisonResult
             results={results}
             image1={comparisonImage1}
             image2={comparisonImage2}
           />
+          </div>
           )}
         </>
       )}
