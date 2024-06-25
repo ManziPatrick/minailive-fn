@@ -10,7 +10,7 @@ import upload2 from '../assets/lets-icons_upload (1).png';
 import camera from '../assets/icon-park-outline_camera-one.png';
 import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import { useDropzone } from 'react-dropzone';
-import dote1 from '../component/Images/Group.png';
+import dote1 from '../component/Images/loading.gif';
 
 
 const Emotion = () => {

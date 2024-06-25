@@ -81,9 +81,9 @@ const CreditCard = () => {
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('image', file);
 
-      const response = await fetch('http://191.96.31.183:8081/idcard_recognition', {
+      const response = await fetch('http://191.96.31.183:8082/api/bank_credit_check', {
         method: 'POST',
         body: formData,
       });

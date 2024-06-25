@@ -15,7 +15,7 @@ import upload2 from '../assets/lets-icons_upload (1).png';
 import camera from '../assets/icon-park-outline_camera-one.png';
 import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import { useDropzone } from 'react-dropzone';
-import dote1 from '../component/Images/PVtR.gif';
+import dote1 from '../component/Images/loading.gif';
 
 const ImageUpload = () => {
   const [loading, setLoading] = useState(false);
@@ -28,8 +28,6 @@ const ImageUpload = () => {
   const [results, setResults] = useState(null);
   const [comparisonImage1, setComparisonImage1] = useState(null);
   const [comparisonImage2, setComparisonImage2] = useState(null);
-
-  
 
   const openCamera1 = () => {
     setShowCamera(true);
@@ -306,19 +304,19 @@ const ImageUpload = () => {
       return (
         <div className='max-h-[70vh] mt-4 overflow-y-auto'>
           <table className='min-w-full bg-white'>
-            <thead>
+            {/* <thead>
               <tr>
                 <th>Result</th>
                 <th>Value</th>
               </tr>
-            </thead>
+            </thead> */}
             <tbody>
               <tr className='bg-white'>
-                <td className='py-2 px-4 font-extrabold'>compare_result</td>
+                <td className='py-2 px-4 font-extrabold'>Matching Result: </td>
                 <td className='py-2 px-4'>{compare_result}</td>
               </tr>
               <tr className='bg-white'>
-                <td className='py-2 px-4 font-extrabold'>compare_similarity</td>
+                <td className='py-2 px-4 font-extrabold'>Similarity Score: </td>
                 <td className='py-2 px-4'>{compare_similarity}</td>
               </tr>
             </tbody>
