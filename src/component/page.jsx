@@ -15,7 +15,7 @@ import upload2 from '../assets/lets-icons_upload (1).png';
 import camera from '../assets/icon-park-outline_camera-one.png';
 import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import { useDropzone } from 'react-dropzone';
-import dote1 from '../component/Images/ZKZx.gif';
+import dote1 from '../component/Images/PVtR.gif';
 
 const ImageUpload = () => {
   const [loading, setLoading] = useState(false);
