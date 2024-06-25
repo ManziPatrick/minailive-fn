@@ -299,7 +299,7 @@ console.log('results:', results);
                 ) : (
                   <div className='text-center flex flex-col justify-center items-center h-[100vh]'>
                     <span className='text-4xl font-bold py-4'> No Result</span>
-                    <img src={noresult} alt="image" className='pb-4 mx-auto' />
+                    <img src={noresult} alt="image" className='pb-4 h-[300px] mx-auto' />
                   </div>
                 )}
               </div>
