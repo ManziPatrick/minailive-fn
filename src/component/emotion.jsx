@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./page.css";
 import image1 from '../component/Images/10.jpg';
 import image3 from '../component/Images/7.jpg';
@@ -18,6 +18,7 @@ const Emotion = () => {
   const [showCamera, setShowCamera] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [results, setResults] = useState(null);
+  const [EmotionImage, setEmotion] = useState(null);
 
   const handleClick = () => {
     setLoading(true);
@@ -81,6 +82,7 @@ const Emotion = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
+    setEmotion(uploadedImage || capturedImage)
     const formData = new FormData();
     try {
      
@@ -152,54 +154,55 @@ const Emotion = () => {
     }
   };
 
-  const renderTable = (data) => {
-    if (!data) return null;
+ 
+  const EmotionResult = ({ results, image }) => {
+    const [croppedImage, setCroppedImage] = useState(null);
   
-    if (data.faces && data.faces.length > 0) {
-      const face = data.faces[0]; 
+    useEffect(() => {
+      if (results && results.faces && results.faces.length > 0) {
+        const face = results.faces[0]; 
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = image;
   
-      return (
-        <div className='max-h-[70vh] overflow-y-auto'>
-          <table className='min-w-full bg-white'>
-            <thead>
-              <tr>
-                <th className="py-2 px-4 bg-gray-200">Attribute</th>
-                <th className="py-2 px-4 bg-gray-200">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(face).map(([key, value]) => (
-                <tr key={key} className="bg-gray-100">
-                  <td className="py-2 px-4 border">{key}</td>
-                  <td className="py-2 px-4 border">{value}</td>
-                </tr>
-              ))}
-              {Object.keys(data)
-                .filter((key) => key !== 'faces')
-                .map((key) => (
-                  <tr key={key} className="bg-gray-100">
-                    <td className="py-2 px-4 border">{key}</td>
-                    <td className="py-2 px-4 border">{data[key]}</td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+        img.onload = () => {
+          const faceWidth = face.x2 - face.x1;
+          const faceHeight = face.y2 - face.y1;
+          canvas.width = faceWidth;
+          canvas.height = faceHeight;
+          ctx.drawImage(img, face.x1, face.y1, faceWidth, faceHeight, 0, 0, faceWidth, faceHeight);
+  
+         
+          const croppedImageUrl = canvas.toDataURL();
+          setCroppedImage(croppedImageUrl);
+        };
+      }
+    }, [results, image]);
+  
+    return (
+      <div className="flex flex-col gap-4">
+               <div className="grid grid-cols-4 gap-4  gap-y-2  mt-4">
+               <div className="flex  gap-4 ">
+            <span className="font-bold text-center border-y-2 p-2">emotion_result:</span>
+            <span className='text-center border-y-2 p-2'>{results.emotion_result}</span>
+          </div>
+          
         </div>
-      );
-    } else {
-     
-      return (
-        <div className="">
-          <tr  className="bg-gray-100">
-                    <td className="py-2 px-4 border">emotion_result</td>
-                    <td className="py-2 px-4 border">{data.emotion_result}</td>
-                  </tr>
-        </div>
-      );
-    }
-  };
-  
 
+        {croppedImage && (
+          <div className='bg-white flex flex-col p-4 gap-4'>
+            <span className='font-extrabold'>Cropped Face</span>
+            <img
+              src={croppedImage}
+              alt={`Cropped Face`}
+              className='w-full h-auto object-cover rounded-lg'
+            />
+          </div>
+        )}
+      </div>
+    );
+  };
   return (
     <div className='flex w-[95%] '>
       <div className=' w-full h-full'>
@@ -253,39 +256,31 @@ const Emotion = () => {
             </div>
           </div>
           <div className='bg-gray-200 mt-4 flex items-center justify-center rounded-xl w-[100%]'>
-            <div className="w-[96%] flex flex-col p-4 gap-4 h-[90%]">
+          <div className="w-[90%] flex flex-col p-4 gap-4 h-[100%]">
               {loading ? (
                 <div className='flex flex-col gap-8'>
-                  <div className="">
+                  <div>
                     <img src={dote1} alt="" />
                   </div>
                   <div className='text-[#FF5000] text-center'>Loading Results....</div>
                 </div>
               ) : (
-                results ? (
-                  <div className="flex flex-col gap-4">
-                    <div className='bg-white flex flex-col p-4 gap-4 h-[90%]'>
-                      <span className='font-extrabold'>Emotion Results</span>
-                     
-                      {renderTable(results)}
-                      {/* <div className='grid grid-cols-2 gap-x-2'>
-                        <img src={results.image1} alt="Result 1" className='w-full object-cover rounded-lg' />
-                        
-                      </div> */}
+                
+                <div>
+                {results && EmotionImage ? (
+                  <div className="flex flex-col h-[80%] ">
+                    <div className='bg-white flex flex-col p-4  '>
+                      <span className='font-extrabold'>Results</span>
+                      <EmotionResult results={results} image={EmotionImage} />
+                    
                     </div>
-                    {/* <div className='bg-white grid grid-cols-2 gap-y-3 p-6'>
-                    <div>{results.matchingProbability}</div>
-                    <div>{results.matchingProbability}</div>
-                      <div>Emotion_result:</div>
-                      <div>{results.emotion_result}</div>
-                    </div> */}
                   </div>
                 ) : (
                   <div className='text-center'>
                     <img src={image1} alt="image" className='pb-4 mx-auto' />
-                   
                   </div>
-                )
+                )}
+              </div>
               )}
             </div>
           </div>

@@ -432,7 +432,6 @@ const ImageUpload = () => {
             </div>
           </div>
           <div className='bg-gray-200  flex items-center mt-5 justify-center rounded-xl w-[100%]'>
-
             <div className="w-[100%] flex flex-col p-4 gap-4 h-[100%]">
               <div className=' font-extrabold text-2xl'>
                 Result
@@ -461,7 +460,6 @@ const ImageUpload = () => {
           )}
         </>
       )}
-
             </div>
           </div>
         </div>
