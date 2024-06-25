@@ -8,9 +8,9 @@ import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import cantact from "../component/Images/contact.png";
 import imageRes from "../component/Images/Vector (10).png";
 import Apimage from "../component/Images/Vector (11).png";
-import card1 from "../component/Images/1.jpg"
-import card2 from "../component/Images/2.jpg"
-import card3 from "../component/Images/3.jpg"
+import card1 from "../component/Images/CreditCard/demo1.jpg"
+import card2 from "../component/Images/CreditCard/demo2.png"
+import card3 from "../component/Images/CreditCard/demo3.png"
 import './page.css'
 
 const CreditCard = () => {
@@ -81,9 +81,9 @@ const CreditCard = () => {
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('image', file);
 
-      const response = await fetch('http://191.96.31.183:8081/idcard_recognition', {
+      const response = await fetch('http://191.96.31.183:8082/api/bank_credit_check', {
         method: 'POST',
         body: formData,
       });

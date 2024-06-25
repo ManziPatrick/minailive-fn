@@ -8,9 +8,9 @@ import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import cantact from "../component/Images/contact.png";
 import imageRes from "../component/Images/Vector (10).png";
 import Apimage from "../component/Images/Vector (11).png";
-import card1 from "../component/Images/1.jpg"
-import card2 from "../component/Images/2.jpg"
-import card3 from "../component/Images/3.jpg"
+import card1 from "../component/Images/MRZ_Barcode/demo1.png"
+import card2 from "../component/Images/MRZ_Barcode/demo2.png"
+import card3 from "../component/Images/MRZ_Barcode/demo3.png"
 import './page.css'
 
 const Idrecognition = () => {

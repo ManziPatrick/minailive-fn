@@ -1,22 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./page.css";
-import image1 from '../component/Images/compare/demo-pic60.jpg';
-import image2 from '../component/Images/compare/demo-pic41.jpg';
-import image4 from '../component/Images/compare/demo-pic32.jpg';
-import image5 from '../component/Images/5.jpg';
-import image6 from '../component/Images/compare/demo-pic33.jpg';
-import image7 from '../component/Images/compare/demo-pic34.jpg';
-import image8 from '../component/Images/compare/demo-pic35.jpg';
-import image9 from '../component/Images/compare/demo-pic37.jpg';
+import image1 from '../component/Images/Compare/a1.jpg';
+import image2 from '../component/Images/Compare/a2.jpg';
+import image3 from '../component/Images/Compare/a3.jpg';
+import image4 from '../component/Images/Compare/a4.jpg';
+import image5 from '../component/Images/Compare/b1.jpg';
+import image6 from '../component/Images/Compare/b2.jpg';
+import image7 from '../component/Images/Compare/b3.jpg';
+import image8 from '../component/Images/Compare/b4.jpg';
 import upload from '../assets/lets-icons_upload.png';
-import image3 from '../component/Images/compare/demo-pic4.jpg';
 import image11 from '../assets/Frame 8.png';
 import image22 from '../assets/Frame 11.png';
 import upload2 from '../assets/lets-icons_upload (1).png';
 import camera from '../assets/icon-park-outline_camera-one.png';
 import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import { useDropzone } from 'react-dropzone';
-import dote1 from '../component/Images/ZKZx.gif';
+import dote1 from '../component/Images/loading.gif';
 
 const ImageUpload = () => {
   const [loading, setLoading] = useState(false);
@@ -29,8 +28,6 @@ const ImageUpload = () => {
   const [results, setResults] = useState(null);
   const [comparisonImage1, setComparisonImage1] = useState(null);
   const [comparisonImage2, setComparisonImage2] = useState(null);
-
-  
 
   const openCamera1 = () => {
     setShowCamera(true);
@@ -307,19 +304,19 @@ const ImageUpload = () => {
       return (
         <div className='max-h-[70vh] mt-4 overflow-y-auto'>
           <table className='min-w-full bg-white'>
-            <thead>
+            {/* <thead>
               <tr>
                 <th>Result</th>
                 <th>Value</th>
               </tr>
-            </thead>
+            </thead> */}
             <tbody>
               <tr className='bg-white'>
-                <td className='py-2 px-4 font-extrabold'>compare_result</td>
+                <td className='py-2 px-4 font-extrabold'>Matching Result: </td>
                 <td className='py-2 px-4'>{compare_result}</td>
               </tr>
               <tr className='bg-white'>
-                <td className='py-2 px-4 font-extrabold'>compare_similarity</td>
+                <td className='py-2 px-4 font-extrabold'>Similarity Score: </td>
                 <td className='py-2 px-4'>{compare_similarity}</td>
               </tr>
             </tbody>
@@ -414,7 +411,7 @@ const ImageUpload = () => {
                   <option value="example">Examples</option>
                 </select>
                 <div className='grid grid-cols-4  gap-x-2 p-3 gap-y-2'>
-                {[ image6, image7, image8, image9].map((img, index) => (
+                {[image5, image6, image7, image8].map((img, index) => (
               <div
                 key={index=5}
                 className='border rounded-lg overflow-hidden shadow-md cursor-pointer'
