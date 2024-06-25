@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./page.css";
-import image1 from '../component/Images/compare/demo-pic10.jpg';
-import image2 from '../component/Images/compare/demo-pic22.jpg';
+import image1 from '../component/Images/compare/demo-pic60.jpg';
+import image2 from '../component/Images/compare/demo-pic41.jpg';
 import image4 from '../component/Images/compare/demo-pic32.jpg';
 import image5 from '../component/Images/5.jpg';
 import image6 from '../component/Images/compare/demo-pic33.jpg';
@@ -9,7 +9,7 @@ import image7 from '../component/Images/compare/demo-pic34.jpg';
 import image8 from '../component/Images/compare/demo-pic35.jpg';
 import image9 from '../component/Images/compare/demo-pic37.jpg';
 import upload from '../assets/lets-icons_upload.png';
-import image3 from '../component/Images/5.jpg';
+import image3 from '../component/Images/compare/demo-pic4.jpg';
 import image11 from '../assets/Frame 8.png';
 import image22 from '../assets/Frame 11.png';
 import upload2 from '../assets/lets-icons_upload (1).png';
@@ -341,7 +341,7 @@ const ImageUpload = () => {
     <div className='flex w-[98%] '>
       <div className=' w-full h-full'>
         <div className='flex ' id=''>
-          <div className=' flex flex-col justify-center w-full'>
+          <div className=' flex flex-col justify-center w-[60%]'>
             <div className=' w-[100%] gap-10 pt-6 pl-4'>
               <div className=' flex justify-around  '>
                 <div className=''>
@@ -431,7 +431,7 @@ const ImageUpload = () => {
               We offer advanced security solutions with facial recognition, liveness detection, and ID document recognition, seamlessly integrating with your existing systems.
             </div>
           </div>
-          <div className='bg-gray-200  flex items-center mt-5 justify-center rounded-xl w-[100%]'>
+          <div className='bg-gray-200  flex items-center mt-5 justify-center rounded-xl w-[38%]'>
             <div className="w-[100%] flex flex-col p-4 gap-4 h-[100%]">
               <div className=' font-extrabold text-2xl'>
                 Result
@@ -445,11 +445,17 @@ const ImageUpload = () => {
           
           {results && comparisonImage1 && comparisonImage2 && (
             <div>
-              <button className='bg-[#ff510034] text-left p-4 w-1/4 rounded-lg'>
-            {
-              results.compare_similarity > 0.8 ? 'Same Person' : 'Not Same Person'
-            }
-          </button>
+            <button 
+  className={`
+    text-left p-4 m-2 w-1/2 rounded-lg
+    ${results.compare_similarity > 0.8 
+      ? 'bg-green-500 text-white' 
+      : 'bg-red-500 text-white'
+    }
+  `}
+>
+  {results.compare_similarity > 0.8 ? 'Same Person' : 'Not Same Person'}
+</button>
           
             <FaceComparisonResult
             results={results}

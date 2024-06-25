@@ -11,7 +11,7 @@ import camera from '../assets/icon-park-outline_camera-one.png';
 import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import { useDropzone } from 'react-dropzone';
 import dote1 from '../component/Images/Group.png';
-
+import noresult from './Images/3.jpeg'
 
 const Facelive = () => {
   const [loading, setLoading] = useState(false);
@@ -297,8 +297,9 @@ console.log('results:', results);
                     </div>
                   </div>
                 ) : (
-                  <div className='text-center'>
-                    <img src={image1} alt="image" className='pb-4 mx-auto' />
+                  <div className='text-center flex flex-col justify-center items-center h-[100vh]'>
+                    <span className='text-4xl font-bold py-4'> No Result</span>
+                    <img src={noresult} alt="image" className='pb-4 mx-auto' />
                   </div>
                 )}
               </div>
