@@ -11,7 +11,7 @@ import camera from '../assets/icon-park-outline_camera-one.png';
 import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import { useDropzone } from 'react-dropzone';
 import dote1 from '../component/Images/loading.gif';
-import noresult from ''
+import noresult from '../component/Images/Liveness/f_real_andr.jpg'
 
 const Facelive = () => {
   const [loading, setLoading] = useState(false);
