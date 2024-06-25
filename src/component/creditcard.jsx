@@ -188,7 +188,7 @@ const CreditCard = () => {
           </div>
           <div className='bg-gray-200 rounded-xl w-[60%] '>
             <nav>
-              <div className='flex flex-wrap justify-between px-4 bg-white h-12 items-center'>
+              <div className='flex flex-wrap justify-around px-4 bg-white h-12 items-center'>
                 <div className={`flex cursor-pointer gap-4 ${activeSection === 'extractedData' ? 'text-orange-500' : ''}`} onClick={() => handleTabClick('extractedData')} >
                   <img src={cantact} alt="" className='h-5 ' />
                   <span>Extracted Data</span>
