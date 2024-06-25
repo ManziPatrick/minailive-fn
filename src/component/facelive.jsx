@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import "./page.css";
-import image2 from '../component/Images/liveness/f_real_andr.jpg';
-import image1 from '../component/Images/liveness/f_fake_andr_outline3d.jpg';
-import image3 from '../component/Images/liveness/f_fake_andr_outline.jpg';
-import image4 from '../component/Images/liveness/f_fake_andr_monitor.jpg';
+import image2 from '../component/Images/Liveness/f_real_andr.jpg';
+import image1 from '../component/Images/Liveness/f_fake_andr_outline3d.jpg';
+import image3 from '../component/Images/Liveness/f_fake_andr_outline.jpg';
+import image4 from '../component/Images/Liveness/f_fake_andr_monitor.jpg';
 import upload from '../assets/lets-icons_upload.png';
 import image11 from '../assets/Frame 8.png';
 import upload2 from '../assets/lets-icons_upload (1).png';

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import "./page.css";
-import image1 from '../component/Images/10.jpg';
-import image3 from '../component/Images/7.jpg';
-import image4 from '../component/Images/3 (2).jpg';
+import image1 from '../component/Images/Emotion/1.jpg';
+import image2 from '../component/Images/Emotion/2.jpg';
+import image3 from '../component/Images/Emotion/3.jpg';
+import image4 from '../component/Images/Emotion/4.jpg';
 import upload from '../assets/lets-icons_upload.png';
 import image11 from '../assets/Frame 8.png';
 import upload2 from '../assets/lets-icons_upload (1).png';
@@ -11,7 +12,7 @@ import docs from '../assets/fluent_clipboard-edit-20-regular.png';
 import { useDropzone } from 'react-dropzone';
 import dote1 from '../component/Images/Group.png';
 
-import image2 from '../component/Images/4 (1).jpg';
+
 const Emotion = () => {
   const [loading, setLoading] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
