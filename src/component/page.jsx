@@ -430,9 +430,7 @@ const ImageUpload = () => {
           </div>
           <div className='bg-gray-200  flex items-center mt-5 justify-center rounded-xl w-[38%]'>
             <div className="w-[100%] flex flex-col p-4 gap-4 h-[100%]">
-              <div className=' font-extrabold text-2xl'>
-                Result
-              </div>
+             
               {loading ? (
           <div className='flex items-center justify-center'>
           <img src={dote1} alt="Loading spinner" />

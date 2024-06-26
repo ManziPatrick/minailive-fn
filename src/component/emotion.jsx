@@ -280,7 +280,7 @@ const Emotion = () => {
                   </div>
                 ) : (
                   <div className='text-center'>
-                    <img src={image1} alt="image" className='pb-4 mx-auto' />
+                   
                   </div>
                 )}
               </div>

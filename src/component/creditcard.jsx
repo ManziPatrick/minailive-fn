@@ -129,10 +129,10 @@ const CreditCard = () => {
         return null;
       }
       return (
-        <tr key={key}>
-          <td className="border px-4  font-bold py-2">{key}</td>
-          <td className="border px-4 py-2">{typeof value === 'object' ? renderTableData(value) : value}</td>
-        </tr>
+        <div className='  grid grid-cols-1 border' key={key}>
+          <span className=" px-4  font-bold py-2">{key}</span>
+          <span className=" px-4 py-2">{typeof value === 'object' ? renderTableData(value) : value}</span>
+        </div>
       );
     });
   };

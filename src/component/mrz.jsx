@@ -129,10 +129,10 @@ const Idrecognition = () => {
         return null;
       }
       return (
-        <tr key={key}>
-          <td className="border px-4  font-bold py-2">{key}</td>
-          <td className="border px-4 py-2">{typeof value === 'object' ? renderTableData(value) : value}</td>
-        </tr>
+        <div  className='  grid grid-cols-1 border' key={key}>
+          <span className=" px-4  font-bold py-2">{key}</span>
+          <span className=" px-4 py-2">{typeof value === 'object' ? renderTableData(value) : value}</span>
+        </div>
       );
     });
   };
@@ -223,11 +223,11 @@ const Idrecognition = () => {
             {activeSection === 'images' && (
               <div className="p-4">
                 <div className="bg-white p-4 rounded-lg max-h-[70vh]">
-                  {extractedImages ? (
-                    <div className="grid grid-cols-2 gap-x-2">
-                      {Object.entries(extractedImages).map(([key, value]) => (
-                        <img key={key} src={`data:image/jpeg;base64,${value}`} alt={key} className='w-full object-contain rounded-lg' />
-                      ))}
+                {extractedImages ? (
+  <div className="grid grid-cols-2 gap-x-2">
+    {Object.values(extractedImages).map((item, index) => (
+      <img key={index} src={`data:image/jpeg;base64,${item.image}`} alt={`Image ${index}`} className='w-full object-contain rounded-lg' />
+    ))}
                     </div>
                   ) : (
                     <div>No images available.</div>
