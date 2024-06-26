@@ -227,9 +227,9 @@ const Idrecognition = () => {
               <div className="p-4">
                 <div className="bg-white p-4 rounded-lg max-h-[70vh]">
                 {extractedImages ? (
-  <div className="grid grid-cols-2 gap-x-2">
+  <div className="grid grid-cols-2 gap-y-2  gap-x-2">
     {Object.values(extractedImages).map((item, index) => (
-      <img key={index} src={`data:image/jpeg;base64,${item.image}`} alt={`Image ${index}`} className='w-full object-contain rounded-lg' />
+      <img key={index} src={`data:image/jpeg;base64,${item.image}`} alt={`Image ${index}`} className='w-full object-contain h-[250px] rounded-lg' />
     ))}
   </div>
 ) : (
