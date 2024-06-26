@@ -91,7 +91,7 @@ const CreditCard = () => {
       const data = await response.json();
       setApiResponse(data);
       setExtractedData(data);
-      setExtractedImages(data.Images);
+      setExtractedImages(data.Images.Document);
     } catch (error) {
       console.error('Error sending image to API:', error);
     } finally {
