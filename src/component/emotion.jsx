@@ -199,7 +199,7 @@ const Emotion = () => {
             <img
               src={croppedImage}
               alt={`Cropped Face`}
-              className='w-full h-auto object-cover rounded-lg'
+              className='w-3/4 h-3/4 object-cover rounded-lg'
             />
           </div>
         )}

@@ -172,6 +172,8 @@ console.log('results:', results);
         const ctx = canvas.getContext('2d');
         const img = new Image();
         img.src = image;
+        
+        
   
         img.onload = () => {
           const faceWidth = face.x2 - face.x1;
@@ -215,7 +217,7 @@ console.log('results:', results);
             <img
               src={croppedImage}
               alt={`Cropped Face`}
-              className='w-full h-auto object-cover rounded-lg'
+              className='w-full h-1/2 object-contain rounded-lg'
             />
           </div>
         )}

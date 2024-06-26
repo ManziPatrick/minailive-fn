@@ -432,8 +432,11 @@ const ImageUpload = () => {
             <div className="w-[100%] flex flex-col p-4 gap-4 h-[100%]">
              
               {loading ? (
-          <div className='flex items-center justify-center'>
-          <img src={dote1} alt="Loading spinner" />
+          <div className='flex flex-col gap-8'>
+            <div>
+             <img src={dote1} alt="Loading spinner" /> 
+            </div>
+            <div className='text-[#FF5000] text-center'>Loading Results....</div>
         </div> 
       ) : (
         <>
