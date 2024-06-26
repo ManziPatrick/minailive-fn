@@ -83,7 +83,7 @@ const Idrecognition = () => {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('http://191.96.31.183:8081/idcard_recognition', {
+      const response = await fetch('http://191.96.31.183:8082/api/id_check', {
         method: 'POST',
         body: formData,
       });
