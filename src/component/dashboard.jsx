@@ -179,56 +179,61 @@ function Dashboard() {
             </button>
           </div>
           {AboutOpen && (
-            <div
-              className="right-0 mt-2 w-full rounded-md bg-white ring-1 ring-black ring-opacity-0 focus:outline-none dropdown-menu"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="menu-button"
-              tabIndex="-1"
-            >
-              <div className="py-1" role="none">
-                <NavLink
-                  to="https://miniai.live/"
-                  className=" flex ml-[10%] px-4 py-2 my-2  text-sm "
-                  activeClassName="active"
-                  role="menuitem"
-                  tabIndex="-1"
-                  target="_blank"
-                >
-                  <div className=" grid grid-cols-2">
-                    <img src={website} alt="" className="w-6 " />
-                    <span className="text-left">website link</span>
-                  </div>
-                </NavLink>
-                <NavLink
-                  to="https://github.com/MiniAiLive"
-                  className=" flex ml-[10%]  px-4 py-5  text-sm "
-                  activeClassName="active"
-                  role="menuitem"
-                  tabIndex="-1"
-                  target="_blank"
-                >
-                  <div className=" grid grid-cols-2 gap-x-0.5 ">
-                    <img src={git} alt="" className="w-8 " />
-                    <span className="text-left">GitHub link</span>
-                  </div>
-                </NavLink>
-                <NavLink
-                  to="https://www.youtube.com/@miniailive"
-                  className=" flex ml-[10%] px-4 py-5  text-sm "
-                  activeClassName="active"
-                  role="menuitem"
-                  tabIndex="-1"
-                  target="_blank"
-                >
-                  <div className=" grid grid-cols-2   justify-start">
-                    <img src={youtube} alt="" className="w-6  " />
-                    <span className=" text-left ml-2">Youtube</span>
-                  </div>
-                </NavLink>
-              </div>
-            </div>
-          )}
+  <div
+    className="right-0 mt-2 w-full rounded-md bg-white ring-1 ring-black ring-opacity-0 focus:outline-none dropdown-menu"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="menu-button"
+    tabIndex="-1"
+  >
+ {AboutOpen && (
+  <div
+    className="right-0 mt-2 w-full rounded-md bg-white ring-1 ring-black ring-opacity-0 focus:outline-none dropdown-menu"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="menu-button"
+    tabIndex="-1"
+  >
+    <div className="py-1" role="none">
+      <NavLink
+        to="https://miniai.live/"
+        className="flex items-center ml-[10%] px-4 py-2 text-sm h-12"
+        activeClassName="active"
+        role="menuitem"
+        tabIndex="-1"
+        target="_blank"
+      >
+        <img src={website} alt="" className="w-8 mr-4" />
+        <span className="text-left">website link</span>
+      </NavLink>
+      <NavLink
+        to="https://github.com/MiniAiLive"
+        className="flex items-center ml-[10%] px-4 py-2 text-sm h-12"
+        activeClassName="active"
+        role="menuitem"
+        tabIndex="-1"
+        target="_blank"
+      >
+        <img src={git} alt="" className="w-8 mr-4" />
+        <span className="text-left">GitHub link</span>
+      </NavLink>
+      <NavLink
+        to="https://www.youtube.com/@miniailive"
+        className="flex items-center ml-[10%] px-4 py-2 text-sm h-12"
+        activeClassName="active"
+        role="menuitem"
+        tabIndex="-1"
+        target="_blank"
+      >
+        <img src={youtube} alt="" className="w-8 mr-4" />
+        <span className="text-left">Youtube</span>
+      </NavLink>
+    </div>
+  </div>
+)}
+
+  </div>
+)}
         </div>
       </div>
     </>
