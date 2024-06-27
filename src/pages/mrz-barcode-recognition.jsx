@@ -1,4 +1,4 @@
-import Dashboard from "../component/dashboard";
+import Dashboard from "./component/dashboard";
 import Mrz from "../component/mrz.jsx";
 import Header from "../component/header";
 
