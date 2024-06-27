@@ -57,7 +57,7 @@ function Dashboard() {
               <div className="py-1" role="none">
                 <NavLink
                   to="/"
-                  className="block px-4 ml-[20%]  py-5 text-sm"
+                  className="block px-4 ml-[14%]  py-5 text-sm"
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -66,7 +66,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/face-liveness-detection"
-                  className="block px-4 ml-[20%] py-5 text-sm "
+                  className="block px-4 ml-[14%] py-5 text-sm "
                   activeClassName="active "
                   role="menuitem"
                   tabIndex="-1"
@@ -75,7 +75,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/face-emotions-recognition"
-                  className="block px-4 ml-[20%]  py-5 text-sm "
+                  className="block px-4 ml-[14%]  py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -123,7 +123,7 @@ function Dashboard() {
               <div className="py-1" role="none">
                 <NavLink
                   to="/id-card"
-                  className="block ml-[20%]  px-4 py-5 text-sm "
+                  className="block ml-[14%]  px-4 py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -132,7 +132,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/credit-card-recognition"
-                  className="block ml-[20%]  px-4 py-5 text-sm "
+                  className="block ml-[14%]  px-4 py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -141,7 +141,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/mrz-barcode-recognition"
-                  className="block ml-[20%]  px-4 py-5 text-sm "
+                  className="block ml-[14%]  px-4 py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -189,41 +189,41 @@ function Dashboard() {
               <div className="py-1" role="none">
                 <NavLink
                   to="https://miniai.live/"
-                  className=" flex  px-4 py-2 my-2  text-sm "
+                  className=" flex ml-[10%] px-4 py-2 my-2  text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
                   target="_blank"
                 >
-                  <div className=" flex gap-6">
+                  <div className=" grid grid-cols-2">
                     <img src={website} alt="" className="w-6 " />
-                    <span>website link</span>
+                    <span className="text-left">website link</span>
                   </div>
                 </NavLink>
                 <NavLink
                   to="https://github.com/MiniAiLive"
-                  className=" flex   px-4 py-5  text-sm "
+                  className=" flex ml-[10%]  px-4 py-5  text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
                   target="_blank"
                 >
-                  <div className=" flex gap-6">
+                  <div className=" grid grid-cols-2 gap-x-0.5 ">
                     <img src={git} alt="" className="w-8 " />
-                    <span>GitHub link</span>
+                    <span className="text-left">GitHub link</span>
                   </div>
                 </NavLink>
                 <NavLink
                   to="https://www.youtube.com/@miniailive"
-                  className=" flex  px-4 py-5  text-sm "
+                  className=" flex ml-[10%] px-4 py-5  text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
                   target="_blank"
                 >
-                  <div className=" flex gap-6">
-                    <img src={youtube} alt="" className="w-6 " />
-                    <span>Youtube</span>
+                  <div className=" grid grid-cols-2   justify-start">
+                    <img src={youtube} alt="" className="w-6  " />
+                    <span className=" text-left ml-2">Youtube</span>
                   </div>
                 </NavLink>
               </div>
