@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useDropzone } from "react-dropzone";
+import 'react-toastify/dist/ReactToastify.css';
+import {  toast } from "react-toastify";
 import image22 from "../assets/Frame 11.png";
 import upload from "../assets/lets-icons_upload.png";
 import upload2 from "../assets/lets-icons_upload (1).png";
@@ -21,7 +23,9 @@ const CreditCard = () => {
   const [extractedData, setExtractedData] = useState(null);
   const [extractedImages, setExtractedImages] = useState(null);
   const [loading, setLoading] = useState(false);
+
   const fileInputRef = useRef(null);
+  // const fileInputRef = useRef(null);
 
   const openCamera2 = () => {
     setShowCamera(true);
@@ -104,6 +108,24 @@ const CreditCard = () => {
 
   const handleRecognitionClick = () => {
     const file = capturedImage || uploadedImage;
+   
+    if (!file) {
+      const existingToastId = toast.isActive("noImageError");
+
+      if (!existingToastId) {
+        toast.error("Please upload or capture an image.", {
+          toastId: "noImageError", 
+          style: {
+            width: "auto", 
+            backgroundColor: "#FFFFFF",
+            color: "#FF6347", 
+          },
+        });
+      }
+      return;
+    }
+  
+
     if (file) {
       fetch(file)
         .then((res) => res.blob())
@@ -219,7 +241,7 @@ const CreditCard = () => {
                 />
               </div>
             </div>
-            <div className="flex justify-center  pt-4">
+            <div className="flex justify-center flex-col  pt-4">
               <button
                 className="bg-orange-500 text-white px-4  w-[80%] self-center rounded-[20px] py-2 text-[15px]"
                 onClick={handleRecognitionClick}
@@ -227,6 +249,7 @@ const CreditCard = () => {
               >
                 {loading ? "Processing..." : "Id card recognition"}
               </button>
+              
             </div>
             <div className="text-[#00000049] text-center p-5">
               We offer advanced security solutions with facial recognition,

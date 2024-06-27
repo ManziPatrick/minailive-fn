@@ -12,6 +12,7 @@ import card1 from "../component/Images/IDCard/demo1.jpg";
 import card2 from "../component/Images/IDCard/demo2.png";
 import card3 from "../component/Images/IDCard/demo3.png";
 import "./page.css";
+import { toast } from "react-toastify";
 
 const Idrecognition = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -102,6 +103,23 @@ const Idrecognition = () => {
 
   const handleRecognitionClick = () => {
     const file = capturedImage || uploadedImage;
+
+    if (!file) {
+      const existingToastId = toast.isActive("noImageError");
+
+      if (!existingToastId) {
+        toast.error("Please upload or capture an image.", {
+          toastId: "noImageError", 
+          style: {
+            width: "auto", 
+            backgroundColor: "#FFFFFF",
+            color: "#FF6347", 
+          },
+        });
+      }
+      return;
+    }
+  
     if (file) {
       fetch(file)
         .then((res) => res.blob())

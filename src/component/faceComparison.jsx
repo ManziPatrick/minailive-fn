@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./page.css";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import image1 from "../component/Images/Compare/a1.jpg";
 import image2 from "../component/Images/Compare/a2.jpg";
 import image3 from "../component/Images/Compare/a3.jpg";
@@ -153,6 +155,18 @@ const ImageUpload = () => {
         return;
       }
     } else {
+      const existingToastId = toast.isActive("noImageError");
+
+      if (!existingToastId) {
+        toast.error("Please upload or capture an image.", {
+          toastId: "noImageError", 
+          style: {
+            width: "auto", 
+            backgroundColor: "#FFFFFF",
+            color: "#FF6347", 
+          },
+        });
+      }
       console.error("No image1 or captured image1 found.");
       setLoading(false);
       return;
@@ -199,6 +213,7 @@ const ImageUpload = () => {
       }
     } catch (error) {
       console.error("Error submitting images:", error);
+      
     } finally {
       setLoading(false);
     }

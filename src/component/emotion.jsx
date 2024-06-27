@@ -11,6 +11,7 @@ import camera from "../assets/icon-park-outline_camera-one.png";
 import docs from "../assets/fluent_clipboard-edit-20-regular.png";
 import { useDropzone } from "react-dropzone";
 import dote1 from "../component/Images/loading.gif";
+import { toast } from "react-toastify";
 
 const Emotion = () => {
   const [loading, setLoading] = useState(false);
@@ -113,6 +114,18 @@ const Emotion = () => {
       }
     } catch (error) {
       console.error("Error submitting images:", error);
+      const existingToastId = toast.isActive("noImageError");
+
+      if (!existingToastId) {
+        toast.error("Please upload or capture an image.", {
+          toastId: "noImageError", 
+          style: {
+            width: "auto", 
+            backgroundColor: "#FFFFFF",
+            color: "#FF6347", 
+          },
+        });
+      }
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./page.css";
+
 import image2 from "../component/Images/Liveness/f_real_andr.jpg";
 import image1 from "../component/Images/Liveness/f_fake_andr_outline3d.jpg";
 import image3 from "../component/Images/Liveness/f_fake_andr_outline.jpg";
@@ -11,6 +12,7 @@ import camera from "../assets/icon-park-outline_camera-one.png";
 import docs from "../assets/fluent_clipboard-edit-20-regular.png";
 import { useDropzone } from "react-dropzone";
 import dote1 from "../component/Images/loading.gif";
+import { toast } from "react-toastify";
 
 const Facelive = () => {
   const [loading, setLoading] = useState(false);
@@ -86,10 +88,20 @@ const Facelive = () => {
         "image.jpg"
       );
       if (!file) {
-        console.error("Error converting image to file.");
+        const existingToastId = toast.isActive("noImageError");
+        if (!existingToastId) {
+          toast.error("Please upload or capture an image.", {
+            toastId: "noImageError",
+            style: {
+              backgroundColor: "#FF6347", 
+              color: "#FFFFFF",
+            },
+          });
+        }
         setLoading(false);
         return;
       }
+      setLoading(false);
       setLivenessImage1(uploadedImage || capturedImage);
       const formData = new FormData();
       formData.append("file", file);
@@ -111,6 +123,18 @@ const Facelive = () => {
       setLivenessImage1(uploadedImage || capturedImage);
     } catch (error) {
       console.error("Error submitting image:", error);
+      const existingToastId = toast.isActive("noImageError");
+
+      if (!existingToastId) {
+        toast.error("Please upload or capture an image.", {
+          toastId: "noImageError", 
+          style: {
+            width: "auto", 
+            backgroundColor: "#FFFFFF",
+            color: "#FF6347", 
+          },
+        });
+      }
     } finally {
       setLoading(false);
     }
