@@ -57,7 +57,7 @@ function Dashboard() {
               <div className="py-1" role="none">
                 <NavLink
                   to="/"
-                  className="block px-4 py-5 text-sm"
+                  className="block px-4 ml-[20%]  py-5 text-sm"
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -66,7 +66,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/face-liveness-detection"
-                  className="block px-4 py-5 text-sm "
+                  className="block px-4 ml-[20%] py-5 text-sm "
                   activeClassName="active "
                   role="menuitem"
                   tabIndex="-1"
@@ -75,7 +75,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/face-emotions-recognition"
-                  className="block px-4 py-5 text-sm "
+                  className="block px-4 ml-[20%]  py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -123,7 +123,7 @@ function Dashboard() {
               <div className="py-1" role="none">
                 <NavLink
                   to="/id-card"
-                  className="block px-4 py-5 text-sm "
+                  className="block ml-[20%]  px-4 py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -132,7 +132,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/credit-card-recognition"
-                  className="block px-4 py-5 text-sm "
+                  className="block ml-[20%]  px-4 py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -141,7 +141,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/mrz-barcode-recognition"
-                  className="block px-4 py-5 text-sm "
+                  className="block ml-[20%]  px-4 py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"

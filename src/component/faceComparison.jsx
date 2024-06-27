@@ -155,10 +155,12 @@ const ImageUpload = () => {
         return;
       }
     } else {
+      
+      
       const existingToastId = toast.isActive("noImageError");
 
       if (!existingToastId) {
-        toast.error("Please upload or capture an image.", {
+        toast.error("No image1 or captured image1 found.", {
           toastId: "noImageError", 
           style: {
             width: "auto", 
@@ -185,11 +187,24 @@ const ImageUpload = () => {
           return;
         }
       } catch (error) {
+        
         console.error("Error converting image2 to file:", error);
         setLoading(false);
         return;
       }
     } else {
+      const existingToastId = toast.isActive("noImageError");
+
+      if (!existingToastId) {
+        toast.error("No image2 or captured image2 found.", {
+          toastId: "noImageError", 
+          style: {
+            width: "auto", 
+            backgroundColor: "#FFFFFF",
+            color: "#FF6347", 
+          },
+        });
+      }
       console.error("No image2 or captured image2 found.");
       setLoading(false);
       return;
