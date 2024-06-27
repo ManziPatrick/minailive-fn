@@ -1,30 +1,36 @@
-
-import ImageUpload from "../component/page";
-import Dashboard from "../component/dashboard"
+import ImageRComare from "../component/faceComparison";
+import Dashboard from "../component/dashboard";
 import Header from "../component/header";
 import { useState } from "react";
 
+function ImageCompare() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-function ImageDashbord() {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
-    const toggleSidebar = () => {
-        setSidebarOpen(!sidebarOpen);
-    };
-
-    return (
-        <div className="w-[100vw] h-[100vh] overflow-hidden">
-            <div className="flex h-full">
-                <div className={`md:fixed relative  md:w-[80%] w-[20%] h-full md:transition-transform md:duration-300 md:ease-in-out ${sidebarOpen ? 'translate-x-0' : 'md:-translate-x-full translate-x-0'} bg-white shadow-2xl md:z-50 z-auto`}>
-                    <Dashboard />
-                </div>
-                <div className="flex-1  md:w-[80%] flex flex-col h-full overflow-hidden">
-                <Header title='Image compare' isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-                <ImageUpload />
-            </div>
+  return (
+    <div className="w-[100vw] h-[100vh] overflow-hidden">
+      <div className="flex h-full">
+        <div
+          className={`md:fixed relative  md:w-[80%] w-[20%] h-full md:transition-transform md:duration-300 md:ease-in-out ${
+            sidebarOpen ? "translate-x-0" : "md:-translate-x-full translate-x-0"
+          } bg-white shadow-2xl md:z-50 z-auto`}
+        >
+          <Dashboard />
         </div>
+        <div className="flex-1  md:w-[80%] flex flex-col h-full overflow-hidden">
+          <Header
+            title="Image compare"
+            isOpen={sidebarOpen}
+            toggleSidebar={toggleSidebar}
+          />
+          <ImageRComare />
+        </div>
+      </div>
     </div>
-     );
+  );
 }
 
-export default ImageDashbord;
+export default ImageCompare;
