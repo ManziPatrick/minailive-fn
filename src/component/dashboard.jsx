@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import log from "../assets/Rectangle 48.png";
-import profile from "../assets/Vector (8).png";
-import card from "../assets/Vector (9).png";
-import aboutus from "../assets/icons8-about-48.png";
-import git from "../assets/github.png";
-import website from "../assets/website.png";
-import youtube from "../assets/youtube.png";
+import log from "../assets/logo.png";
+import img_facesdk from "../assets/facesdk.png";
+import img_idsdk from "../assets/idsdk.png";
+import aboutus from "../assets/about.png";
+import img_github from "../assets/github.png";
+import img_website from "../assets/website.png";
+import img_youtube from "../assets/youtube.png";
 import "./page.css";
 
 function Dashboard() {
@@ -28,7 +28,7 @@ function Dashboard() {
               onClick={() => setFaceSDKOpen(!faceSDKOpen)}
             >
               <div className="flex gap-5 lg:gap-1 flex-row lg:flex-col  align-bottom">
-                <img src={profile} className=" w-6" alt="" />
+                <img src={img_facesdk} className=" w-6" alt="" />
                 <span className="bold">Face SDK</span>
               </div>
               <svg
@@ -94,7 +94,7 @@ function Dashboard() {
               onClick={() => setIdSDKOpen(!idSDKOpen)}
             >
               <div className="flex gap-5 lg:gap-1 flex-row lg:flex-col align-bottom">
-                <img src={card} alt="" />
+                <img src={img_idsdk} alt="" />
                 <span className="bold">ID SDK</span>
               </div>
               <svg
@@ -128,7 +128,7 @@ function Dashboard() {
                   role="menuitem"
                   tabIndex="-1"
                 >
-                  ID Card Recognition
+                  ID Document Recognition
                 </NavLink>
                 <NavLink
                   to="/credit-card-recognition"
@@ -137,7 +137,7 @@ function Dashboard() {
                   role="menuitem"
                   tabIndex="-1"
                 >
-                  Credit Card Recognition
+                  Bank/Credit Recognition
                 </NavLink>
                 <NavLink
                   to="/mrz-barcode-recognition"
@@ -146,7 +146,7 @@ function Dashboard() {
                   role="menuitem"
                   tabIndex="-1"
                 >
-                  MRz/Barcode Recognition
+                  MRZ/Barcode Recognition
                 </NavLink>
               </div>
             </div>
@@ -203,8 +203,8 @@ function Dashboard() {
         tabIndex="-1"
         target="_blank"
       >
-        <img src={website} alt="" className="w-8 mr-4" />
-        <span className="text-left">website link</span>
+        <img src={img_website} alt="" className="w-8 mr-4" />
+        <span className="text-left">Visit MiniAiLive</span>
       </NavLink>
       <NavLink
         to="https://github.com/MiniAiLive"
@@ -214,8 +214,8 @@ function Dashboard() {
         tabIndex="-1"
         target="_blank"
       >
-        <img src={git} alt="" className="w-8 mr-4" />
-        <span className="text-left">GitHub link</span>
+        <img src={img_github} alt="" className="w-8 mr-4" />
+        <span className="text-left">Visit GitHub Repo</span>
       </NavLink>
       <NavLink
         to="https://www.youtube.com/@miniailive"
@@ -225,8 +225,8 @@ function Dashboard() {
         tabIndex="-1"
         target="_blank"
       >
-        <img src={youtube} alt="" className="w-8 mr-4" />
-        <span className="text-left">Youtube</span>
+        <img src={img_youtube} alt="" className="w-8 mr-4" />
+        <span className="text-left">See Youtube Channel</span>
       </NavLink>
     </div>
   </div>

@@ -10,108 +10,25 @@ import image5 from "../component/Images/Compare/b1.jpg";
 import image6 from "../component/Images/Compare/b2.jpg";
 import image7 from "../component/Images/Compare/b3.jpg";
 import image8 from "../component/Images/Compare/b4.jpg";
-import upload from "../assets/lets-icons_upload.png";
-import image11 from "../assets/Frame 8.png";
-import image22 from "../assets/Frame 11.png";
-import upload2 from "../assets/lets-icons_upload (1).png";
-import camera from "../assets/icon-park-outline_camera-one.png";
-import docs from "../assets/fluent_clipboard-edit-20-regular.png";
+import prev_img1 from "../assets/prev_img1.png";
+import prev_img2 from "../assets/prev_img2.png";
+import img_upload_l from "../assets/upload_large.png";
 import { useDropzone } from "react-dropzone";
-import dote1 from "../component/Images/loading.gif";
+import loading_gif from "../component/Images/loading.gif";
 
 const ImageUpload = () => {
   const [loading, setLoading] = useState(false);
   const [uploadedImage1, setUploadedImage1] = useState(null);
   const [uploadedImage2, setUploadedImage2] = useState(null);
-  const [showCamera, setShowCamera] = useState(false);
-  const [capturedImage1, setCapturedImage1] = useState(null);
-  const [capturedImage2, setCapturedImage2] = useState(null);
-  const [activeCamera, setActiveCamera] = useState(null);
   const [results, setResults] = useState(null);
   const [comparisonImage1, setComparisonImage1] = useState(null);
   const [comparisonImage2, setComparisonImage2] = useState(null);
 
-  const openCamera1 = () => {
-    setShowCamera(true);
-    setActiveCamera(1);
-    const constraints = { video: true };
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        const video = document.getElementById("camera-preview");
-        if (video) {
-          video.srcObject = stream;
-        }
-      })
-      .catch((err) => console.error("Error accessing camera:", err));
-  };
-
-  const openCamera2 = () => {
-    setShowCamera(true);
-    setActiveCamera(2);
-    const constraints = { video: true };
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        const video = document.getElementById("camera-preview");
-        if (video) {
-          video.srcObject = stream;
-        }
-      })
-      .catch((err) => console.error("Error accessing camera:", err));
-  };
-
-  const closeCamera = () => {
-    setShowCamera(false);
-    const video = document.getElementById("camera-preview");
-    if (video && video.srcObject) {
-      const stream = video.srcObject;
-      const tracks = stream.getTracks();
-      tracks.forEach((track) => track.stop());
-      video.srcObject = null;
-    }
-  };
   const handleImageClick = (imageSrc) => {
     setUploadedImage1(imageSrc);
   };
   const handleImageClick2 = (imageSrc) => {
     setUploadedImage2(imageSrc);
-  };
-
-  const captureImage1 = () => {
-    const video = document.getElementById("camera-preview");
-    if (video) {
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas
-        .getContext("2d")
-        .drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const imageUrl = canvas.toDataURL("image/jpeg");
-      setCapturedImage1(imageUrl);
-
-      closeCamera();
-    }
-  };
-
-  const captureImage2 = () => {
-    const video = document.getElementById("camera-preview");
-    if (video) {
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas
-        .getContext("2d")
-        .drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const imageUrl = canvas.toDataURL("image/jpeg");
-      setCapturedImage2(imageUrl);
-
-      closeCamera();
-    }
   };
 
   const onDrop1 = (acceptedFiles) => {
@@ -138,10 +55,10 @@ const ImageUpload = () => {
     setLoading(true);
 
     let file1 = null;
-    if (uploadedImage1 || capturedImage1) {
+    if (uploadedImage1) {
       try {
         file1 = await dataURLtoFile(
-          uploadedImage1 || capturedImage1,
+          uploadedImage1,
           "image1.jpg"
         );
         if (!file1) {
@@ -156,11 +73,10 @@ const ImageUpload = () => {
       }
     } else {
       
-      
       const existingToastId = toast.isActive("noImageError");
 
       if (!existingToastId) {
-        toast.error("No image1 or captured image1 found.", {
+        toast.error("Please input 1st test image.", {
           toastId: "noImageError", 
           style: {
             width: "auto", 
@@ -169,16 +85,16 @@ const ImageUpload = () => {
           },
         });
       }
-      console.error("No image1 or captured image1 found.");
+      console.error("Please input 1st test image");
       setLoading(false);
       return;
     }
 
     let file2 = null;
-    if (uploadedImage2 || capturedImage2) {
+    if (uploadedImage2) {
       try {
         file2 = await dataURLtoFile(
-          uploadedImage2 || capturedImage2,
+          uploadedImage2,
           "image2.jpg"
         );
         if (!file2) {
@@ -196,7 +112,7 @@ const ImageUpload = () => {
       const existingToastId = toast.isActive("noImageError");
 
       if (!existingToastId) {
-        toast.error("No image2 or captured image2 found.", {
+        toast.error("Please input 2nd test image", {
           toastId: "noImageError", 
           style: {
             width: "auto", 
@@ -205,12 +121,12 @@ const ImageUpload = () => {
           },
         });
       }
-      console.error("No image2 or captured image2 found.");
+      console.error("Please input 2nd test image");
       setLoading(false);
       return;
     }
-    setComparisonImage1(uploadedImage1 || capturedImage1);
-    setComparisonImage2(uploadedImage2 || capturedImage2);
+    setComparisonImage1(uploadedImage1);
+    setComparisonImage2(uploadedImage2);
     const formData = new FormData();
     formData.append("file1", file1);
     formData.append("file2", file2);
@@ -407,36 +323,23 @@ const ImageUpload = () => {
                     className="flex items-center border-2 border-orange-200 w-[300px] border-dashed rounded-xl h-[280px]"
                   >
                     <input {...getInputProps1()} />
-                    {uploadedImage1 || capturedImage1 ? (
+                    {uploadedImage1 ? (
                       <img
-                        src={uploadedImage1 || capturedImage1}
+                        src={uploadedImage1}
                         alt="Uploaded"
                         className="w-full h-full object-cover rounded-xl"
                       />
                     ) : (
                       <div className="text-center flex flex-col items-center justify-center gap-4 w-full">
-                        <img src={image11} alt="" />
+                        <img src={prev_img1} alt="" />
                         <div>
-                          <img src={upload} alt="" />
+                          <img src={img_upload_l} alt="" />
                         </div>
                         <h1 className="text-orange-500 text-[18px] font-bold">
                           Drag & Drop image
                         </h1>
                       </div>
                     )}
-                  </div>
-                  <div className="flex justify-center mt-1 w-full">
-                    <div className="flex gap-2 justify-center shadow-lg rounded-sm bg-white w-32 p-4">
-                      <div>
-                        <img src={upload2} alt="" />
-                      </div>
-                      <div onClick={openCamera1}>
-                        <img src={camera} alt="" />
-                      </div>
-                      <div>
-                        <img src={docs} alt="" />
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <div>
@@ -445,17 +348,17 @@ const ImageUpload = () => {
                     className="flex items-center border-2 border-orange-100 w-[300px] border-dashed rounded-xl h-[280px]"
                   >
                     <input {...getInputProps2()} />
-                    {uploadedImage2 || capturedImage2 ? (
+                    {uploadedImage2 ? (
                       <img
-                        src={uploadedImage2 || capturedImage2}
+                        src={uploadedImage2}
                         alt="Image"
                         className="w-full h-full object-cover rounded-xl"
                       />
                     ) : (
                       <div className="text-center flex flex-col items-center justify-center gap-4 w-full">
-                        <img src={image22} alt="" />
+                        <img src={prev_img2} alt="" />
                         <div>
-                          <img src={upload} alt="" />
+                          <img src={img_upload_l} alt="" />
                         </div>
                         <h1 className="text-orange-500 text-[18px] font-bold">
                           Drag & Drop image
@@ -463,19 +366,7 @@ const ImageUpload = () => {
                       </div>
                     )}
                   </div>
-                  <div className="flex justify-center mt-1 w-full">
-                    <div className="flex gap-2 justify-center bg-white shadow-lg rounded-sm w-32 p-4">
-                      <div>
-                        <img src={upload2} alt="" />
-                      </div>
-                      <div onClick={openCamera2}>
-                        <img src={camera} alt="" />
-                      </div>
-                      <div>
-                        <img src={docs} alt="" />
-                      </div>
-                    </div>
-                  </div>
+                  <div><br></br></div>
                 </div>
               </div>
             </div>
@@ -547,7 +438,7 @@ const ImageUpload = () => {
               {loading ? (
                 <div className="flex flex-col gap-8">
                   <div>
-                    <img src={dote1} alt="Loading spinner" />
+                    <img src={loading_gif} alt="Loading spinner" />
                   </div>
                   <div className="text-[#FF5000] text-center">
                     Loading Results....
@@ -585,55 +476,6 @@ const ImageUpload = () => {
           </div>
         </div>
       </div>
-      {showCamera && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
-          <div className="relative max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6">
-            <video
-              id="camera-preview"
-              autoPlay
-              className="w-full rounded-lg"
-            ></video>
-            <div className="absolute top-0 right-0 m-4">
-              <button
-                onClick={closeCamera}
-                className="text-gray-200 hover:text-white"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="flex justify-center mt-4">
-              {activeCamera === 1 && (
-                <button
-                  onClick={captureImage1}
-                  className="bg-orange-500 text-white px-4 py-2 rounded-lg"
-                >
-                  Capture Image
-                </button>
-              )}
-              {activeCamera === 2 && (
-                <button
-                  onClick={captureImage2}
-                  className="bg-orange-500 text-white px-4 py-2 rounded-lg"
-                >
-                  Capture Image
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

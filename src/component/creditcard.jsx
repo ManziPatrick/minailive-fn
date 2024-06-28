@@ -2,11 +2,8 @@ import React, { useState, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import 'react-toastify/dist/ReactToastify.css';
 import {  toast } from "react-toastify";
-import image22 from "../assets/Frame 11.png";
-import upload from "../assets/lets-icons_upload.png";
-import upload2 from "../assets/lets-icons_upload (1).png";
-import camera from "../assets/icon-park-outline_camera-one.png";
-import docs from "../assets/fluent_clipboard-edit-20-regular.png";
+import prev_img1 from "../assets/prev_img1.png";
+import img_upload_l from "../assets/upload_large.png";
 import cantact from "../component/Images/contact.png";
 import imageRes from "../component/Images/Vector (10).png";
 import card1 from "../component/Images/CreditCard/demo1.jpg";
@@ -16,8 +13,6 @@ import "./page.css";
 
 const CreditCard = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
-  const [capturedImage, setCapturedImage] = useState(null);
-  const [showCamera, setShowCamera] = useState(false);
   const [activeSection, setActiveSection] = useState("extractedData");
   const [apiResponse, setApiResponse] = useState(null);
   const [extractedData, setExtractedData] = useState(null);
@@ -26,51 +21,6 @@ const CreditCard = () => {
 
   const fileInputRef = useRef(null);
   // const fileInputRef = useRef(null);
-
-  const openCamera2 = () => {
-    setShowCamera(true);
-    const constraints = { video: true };
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        const video = document.getElementById("camera-preview");
-        if (video) {
-          video.srcObject = stream;
-        }
-      })
-      .catch((err) => console.error("Error accessing camera:", err));
-  };
-
-  const closeCamera = () => {
-    setShowCamera(false);
-    const video = document.getElementById("camera-preview");
-    if (video && video.srcObject) {
-      const stream = video.srcObject;
-      const tracks = stream.getTracks();
-      tracks.forEach((track) => track.stop());
-      video.srcObject = null;
-    }
-  };
-
-  const captureImage = () => {
-    const video = document.getElementById("camera-preview");
-    if (video) {
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas
-        .getContext("2d")
-        .drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      canvas.toBlob((blob) => {
-        const imageUrl = URL.createObjectURL(blob);
-        setCapturedImage(imageUrl);
-      }, "image/jpeg");
-
-      closeCamera();
-    }
-  };
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -107,13 +57,13 @@ const CreditCard = () => {
   };
 
   const handleRecognitionClick = () => {
-    const file = capturedImage || uploadedImage;
+    const file = uploadedImage;
    
     if (!file) {
       const existingToastId = toast.isActive("noImageError");
 
       if (!existingToastId) {
-        toast.error("Please upload or capture an image.", {
+        toast.error("Please upload an image.", {
           toastId: "noImageError", 
           style: {
             width: "auto", 
@@ -179,17 +129,17 @@ const CreditCard = () => {
                 ref={fileInputRef}
                 style={{ display: "none" }}
               />
-              {uploadedImage || capturedImage ? (
+              {uploadedImage ? (
                 <img
-                  src={uploadedImage || capturedImage}
+                  src={uploadedImage}
                   alt="Image"
                   className="w-full h-full object-contain rounded-xl"
                 />
               ) : (
                 <div className="text-center flex flex-col items-center justify-center gap-4 w-full">
-                  <img src={image22} alt="" />
+                  <img src={prev_img1} alt="" />
                   <div>
-                    <img src={upload} alt="" />
+                    <img src={img_upload_l} alt="" />
                   </div>
                   <h1 className="text-orange-500 text-[18px] font-bold">
                     Drag & Drop image or click to upload
@@ -198,19 +148,7 @@ const CreditCard = () => {
               )}
             </div>
 
-            <div className="flex justify-center mt-1 w-full">
-              <div className="flex gap-2 justify-center shadow-lg rounded-sm bg-white w-32 p-4">
-                <div>
-                  <img src={upload2} alt="" />
-                </div>
-                <div onClick={openCamera2}>
-                  <img src={camera} alt="" />
-                </div>
-                <div>
-                  <img src={docs} alt="" />
-                </div>
-              </div>
-            </div>
+            <div><br></br></div>
 
             <div className="bg-gray-200 w-full p-2 rounded-lg py-2">
               <select

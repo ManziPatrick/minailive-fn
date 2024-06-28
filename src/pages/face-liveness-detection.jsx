@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import Dashboard from "../component/dashboard";
-import Header from "../component/header";
+import { useState } from "react";
+import Dashboard from "../component/dashboard.jsx";
+import Header from "../component/header.jsx";
 import Facelive from "../component/facelive";
 
 function FaceliveDashbord() {
@@ -22,7 +22,7 @@ function FaceliveDashbord() {
         </div>
         <div className="flex-1  md:w-[80%] flex flex-col h-full overflow-hidden">
           <Header
-            title="Face liveness detection"
+            title="Face Liveness Detection"
             isOpen={sidebarOpen}
             toggleSidebar={toggleSidebar}
           />

@@ -1,69 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "./page.css";
-
-import image2 from "../component/Images/Liveness/f_real_andr.jpg";
-import image1 from "../component/Images/Liveness/f_fake_andr_outline3d.jpg";
+import image1 from "../component/Images/Liveness/f_real_andr.jpg";
+import image2 from "../component/Images/Liveness/f_fake_andr_outline3d.jpg";
 import image3 from "../component/Images/Liveness/f_fake_andr_outline.jpg";
 import image4 from "../component/Images/Liveness/f_fake_andr_monitor.jpg";
-import upload from "../assets/lets-icons_upload.png";
-import image11 from "../assets/Frame 8.png";
-import upload2 from "../assets/lets-icons_upload (1).png";
-import camera from "../assets/icon-park-outline_camera-one.png";
-import docs from "../assets/fluent_clipboard-edit-20-regular.png";
+import prev_img1 from "../assets/prev_img1.png";
+import img_upload_l from "../assets/upload_large.png";
 import { useDropzone } from "react-dropzone";
-import dote1 from "../component/Images/loading.gif";
+import loading_gif from "../component/Images/loading.gif";
 import { toast } from "react-toastify";
 
 const Facelive = () => {
   const [loading, setLoading] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
-  const [showCamera, setShowCamera] = useState(false);
-  const [capturedImage, setCapturedImage] = useState(null);
   const [results, setResults] = useState(null);
-  const [livenessImage1, setLivenessImage1] = useState(null);
+  const [livenessImage, setLivenessImage] = useState(null);
 
-  const openCamera = () => {
-    setShowCamera(true);
-    const constraints = { video: true };
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        const video = document.getElementById("camera-preview");
-        if (video) {
-          video.srcObject = stream;
-        }
-      })
-      .catch((err) => console.error("Error accessing camera:", err));
-  };
-
-  const closeCamera = () => {
-    setShowCamera(false);
-    const video = document.getElementById("camera-preview");
-    if (video && video.srcObject) {
-      const stream = video.srcObject;
-      const tracks = stream.getTracks();
-      tracks.forEach((track) => track.stop());
-      video.srcObject = null;
-    }
-  };
-
-  const captureImage = () => {
-    const video = document.getElementById("camera-preview");
-    if (video) {
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas
-        .getContext("2d")
-        .drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const imageUrl = canvas.toDataURL("image/jpeg");
-      setCapturedImage(imageUrl);
-
-      closeCamera();
-    }
-  };
+  // const handleClick = () => {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  // };
 
   const handleImageClick = (imageSrc) => {
     setUploadedImage(imageSrc);
@@ -81,16 +39,17 @@ const Facelive = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-
+    
+    const formData = new FormData();
     try {
       const file = await dataURLtoFile(
-        uploadedImage || capturedImage,
+        uploadedImage,
         "image.jpg"
       );
       if (!file) {
         const existingToastId = toast.isActive("noImageError");
         if (!existingToastId) {
-          toast.error("Please upload or capture an image.", {
+          toast.error("Please upload an image.", {
             toastId: "noImageError",
             style: {
               backgroundColor: "#FF6347", 
@@ -102,7 +61,7 @@ const Facelive = () => {
         return;
       }
       setLoading(false);
-      setLivenessImage1(uploadedImage || capturedImage);
+      setLivenessImage1(uploadedImage);
       const formData = new FormData();
       formData.append("file", file);
 
@@ -120,13 +79,13 @@ const Facelive = () => {
 
       const result = await response.json();
       setResults(result);
-      setLivenessImage1(uploadedImage || capturedImage);
+      setLivenessImage1(uploadedImage);
     } catch (error) {
       console.error("Error submitting image:", error);
       const existingToastId = toast.isActive("noImageError");
 
       if (!existingToastId) {
-        toast.error("Please upload or capture an image.", {
+        toast.error("Please upload an image.", {
           toastId: "noImageError", 
           style: {
             width: "auto", 
@@ -217,7 +176,7 @@ const Facelive = () => {
 
     return (
       <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-4 gap-4  gap-y-4 mt-4">
+        <div className="grid grid-cols-4 gap-4  gap-y-2 mt-4">
           <div className="flex flex-col ">
             <span className="font-bold text-center">FaceID</span>
             <span className="text-center">{results.face_state[0].FaceID}</span>
@@ -245,7 +204,7 @@ const Facelive = () => {
             <img
               src={croppedImage}
               alt={`Cropped Face`}
-              className="w-full h-1/2 object-contain rounded-lg"
+              className="w-3/4 h-3/4 object-cover rounded-lg"
             />
           </div>
         )}
@@ -257,7 +216,7 @@ const Facelive = () => {
     <div className="flex w-[95%]">
       <div className="w-full h-full">
         <div className="flex">
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col justify-center w-full">
             <div className="w-[100%] gap-10 pt-6 pl-4">
               <div className="flex justify-around">
                 <div>
@@ -266,17 +225,17 @@ const Facelive = () => {
                     className="flex items-center border-2 border-orange-200 w-[300px] border-dashed rounded-xl h-[280px]"
                   >
                     <input {...getInputProps()} />
-                    {uploadedImage || capturedImage ? (
+                    {uploadedImage ? (
                       <img
-                        src={uploadedImage || capturedImage}
+                        src={uploadedImage}
                         alt="Uploaded"
                         className="w-full h-full object-fill rounded-xl"
                       />
                     ) : (
                       <div className="text-center flex flex-col items-center justify-center gap-4 w-full">
-                        <img src={image11} alt="" />
+                        <img src={prev_img1} alt="" />
                         <div>
-                          <img src={upload} alt="" />
+                          <img src={img_upload_l} alt="" />
                         </div>
                         <h1 className="text-orange-500 text-[18px] font-bold">
                           Drag & Drop image
@@ -284,19 +243,7 @@ const Facelive = () => {
                       </div>
                     )}
                   </div>
-                  <div className="flex justify-center mt-1 w-full">
-                    <div className="flex gap-2 justify-center shadow-lg rounded-sm bg-white w-32 p-4">
-                      <div>
-                        <img src={upload2} alt="" />
-                      </div>
-                      <div onClick={openCamera}>
-                        <img src={camera} alt="" />
-                      </div>
-                      <div>
-                        <img src={docs} alt="" />
-                      </div>
-                    </div>
-                  </div>
+                  <div><br></br></div>
                 </div>
               </div>
             </div>
@@ -339,9 +286,9 @@ const Facelive = () => {
             </div>
             <button
               onClick={handleSubmit}
-              className="bg-orange-500 text-white px-4 rounded-[20px] text-[15px] w-[80%] self-center py-2 mt-4"
+              className="bg-orange-500 text-white px-4 w-[80%] self-center mt-2 rounded-[20px] py-2 text-[15px]"
             >
-              {loading ? "Processing..." : "Check your comparisons"}
+              {loading ? "Processing..." : "Check Liveness Result"}
             </button>
             <div className="text-[#00000049] text-center p-5">
               We offer advanced security solutions with facial recognition,
@@ -354,7 +301,7 @@ const Facelive = () => {
               {loading ? (
                 <div className="flex flex-col gap-8">
                   <div>
-                    <img src={dote1} alt="" />
+                    <img src={loading_gif} alt="" />
                   </div>
                   <div className="text-[#FF5000] text-center">
                     Loading Results....
@@ -366,7 +313,7 @@ const Facelive = () => {
                     <div className="flex flex-col h-[80%] ">
                       <div className="bg-white flex flex-col p-4  ">
                         <span className="font-extrabold">Results</span>
-                        <FaceResult results={results} image={livenessImage1} />
+                        <FaceResult results={results} image={livenessImage} />
                       </div>
                     </div>
                   ) : (
@@ -378,45 +325,6 @@ const Facelive = () => {
           </div>
         </div>
       </div>
-      {showCamera && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
-          <div className="relative max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6">
-            <video
-              id="camera-preview"
-              autoPlay
-              className="w-full rounded-lg"
-            ></video>
-            <div className="absolute top-0 right-0 m-4">
-              <button
-                onClick={closeCamera}
-                className="text-gray-200 hover:text-white"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={captureImage}
-                className="bg-orange-500 text-white px-4 py-2 rounded-lg"
-              >
-                Capture Image
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

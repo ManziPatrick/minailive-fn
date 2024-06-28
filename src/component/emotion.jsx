@@ -4,74 +4,20 @@ import image1 from "../component/Images/Emotion/1.jpg";
 import image2 from "../component/Images/Emotion/2.jpg";
 import image3 from "../component/Images/Emotion/3.jpg";
 import image4 from "../component/Images/Emotion/4.jpg";
-import upload from "../assets/lets-icons_upload.png";
-import image11 from "../assets/Frame 8.png";
-import upload2 from "../assets/lets-icons_upload (1).png";
-import camera from "../assets/icon-park-outline_camera-one.png";
-import docs from "../assets/fluent_clipboard-edit-20-regular.png";
+import prev_img1 from "../assets/prev_img1.png";
+import img_upload_l from "../assets/upload_large.png";
 import { useDropzone } from "react-dropzone";
-import dote1 from "../component/Images/loading.gif";
+import loading_gif from "../component/Images/loading.gif";
 import { toast } from "react-toastify";
 
 const Emotion = () => {
   const [loading, setLoading] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
-  const [showCamera, setShowCamera] = useState(false);
-  const [capturedImage, setCapturedImage] = useState(null);
   const [results, setResults] = useState(null);
   const [EmotionImage, setEmotionImage] = useState(null);
 
-  const handleClick = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  };
-
   const handleImageClick = (imageSrc) => {
     setUploadedImage(imageSrc);
-  };
-  const openCamera = () => {
-    setShowCamera(true);
-    const constraints = { video: true };
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => {
-        const video = document.getElementById("camera-preview");
-        if (video) {
-          video.srcObject = stream;
-        }
-      })
-      .catch((err) => console.error("Error accessing camera:", err));
-  };
-
-  const closeCamera = () => {
-    setShowCamera(false);
-    const video = document.getElementById("camera-preview");
-    if (video && video.srcObject) {
-      const stream = video.srcObject;
-      const tracks = stream.getTracks();
-      tracks.forEach((track) => track.stop());
-      video.srcObject = null;
-    }
-  };
-
-  const captureImage = () => {
-    const video = document.getElementById("camera-preview");
-    if (video) {
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas
-        .getContext("2d")
-        .drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const imageUrl = canvas.toDataURL("image/jpeg");
-      setCapturedImage(imageUrl);
-
-      closeCamera();
-    }
   };
 
   const onDrop = (acceptedFiles) => {
@@ -89,7 +35,7 @@ const Emotion = () => {
 
     const formData = new FormData();
     try {
-      const imageToSubmit = uploadedImage || capturedImage;
+      const imageToSubmit = uploadedImage;
       if (imageToSubmit) {
         const file = await dataURLtoFile(imageToSubmit, "image.jpg");
         if (!file) {
@@ -117,7 +63,7 @@ const Emotion = () => {
       const existingToastId = toast.isActive("noImageError");
 
       if (!existingToastId) {
-        toast.error("Please upload or capture an image.", {
+        toast.error("Please upload an image.", {
           toastId: "noImageError", 
           style: {
             width: "auto", 
@@ -245,17 +191,17 @@ const Emotion = () => {
                     className="flex items-center border-2 border-orange-200 w-[300px] border-dashed rounded-xl h-[280px]"
                   >
                     <input {...getInputProps()} />
-                    {uploadedImage || capturedImage ? (
+                    {uploadedImage ? (
                       <img
-                        src={uploadedImage || capturedImage}
+                        src={uploadedImage}
                         alt="Uploaded"
                         className="w-full h-full object-fill rounded-xl"
                       />
                     ) : (
                       <div className="text-center flex flex-col items-center justify-center gap-4 w-full">
-                        <img src={image11} alt="" />
+                        <img src={prev_img1} alt="" />
                         <div>
-                          <img src={upload} alt="" />
+                          <img src={img_upload_l} alt="" />
                         </div>
                         <h1 className="text-orange-500 text-[18px] font-bold">
                           Drag & Drop image
@@ -263,19 +209,7 @@ const Emotion = () => {
                       </div>
                     )}
                   </div>
-                  <div className="flex justify-center mt-1 w-full">
-                    <div className="flex gap-2 justify-center shadow-lg rounded-sm bg-white w-32 p-4">
-                      <div>
-                        <img src={upload2} alt="" />
-                      </div>
-                      <div onClick={openCamera}>
-                        <img src={camera} alt="" />
-                      </div>
-                      <div>
-                        <img src={docs} alt="" />
-                      </div>
-                    </div>
-                  </div>
+                  <div><br></br></div>
                 </div>
               </div>
             </div>
@@ -333,7 +267,7 @@ const Emotion = () => {
               {loading ? (
                 <div className="flex flex-col gap-8">
                   <div>
-                    <img src={dote1} alt="" />
+                    <img src={loading_gif} alt="" />
                   </div>
                   <div className="text-[#FF5000] text-center">
                     Loading Results....
@@ -357,45 +291,6 @@ const Emotion = () => {
           </div>
         </div>
       </div>
-      {showCamera && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75">
-          <div className="relative max-w-sm mx-auto bg-white rounded-lg shadow-lg p-6">
-            <video
-              id="camera-preview"
-              autoPlay
-              className="w-full rounded-lg"
-            ></video>
-            <div className="absolute top-0 right-0 m-4">
-              <button
-                onClick={closeCamera}
-                className="text-gray-200 hover:text-white"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={captureImage}
-                className="bg-orange-500 text-white px-4 py-2 rounded-lg"
-              >
-                Capture Image
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
