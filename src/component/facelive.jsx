@@ -17,13 +17,6 @@ const Facelive = () => {
   const [results, setResults] = useState(null);
   const [livenessImage, setLivenessImage] = useState(null);
 
-  // const handleClick = () => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 2000);
-  // };
-
   const handleImageClick = (imageSrc) => {
     setUploadedImage(imageSrc);
   };
@@ -62,7 +55,7 @@ const Facelive = () => {
         return;
       }
       setLoading(false);
-      setLivenessImage1(uploadedImage);
+      setLivenessImage(uploadedImage);
       const formData = new FormData();
       formData.append("file", file);
 
@@ -80,7 +73,7 @@ const Facelive = () => {
 
       const result = await response.json();
       setResults(result);
-      setLivenessImage1(uploadedImage);
+      setLivenessImage(uploadedImage);
     } catch (error) {
       console.error("Error submitting image:", error);
       const existingToastId = toast.isActive("noImageError");
@@ -310,7 +303,7 @@ const Facelive = () => {
                 </div>
               ) : (
                 <div>
-                  {results && livenessImage1 ? (
+                  {results && livenessImage ? (
                     <div className="flex flex-col h-[80%] ">
                       <div className="bg-white flex flex-col p-4  ">
                         <span className="font-extrabold">Results</span>
