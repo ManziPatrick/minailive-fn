@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import "./page.css";
-import image1 from "../component/Images/Emotion/1.jpg";
-import image2 from "../component/Images/Emotion/2.jpg";
-import image3 from "../component/Images/Emotion/3.jpg";
-import image4 from "../component/Images/Emotion/4.jpg";
-import prev_img1 from "../assets/prev_img1.png";
-import img_upload_l from "../assets/upload_large.png";
 import { useDropzone } from "react-dropzone";
-import loading_gif from "../component/Images/loading.gif";
 import { toast } from "react-toastify";
+import "./page.css";
+import image1 from "../assets/Images/Emotion/1.jpg";
+import image2 from "../assets/Images/Emotion/2.jpg";
+import image3 from "../assets/Images/Emotion/3.jpg";
+import image4 from "../assets/Images/Emotion/4.jpg";
+import prev_img1 from "../assets/Images/prev_img1.png";
+import img_upload_l from "../assets/Images/upload_large.png";
+import loading_gif from "../assets/Images/loading.gif";
 
 const Emotion = () => {
   const [loading, setLoading] = useState(false);

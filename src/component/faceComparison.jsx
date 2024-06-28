@@ -1,20 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./page.css";
+import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import image1 from "../component/Images/Compare/a1.jpg";
-import image2 from "../component/Images/Compare/a2.jpg";
-import image3 from "../component/Images/Compare/a3.jpg";
-import image4 from "../component/Images/Compare/a4.jpg";
-import image5 from "../component/Images/Compare/b1.jpg";
-import image6 from "../component/Images/Compare/b2.jpg";
-import image7 from "../component/Images/Compare/b3.jpg";
-import image8 from "../component/Images/Compare/b4.jpg";
-import prev_img1 from "../assets/prev_img1.png";
-import prev_img2 from "../assets/prev_img2.png";
-import img_upload_l from "../assets/upload_large.png";
-import { useDropzone } from "react-dropzone";
-import loading_gif from "../component/Images/loading.gif";
+import "./page.css";
+import image1 from "../assets/Images/Compare/a1.jpg";
+import image2 from "../assets/Images/Compare/a2.jpg";
+import image3 from "../assets/Images/Compare/a3.jpg";
+import image4 from "../assets/Images/Compare/a4.jpg";
+import image5 from "../assets/Images/Compare/b1.jpg";
+import image6 from "../assets/Images/Compare/b2.jpg";
+import image7 from "../assets/Images/Compare/b3.jpg";
+import image8 from "../assets/Images/Compare/b4.jpg";
+import prev_img1 from "../assets/Images/prev_img1.png";
+import prev_img2 from "../assets/Images/prev_img2.png";
+import img_upload_l from "../assets/Images/upload_large.png";
+import loading_gif from "../assets/Images/loading.gif";
 
 const ImageUpload = () => {
   const [loading, setLoading] = useState(false);

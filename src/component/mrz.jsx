@@ -1,15 +1,14 @@
 import React, { useState, useRef } from "react";
 import { useDropzone } from "react-dropzone";
-import prev_img1 from "../assets/prev_img1.png";
-import img_upload_l from "../assets/upload_large.png";
-import cantact from "../component/Images/contact.png";
-import imageRes from "../component/Images/Vector (10).png";
-import Apimage from "../component/Images/Vector (11).png";
-import card1 from "../component/Images/MRZ_Barcode/demo1.png";
-import card2 from "../component/Images/MRZ_Barcode/demo2.png";
-import card3 from "../component/Images/MRZ_Barcode/demo3.png";
-import "./page.css";
 import { toast } from "react-toastify";
+import "./page.css";
+import prev_img1 from "../assets/Images/prev_img1.png";
+import img_upload_l from "../assets/Images/upload_large.png";
+import img_id_detail from "../assets/Images/id_detail.png";
+import img_id from "../assets/Images/id_img.png";
+import card1 from "../assets/Images/MRZ_Barcode/demo1.png";
+import card2 from "../assets/Images/MRZ_Barcode/demo2.png";
+import card3 from "../assets/Images/MRZ_Barcode/demo3.png";
 
 const MrcBarcode = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -199,7 +198,7 @@ const MrcBarcode = () => {
                   }`}
                   onClick={() => handleTabClick("extractedData")}
                 >
-                  <img src={cantact} alt="" className="h-5 " />
+                  <img src={img_id_detail} alt="" className="h-5 " />
                   <span>Extracted Data</span>
                 </div>
                 <div
@@ -208,8 +207,8 @@ const MrcBarcode = () => {
                   }`}
                   onClick={() => handleTabClick("images")}
                 >
-                  <img src={imageRes} alt="" className="h-4 " />
-                  <span>Images</span>
+                  <img src={img_id} alt="" className="h-4 " />
+                  <span>Extracted Image</span>
                 </div>
               </div>
               <div className=" h-[0.14rem] w-[10.5rem]"></div>

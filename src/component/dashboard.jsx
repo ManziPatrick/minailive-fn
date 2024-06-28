@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import log from "../assets/logo.png";
-import img_facesdk from "../assets/facesdk.png";
-import img_idsdk from "../assets/idsdk.png";
-import aboutus from "../assets/about.png";
-import img_github from "../assets/github.png";
-import img_website from "../assets/website.png";
-import img_youtube from "../assets/youtube.png";
 import "./page.css";
+import log from "../assets/Images/logo.png";
+import img_facesdk from "../assets/Images/facesdk.png";
+import img_idsdk from "../assets/Images/idsdk.png";
+import aboutus from "../assets/Images/about.png";
+import img_github from "../assets/Images/github.png";
+import img_website from "../assets/Images/website.png";
+import img_youtube from "../assets/Images/youtube.png";
 
 function Dashboard() {
   const [faceSDKOpen, setFaceSDKOpen] = useState(true);
