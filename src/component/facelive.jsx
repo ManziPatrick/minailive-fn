@@ -282,7 +282,9 @@ const Facelive = () => {
               onClick={handleSubmit}
               className="bg-orange-500 text-white px-4 w-[80%] self-center mt-2 rounded-[20px] py-2 text-[15px]"
             >
-              {loading ? "Processing..." : "Check Liveness Result"}
+              {/* {loading ? "Processing..." : "Check Liveness Result"} */}
+              Check Liveness Result
+
             </button>
             <div className="text-[#00000049] text-center p-5">
               We offer advanced security solutions with facial recognition,
@@ -291,7 +293,7 @@ const Facelive = () => {
             </div>
           </div>
           <div className="bg-gray-200 mt-4 flex items-center justify-center rounded-xl w-[100%]">
-            <div className="w-[90%] flex flex-col p-4 gap-4 h-[100%]">
+            <div className="w-[90%] flex flex-col p-4 gap-4 h-[80vh]">
               {loading ? (
                 <div className="flex flex-col gap-8">
                   <div>
