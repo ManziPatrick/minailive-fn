@@ -1,6 +1,6 @@
 import React from "react";
-import menuIcon from "../assets/Images/list.png";
-import closeIcon from "../assets/Images/close.png";
+import menuIcon from "../assets/icons/header/list.png";
+import closeIcon from "../assets/icons/header/close.png";
 
 const Header = ({ title, isOpen, toggleSidebar }) => {
   return (

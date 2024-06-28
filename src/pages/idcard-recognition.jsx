@@ -1,9 +1,9 @@
-import ImageRComare from "../component/faceComparison";
+import React, { useState } from "react";
 import Dashboard from "../component/dashboard";
 import Header from "../component/header";
-import { useState } from "react";
+import ImageDash from "../component/idrecognition";
 
-function ImageCompare() {
+function IdCard_Page() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -22,15 +22,15 @@ function ImageCompare() {
         </div>
         <div className="flex-1  md:w-[80%] flex flex-col h-full overflow-hidden">
           <Header
-            title="Image compare"
+            title="ID Card"
             isOpen={sidebarOpen}
             toggleSidebar={toggleSidebar}
           />
-          <ImageRComare />
+          <ImageDash />
         </div>
       </div>
     </div>
   );
 }
 
-export default ImageCompare;
+export default IdCard_Page;

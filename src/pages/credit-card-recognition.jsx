@@ -4,7 +4,7 @@ import Header from "../component/header";
 
 import { useState } from "react";
 
-function CreditCardDashbord() {
+function CreditCard_Pages() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -34,4 +34,4 @@ function CreditCardDashbord() {
   );
 }
 
-export default CreditCardDashbord;
+export default CreditCard_Pages;

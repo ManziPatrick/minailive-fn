@@ -4,7 +4,7 @@ import Header from "../component/header";
 
 import { useState } from "react";
 
-function MrzDashbord() {
+function Mrz_Page() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -34,4 +34,4 @@ function MrzDashbord() {
   );
 }
 
-export default MrzDashbord;
+export default Mrz_Page;

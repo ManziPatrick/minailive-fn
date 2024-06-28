@@ -3,8 +3,8 @@ import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ImageDashbord from "./pages/imageupload";
-import IdCard from "./pages/idcard";
+import ImageComparison from "./pages/face-recognation";
+import IdCard from "./pages/idcard-recognition";
 import FaceliveDashbord from "./pages/face-liveness-detection";
 import EmotionsDashbord from "./pages/face-emotions-recognition";
 import CreditCardDashbord from "./pages/credit-card-recognition";
@@ -16,7 +16,7 @@ function App() {
       <Router>
         <div className="App">
           <Routes>
-            <Route path="/" element={<ImageDashbord />} />
+            <Route path="/" element={<ImageComparison />} />
             <Route path="/id-card" element={<IdCard />} />
             <Route
               path="/face-liveness-detection"

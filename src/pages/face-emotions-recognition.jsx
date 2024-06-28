@@ -3,7 +3,7 @@ import Dashboard from "../component/dashboard";
 import Emotions from "../component/emotion.jsx";
 import Header from "../component/header";
 
-function EmotionsDashbord() {
+function Emotions_Page() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -33,4 +33,4 @@ function EmotionsDashbord() {
   );
 }
 
-export default EmotionsDashbord;
+export default Emotions_Page;

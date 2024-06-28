@@ -3,7 +3,7 @@ import Dashboard from "../component/dashboard.jsx";
 import Header from "../component/header.jsx";
 import Facelive from "../component/facelive";
 
-function FaceliveDashbord() {
+function Facelive_Pages() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -33,4 +33,4 @@ function FaceliveDashbord() {
   );
 }
 
-export default FaceliveDashbord;
+export default Facelive_Pages;
