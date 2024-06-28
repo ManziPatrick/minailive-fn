@@ -54,7 +54,7 @@ const Facelive = () => {
         setLoading(false);
         return;
       }
-      setLoading(false);
+    
       setLivenessImage(uploadedImage);
       const formData = new FormData();
       formData.append("file", file);
