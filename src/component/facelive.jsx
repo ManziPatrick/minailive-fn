@@ -216,7 +216,7 @@ const Facelive = () => {
                 <div>
                   <div
                     {...getRootProps()}
-                    className="flex items-center border-2 border-orange-200 w-[300px] border-dashed rounded-xl h-[280px]"
+                    className="flex items-center border-2 border-orange-200 cursor-pointer w-[300px] border-dashed rounded-xl h-[280px]"
                   >
                     <input {...getInputProps()} />
                     {uploadedImage ? (
@@ -282,8 +282,8 @@ const Facelive = () => {
               onClick={handleSubmit}
               className="bg-orange-500 text-white px-4 w-[80%] self-center mt-2 rounded-[20px] py-2 text-[15px]"
             >
-              {/* {loading ? "Processing..." : "Check Liveness Result"} */}
-              Check Liveness Result
+              {loading ? "Processing..." : "Check Liveness Result"}
+              {/* Check Liveness Result */}
 
             </button>
             <div className="text-[#00000049] text-center p-5">

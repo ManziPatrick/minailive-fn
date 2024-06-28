@@ -121,7 +121,7 @@ const CreditCard = () => {
           <div className="w-[40%] flex-col ">
             <div
               {...getRootProps()}
-              className="flex items-center border-2 border-orange-100 w-full border-dashed rounded-xl h-[280px]"
+              className="flex items-center cursor-pointer border-2 border-orange-100 w-full border-dashed rounded-xl h-[280px]"
               onClick={handleUploadClick}
             >
               <input

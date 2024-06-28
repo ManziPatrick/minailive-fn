@@ -188,7 +188,7 @@ const Emotion = () => {
                 <div className="">
                   <div
                     {...getRootProps()}
-                    className="flex items-center border-2 border-orange-200 w-[300px] border-dashed rounded-xl h-[280px]"
+                    className="flex items-center border-2 cursor-pointer border-orange-200 w-[300px] border-dashed rounded-xl h-[280px]"
                   >
                     <input {...getInputProps()} />
                     {uploadedImage ? (
