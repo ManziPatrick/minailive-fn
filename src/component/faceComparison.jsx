@@ -428,9 +428,7 @@ const ImageUpload = () => {
               {loading ? "Processing..." : "Check your comparisons"}
             </button>
             <div className="text-[#00000049] text-center p-5">
-              We offer advanced security solutions with facial recognition,
-              liveness detection, and ID document recognition, seamlessly
-              integrating with your existing systems.
+            Check the likelihood that two faces belong to the same person. You will get a confidence score and thresholds to evaluate the similarity.
             </div>
           </div>
           <div className="bg-gray-200  flex items-center mt-5 justify-center rounded-xl w-[38%]">

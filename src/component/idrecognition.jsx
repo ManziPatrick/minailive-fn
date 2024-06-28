@@ -179,13 +179,11 @@ const Idrecognition = () => {
                 onClick={handleRecognitionClick}
                 disabled={loading}
               >
-                {loading ? "Processing..." : "Id card recognition"}
+                {loading ? "Processing..." : "Check Document Details"}
               </button>
             </div>
             <div className="text-[#00000049] text-center p-5">
-              We offer advanced security solutions with facial recognition,
-              liveness detection, and ID document recognition, seamlessly
-              integrating with your existing systems
+              Quickly and securely capture, extract, and verify data from diverse ID cards, passports, DL, and other documents with our proven, AI-first approach.
             </div>
           </div>
           <div className="bg-gray-200 rounded-xl w-[60%] ">

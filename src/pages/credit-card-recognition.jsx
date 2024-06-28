@@ -23,7 +23,7 @@ function CreditCard_Pages() {
         </div>
         <div className="flex-1  md:w-[80%] flex flex-col h-full overflow-hidden">
           <Header
-            title="Credit Card recognition"
+            title="Bank & Credit Card Recognition"
             isOpen={sidebarOpen}
             toggleSidebar={toggleSidebar}
           />

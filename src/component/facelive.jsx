@@ -287,9 +287,7 @@ const Facelive = () => {
 
             </button>
             <div className="text-[#00000049] text-center p-5">
-              We offer advanced security solutions with facial recognition,
-              liveness detection, and ID document recognition, seamlessly
-              integrating with your existing systems.
+              Experience MiniAiLive's iBeta (Level 2) Certified, Single-Image Based Face Liveness Detection (Face Anti Spoofing) Engine today.
             </div>
           </div>
           <div className="bg-gray-200 mt-4 flex items-center justify-center rounded-xl w-[100%]">

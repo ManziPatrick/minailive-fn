@@ -22,7 +22,7 @@ function Emotions_Page() {
         </div>
         <div className="flex-1  md:w-[80%] flex flex-col h-full overflow-hidden">
           <Header
-            title="Face Emotions recognition"
+            title="Emotional Recognition"
             isOpen={sidebarOpen}
             toggleSidebar={toggleSidebar}
           />

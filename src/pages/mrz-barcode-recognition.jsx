@@ -23,7 +23,7 @@ function Mrz_Page() {
         </div>
         <div className="flex-1  md:w-[80%] flex flex-col h-full overflow-hidden">
           <Header
-            title="Mrc barcode recognition"
+            title="MRZ & Barcode Recognition"
             isOpen={sidebarOpen}
             toggleSidebar={toggleSidebar}
           />

@@ -22,7 +22,7 @@ function Facelive_Pages() {
         </div>
         <div className="flex-1  md:w-[80%] flex flex-col h-full overflow-hidden">
           <Header
-            title="Face Liveness Detection"
+            title="3D Face Passive Liveness Detection (Anti-Spoofing)"
             isOpen={sidebarOpen}
             toggleSidebar={toggleSidebar}
           />

@@ -180,13 +180,11 @@ const MrcBarcode = () => {
                 onClick={handleRecognitionClick}
                 disabled={loading}
               >
-                {loading ? "Processing..." : "Id card recognition"}
+                {loading ? "Processing..." : "Check MRZ/Barcode Details"}
               </button>
             </div>
             <div className="text-[#00000049] text-center p-5">
-              We offer advanced security solutions with facial recognition,
-              liveness detection, and ID document recognition, seamlessly
-              integrating with your existing systems
+            MRZ reading is performed even with no internet access. 150+ Countries Supported. 10k+ Document Templates. 100% On-premises on mobile and server.
             </div>
           </div>
           <div className="bg-gray-200 rounded-xl w-[60%] ">

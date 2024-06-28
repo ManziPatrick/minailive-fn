@@ -185,14 +185,12 @@ const CreditCard = () => {
                 onClick={handleRecognitionClick}
                 disabled={loading}
               >
-                {loading ? "Processing..." : "Id card recognition"}
+                {loading ? "Processing..." : "Check Card Details"}
               </button>
               
             </div>
             <div className="text-[#00000049] text-center p-5">
-              We offer advanced security solutions with facial recognition,
-              liveness detection, and ID document recognition, seamlessly
-              integrating with your existing systems
+            Bank & Credit Card OCR (Scan To Pay). World's fastest and most accurate Credit card Scan To Pay implementation.
             </div>
           </div>
           <div className="bg-gray-200 rounded-xl w-[60%] ">

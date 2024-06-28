@@ -22,7 +22,7 @@ function ImageCompare_Page() {
         </div>
         <div className="flex-1  md:w-[80%] flex flex-col h-full overflow-hidden">
           <Header
-            title="Image compare"
+            title="Face Recognition: 1:1, 1:N Matching Algorithm"
             isOpen={sidebarOpen}
             toggleSidebar={toggleSidebar}
           />
