@@ -10,7 +10,6 @@ import prev_img1 from "../assets/Images/prev_img1.png";
 import img_upload_l from "../assets/Images/upload_large.png";
 import loading_gif from "../assets/Images/loading.gif";
 
-
 const Facelive = () => {
   const [loading, setLoading] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -33,7 +32,7 @@ const Facelive = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    
+
     const formData = new FormData();
     try {
       const file = await dataURLtoFile(
@@ -54,7 +53,7 @@ const Facelive = () => {
         setLoading(false);
         return;
       }
-    
+
       setLivenessImage(uploadedImage);
       const formData = new FormData();
       formData.append("file", file);
@@ -134,12 +133,11 @@ const Facelive = () => {
     }
   };
 
-  const FaceResult = ({ results, image }) => {
+  const FaceResult = ({ face, faceState, image }) => {
     const [croppedImage, setCroppedImage] = useState(null);
 
     useEffect(() => {
-      if (results && results.faces && results.faces.length > 0) {
-        const face = results.faces[0];
+      if (face) {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         const img = new Image();
@@ -166,28 +164,28 @@ const Facelive = () => {
           setCroppedImage(croppedImageUrl);
         };
       }
-    }, [results, image]);
+    }, [face, image]);
 
     return (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 ">
         <div className="grid grid-cols-4 gap-4  gap-y-2 mt-4">
           <div className="flex flex-col ">
             <span className="font-bold text-center">FaceID</span>
-            <span className="text-center">{results.face_state[0].FaceID}</span>
+            <span className="text-center">{faceState.FaceID}</span>
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-center">Age</span>
-            <span className="text-center">{results.face_state[0].Age}</span>
+            <span className="text-center">{faceState.Age}</span>
           </div>
 
           <div className="flex flex-col">
             <span className="font-bold text-center ">Gender</span>
-            <span className="text-center">{results.face_state[0].Gender}</span>
+            <span className="text-center">{faceState.Gender}</span>
           </div>
           <div className="flex  flex-col">
             <span className="font-bold text-center">LivenessCheck</span>
             <span className="text-center">
-              {results.face_state[0].LivenessCheck}
+              {faceState.LivenessCheck}
             </span>
           </div>
         </div>
@@ -198,7 +196,7 @@ const Facelive = () => {
             <img
               src={croppedImage}
               alt={`Cropped Face`}
-              className="w-3/4 h-3/4 object-cover rounded-lg"
+              className="w-full h-[250px] object-cover rounded-lg"
             />
           </div>
         )}
@@ -283,8 +281,6 @@ const Facelive = () => {
               className="bg-orange-500 text-white px-4 w-[80%] self-center mt-2 rounded-[20px] py-2 text-[15px]"
             >
               {loading ? "Processing..." : "Check Liveness Result"}
-              {/* Check Liveness Result */}
-
             </button>
             <div className="text-[#00000049] text-center p-5">
               Experience MiniAiLive's iBeta (Level 2) Certified, Single-Image Based Face Liveness Detection (Face Anti Spoofing) Engine today.
@@ -305,9 +301,16 @@ const Facelive = () => {
                 <div>
                   {results && livenessImage ? (
                     <div className="flex flex-col h-[80%] ">
-                      <div className="bg-white flex flex-col p-4  ">
+                      <div className="bg-white flex flex-col p-4 max-h-[95vh] mt-4 overflow-y-auto  ">
                         <span className="font-extrabold">Results</span>
-                        <FaceResult results={results} image={livenessImage} />
+                        {results.faces.map((face, index) => (
+                          <FaceResult 
+                            key={index}
+                            face={face}
+                            faceState={results.face_state[index]}
+                            image={livenessImage}
+                          />
+                        ))}
                       </div>
                     </div>
                   ) : (
