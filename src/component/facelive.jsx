@@ -35,17 +35,14 @@ const Facelive = () => {
 
     const formData = new FormData();
     try {
-      const file = await dataURLtoFile(
-        uploadedImage,
-        "image.jpg"
-      );
+      const file = await dataURLtoFile(uploadedImage, "image.jpg");
       if (!file) {
         const existingToastId = toast.isActive("noImageError");
         if (!existingToastId) {
           toast.error("Please upload an image.", {
             toastId: "noImageError",
             style: {
-              backgroundColor: "#FF6347", 
+              backgroundColor: "#FF6347",
               color: "#FFFFFF",
             },
           });
@@ -55,7 +52,6 @@ const Facelive = () => {
       }
 
       setLivenessImage(uploadedImage);
-      const formData = new FormData();
       formData.append("file", file);
 
       const response = await fetch(
@@ -79,11 +75,11 @@ const Facelive = () => {
 
       if (!existingToastId) {
         toast.error("Please upload an image.", {
-          toastId: "noImageError", 
+          toastId: "noImageError",
           style: {
-            width: "auto", 
+            width: "auto",
             backgroundColor: "#FFFFFF",
-            color: "#FF6347", 
+            color: "#FF6347",
           },
         });
       }
@@ -133,73 +129,75 @@ const Facelive = () => {
     }
   };
 
-  const FaceResult = ({ face, faceState, image }) => {
-    const [croppedImage, setCroppedImage] = useState(null);
+  const FaceResult = ({ results, image }) => {
+    const [croppedImages, setCroppedImages] = useState([]);
 
     useEffect(() => {
-      if (face) {
+      const newCroppedImages = results.faces.map((face) => {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         const img = new Image();
         img.src = image;
 
-        img.onload = () => {
-          const faceWidth = face.x2 - face.x1;
-          const faceHeight = face.y2 - face.y1;
-          canvas.width = faceWidth;
-          canvas.height = faceHeight;
-          ctx.drawImage(
-            img,
-            face.x1,
-            face.y1,
-            faceWidth,
-            faceHeight,
-            0,
-            0,
-            faceWidth,
-            faceHeight
-          );
+        return new Promise((resolve) => {
+          img.onload = () => {
+            const faceWidth = face.x2 - face.x1;
+            const faceHeight = face.y2 - face.y1;
+            canvas.width = faceWidth;
+            canvas.height = faceHeight;
+            ctx.drawImage(
+              img,
+              face.x1,
+              face.y1,
+              faceWidth,
+              faceHeight,
+              0,
+              0,
+              faceWidth,
+              faceHeight
+            );
 
-          const croppedImageUrl = canvas.toDataURL();
-          setCroppedImage(croppedImageUrl);
-        };
-      }
-    }, [face, image]);
+            const croppedImageUrl = canvas.toDataURL();
+            resolve(croppedImageUrl);
+          };
+        });
+      });
+
+      Promise.all(newCroppedImages).then(setCroppedImages);
+    }, [results, image]);
 
     return (
-      <div className="flex flex-col gap-4 ">
-        <div className="grid grid-cols-4 gap-4  gap-y-2 mt-4">
-          <div className="flex flex-col ">
-            <span className="font-bold text-center">FaceID</span>
-            <span className="text-center">{faceState.FaceID}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-bold text-center">Age</span>
-            <span className="text-center">{faceState.Age}</span>
-          </div>
-
-          <div className="flex flex-col">
-            <span className="font-bold text-center ">Gender</span>
-            <span className="text-center">{faceState.Gender}</span>
-          </div>
-          <div className="flex  flex-col">
-            <span className="font-bold text-center">LivenessCheck</span>
-            <span className="text-center">
-              {faceState.LivenessCheck}
-            </span>
-          </div>
-        </div>
-
-        {croppedImage && (
-          <div className="bg-white flex flex-col p-4 gap-4">
-            <span className="font-extrabold">Cropped Face</span>
-            <img
-              src={croppedImage}
-              alt={`Cropped Face`}
-              className="w-full h-[250px] object-cover rounded-lg"
-            />
-          </div>
-        )}
+      <div className="flex flex-col gap-4">
+        <table className="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th className="py-2">Face Image</th>
+              <th className="py-2">FaceID</th>
+              <th className="py-2">Age</th>
+              <th className="py-2">Gender</th>
+              <th className="py-2">Liveness Check</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.face_state.map((face, index) => (
+              <tr key={index} className="text-center">
+                <td className="py-2">
+                  {croppedImages[index] && (
+                    <img
+                      src={croppedImages[index]}
+                      alt={`Face ${index}`}
+                      className="w-20 h-20 object-cover rounded-lg mx-auto"
+                    />
+                  )}
+                </td>
+                <td className="py-2">{face.FaceID}</td>
+                <td className="py-2">{face.Age}</td>
+                <td className="py-2">{face.Gender}</td>
+                <td className="py-2">{face.LivenessCheck}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   };
@@ -301,16 +299,12 @@ const Facelive = () => {
                 <div>
                   {results && livenessImage ? (
                     <div className="flex flex-col h-[80%] ">
-                      <div className="bg-white flex flex-col p-4 max-h-[95vh] mt-4 overflow-y-auto  ">
+                      <div className="bg-white flex flex-col p-4  ">
                         <span className="font-extrabold">Results</span>
-                        {results.faces.map((face, index) => (
-                          <FaceResult 
-                            key={index}
-                            face={face}
-                            faceState={results.face_state[index]}
-                            image={livenessImage}
-                          />
-                        ))}
+                        <FaceResult
+                          results={results}
+                          image={livenessImage}
+                        />
                       </div>
                     </div>
                   ) : (
