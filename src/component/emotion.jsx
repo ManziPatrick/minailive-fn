@@ -254,7 +254,7 @@ const Emotion = () => {
               onClick={handleSubmit}
               className="bg-orange-500 text-white px-4 w-[80%] self-center mt-2 rounded-[20px] py-2 text-[15px]"
             >
-              Check your comparisons
+              Check Emotion Result
             </button>
             <div className="text-[#00000049] text-center p-5">
               We offer advanced security solutions with facial recognition,
