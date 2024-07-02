@@ -320,7 +320,7 @@ const ImageUpload = () => {
                 <div className="">
                   <div
                     {...getRootProps1()}
-                    className="flex items-center cursor-pointer border-2 border-orange-200 w-[300px] border-dashed rounded-xl h-[280px]"
+                    className="flex items-center cursor-pointer border-2 border-orange-200 w-[20vw] md:w-[24vw] lg:w-[24vw] border-dashed rounded-xl h-[35vh] md:h-[24vh] lg:h-[24vh]"
                   >
                     <input {...getInputProps1()} />
                     {uploadedImage1 ? (
@@ -335,7 +335,7 @@ const ImageUpload = () => {
                         <div>
                           <img src={img_upload_l} alt="" />
                         </div>
-                        <h1 className="text-orange-500 text-[18px] font-bold">
+                        <h1 className="text-orange-500 text-[16px] font-bold">
                           Drag & Drop image
                         </h1>
                       </div>
@@ -345,7 +345,7 @@ const ImageUpload = () => {
                 <div>
                   <div
                     {...getRootProps2()}
-                    className="flex items-center border-2 cursor-pointer border-orange-100 w-[300px] border-dashed rounded-xl h-[280px]"
+                    className="flex items-center border-2 cursor-pointer border-orange-100 w-[20vw] md:w-[24vw] lg:md:w-[24vw]  border-dashed rounded-xl h-[35vh] md:h-[24vh] lg:h-[24vh]"
                   >
                     <input {...getInputProps2()} />
                     {uploadedImage2 ? (
@@ -360,7 +360,7 @@ const ImageUpload = () => {
                         <div>
                           <img src={img_upload_l} alt="" />
                         </div>
-                        <h1 className="text-orange-500 text-[18px] font-bold">
+                        <h1 className="text-orange-500 text-[16px] font-bold">
                           Drag & Drop image
                         </h1>
                       </div>
@@ -370,7 +370,7 @@ const ImageUpload = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-around gap-3 mt-1 px-2">
+            <div className="flex justify-around gap-3 h-[28vh] relative  px-2">
               <div className="bg-gray-200 w-4/5 p-2 rounded-lg py-2">
                 <select
                   name="option"
@@ -379,7 +379,7 @@ const ImageUpload = () => {
                 >
                   <option value="example">Examples</option>
                 </select>
-                <div className="grid grid-cols-4  gap-x-2 p-2 gap-y-2">
+                <div className="grid grid-cols-4 w-full  gap-x-2 p-2  md:grid-cols-2 lg:grid-cols-2  ">
                   {[image1, image2, image3, image4].map((img, index) => (
                     <div
                       key={index}
@@ -389,7 +389,7 @@ const ImageUpload = () => {
                       <img
                         src={img}
                         alt={`Image ${index + 1}`}
-                        className="h-32 w-32 object-cover"
+                        className="h-[10vh] w-32 object-cover "
                       />
                     </div>
                   ))}
@@ -398,22 +398,22 @@ const ImageUpload = () => {
               <div className="bg-gray-200 w-4/5 p-2 rounded-lg py-2">
                 <select
                   name="option"
-                  id="option"
+                  id="option"F
                   className="py-2 bg-white rounded-xl text-[15px] w-[100%]  px-2  mb-4"
                 >
                   <option value="example">Examples</option>
                 </select>
-                <div className="grid grid-cols-4  gap-x-2 p-3 gap-y-2">
+                <div className="grid grid-cols-4  gap-x-2 p-3 md:grid-cols-2 lg:grid-cols-2 ">
                   {[image5, image6, image7, image8].map((img, index) => (
                     <div
                       key={(index = 5)}
-                      className="border rounded-lg overflow-hidden shadow-md cursor-pointer"
+                      className="border rounded-lg overflow-hidden shadow-md cursor-pointer "
                       onClick={() => handleImageClick2(img)}
                     >
                       <img
                         src={img}
                         alt={`Image ${index + 1}`}
-                        className="h-32 w-32 object-cover"
+                        className="h-[10vh] w-32 object-cover"
                       />
                     </div>
                   ))}
@@ -422,7 +422,7 @@ const ImageUpload = () => {
             </div>
             <button
               onClick={handleSubmit}
-              className="bg-orange-500 text-white px-4 rounded-[20px] py-2 w-[80%] self-center mt-2 text-[15px]"
+              className="bg-orange-500 text-white px-4 rounded-[20px] py-2 w-[80%] self-center mt-2 text-[12                                                                                   px]"
             >
               {" "}
               {loading ? "Processing..." : "Check your comparisons"}
@@ -448,7 +448,7 @@ const ImageUpload = () => {
                     <div>
                       <button
                         className={`
-    text-left p-4 m-2 w-1/2 rounded-lg
+    text-left p-4 m-2 w-1/2 md:w-full lg:w-full rounded-lg
     ${
       results.compare_similarity > 0.8
         ? "bg-green-500 text-white"

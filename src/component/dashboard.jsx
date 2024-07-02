@@ -57,7 +57,7 @@ function Dashboard() {
               <div className="py-1" role="none">
                 <NavLink
                   to="/"
-                  className="block px-4 ml-[14%]  py-5 text-sm"
+                  className="block px-4 ml-[14%] lg:ml-1  py-5 text-sm"
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -66,7 +66,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/face-liveness-detection"
-                  className="block px-4 ml-[14%] py-5 text-sm "
+                  className="block px-4 ml-[14%] lg:ml-1 py-5 text-sm "
                   activeClassName="active "
                   role="menuitem"
                   tabIndex="-1"
@@ -75,7 +75,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/face-emotions-recognition"
-                  className="block px-4 ml-[14%]  py-5 text-sm "
+                  className="block px-4 ml-[14%] lg:ml-1  py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -123,7 +123,7 @@ function Dashboard() {
               <div className="py-1" role="none">
                 <NavLink
                   to="/id-card"
-                  className="block ml-[14%]  px-4 py-5 text-sm "
+                  className="block ml-[14%] lg:ml-1  px-4 py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -132,7 +132,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/credit-card-recognition"
-                  className="block ml-[14%]  px-4 py-5 text-sm "
+                  className="block ml-[14%]  lg:ml-1 px-4 py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -141,7 +141,7 @@ function Dashboard() {
                 </NavLink>
                 <NavLink
                   to="/mrz-barcode-recognition"
-                  className="block ml-[14%]  px-4 py-5 text-sm "
+                  className="block ml-[14%] lg:ml-1  px-4 py-5 text-sm "
                   activeClassName="active"
                   role="menuitem"
                   tabIndex="-1"
@@ -197,29 +197,29 @@ function Dashboard() {
     <div className="py-1" role="none">
       <NavLink
         to="https://miniai.live/"
-        className="flex items-center ml-[10%] px-4 py-2 text-sm h-12"
+        className="flex items-center ml-[10%] lg:ml-1 lg:flex-col md:flex-row flex-row lg:gap-2 lg:items-start lg:mb-3 md:items-center  px-4 py-2 text-sm h-12"
         activeClassName="active"
         role="menuitem"
         tabIndex="-1"
         target="_blank"
       >
-        <img src={img_website} alt="" className="w-8 mr-4" />
+        <img src={img_website} alt="" className="w-8 mr-4 lg:mr-1" />
         <span className="text-left">Visit MiniAiLive</span>
       </NavLink>
       <NavLink
         to="https://github.com/MiniAiLive"
-        className="flex items-center ml-[10%] px-4 py-2 text-sm h-12"
+        className="flex items-center ml-[10%] px-4 lg:flex-col md:flex-row flex-row lg:gap-2 lg:items-start lg:mb-3 md:items-center py-2 lg:ml-1  text-sm h-12"
         activeClassName="active"
         role="menuitem"
         tabIndex="-1"
         target="_blank"
       >
-        <img src={img_github} alt="" className="w-8 mr-4" />
+        <img src={img_github} alt="" className="w-8 mr-4 lg:mr-1" />
         <span className="text-left">Visit GitHub Repo</span>
       </NavLink>
       <NavLink
         to="https://www.youtube.com/@miniailive"
-        className="flex items-center ml-[10%] px-4 py-2 text-sm h-12"
+        className="flex items-center ml-[10%] lg:ml-1 lg:flex-col md:flex-row flex-row lg:gap-2 lg:items-start lg:mb-3 md:items-center px-4 py-2 text-sm h-12"
         activeClassName="active"
         role="menuitem"
         tabIndex="-1"

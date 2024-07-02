@@ -116,7 +116,7 @@ const MrcBarcode = () => {
           <div className="w-[40%] flex-col ">
             <div
               {...getRootProps()}
-              className="flex items-center border-2 cursor-pointer border-orange-100 w-full border-dashed rounded-xl h-[280px]"
+              className="flex items-center border-2 cursor-pointer border-orange-100 w-full border-dashed rounded-xl h-[35vh]"
               onClick={handleUploadClick}
             >
               <input
@@ -145,7 +145,7 @@ const MrcBarcode = () => {
 
             <div><br></br></div>
 
-            <div className="bg-gray-200 w-full p-2 rounded-lg py-2">
+            <div className="bg-gray-200 w-full p-2 h-[24vh] rounded-lg py-2">
               <select
                 name="optionid"
                 id="optionId"
@@ -157,26 +157,26 @@ const MrcBarcode = () => {
                 <img
                   src={card3}
                   alt="image"
-                  className="w-full  object-cover h-28 rounded-lg"
+                  className="w-full  object-fill h-[10vh] rounded-lg"
                   onClick={() => handleImageClick(card3)}
                 />
                 <img
                   src={card1}
                   alt="image"
-                  className="w-full  object-cover h-28 rounded-lg"
+                  className="w-full  object-fill h-[10vh] rounded-lg"
                   onClick={() => handleImageClick(card1)}
                 />
                 <img
                   src={card2}
                   alt="image"
-                  className="w-full  object-cover h-28 rounded-lg"
+                  className="w-full  object-fill h-[10vh] rounded-lg"
                   onClick={() => handleImageClick(card2)}
                 />
               </div>
             </div>
             <div className="flex justify-center  pt-4">
               <button
-                className="bg-orange-500 text-white px-4  w-[80%] self-center rounded-[20px] py-2 text-[15px]"
+                className="bg-orange-500 text-white px-4  w-[80%] self-center rounded-[20px] py-2 text-[11px]"
                 onClick={handleRecognitionClick}
                 disabled={loading}
               >

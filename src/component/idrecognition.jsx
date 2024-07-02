@@ -117,7 +117,7 @@ const Idrecognition = () => {
           <div className="w-[40%] flex-col ">
             <div
               {...getRootProps()}
-              className="flex items-center border-2 cursor-pointer border-orange-100 w-full border-dashed rounded-xl h-[280px]"
+              className="flex items-center border-2 cursor-pointer border-orange-100 w-full border-dashed rounded-xl h-[35vh]"
               onClick={handleUploadClick}
             >
               <input
@@ -137,14 +137,15 @@ const Idrecognition = () => {
                   <div>
                     <img src={img_upload_l} alt="" />
                   </div>
-                  <h1 className="text-orange-500 text-[18px] font-bold">
+                  <h1 className="text-orange-500 text-[15px] font-bold">
                     Drag & Drop image or click to upload
                   </h1>
                 </div>
               )}
             </div>
             <div><br></br></div>
-            <div className="bg-gray-200 w-full p-2 rounded-lg py-2">
+            
+            <div className="bg-gray-200 w-full p-2 rounded-lg py-2 h-[24vh]">
               <select
                 name="optionid"
                 id="optionId"
@@ -156,26 +157,26 @@ const Idrecognition = () => {
                 <img
                   src={card3}
                   alt="image"
-                  className="w-full  object-cover h-28 rounded-lg"
+                  className="w-full  object-fill h-[10vh] rounded-lg"
                   onClick={() => handleImageClick(card3)}
                 />
                 <img
                   src={card1}
                   alt="image"
-                  className="w-full  object-cover h-28 rounded-lg"
+                  className="w-full  object-fill h-[10vh] rounded-lg"
                   onClick={() => handleImageClick(card1)}
                 />
                 <img
                   src={card2}
                   alt="image"
-                  className="w-full  object-cover h-28 rounded-lg"
+                  className="w-full  object-fill h-[10vh] rounded-lg"
                   onClick={() => handleImageClick(card2)}
                 />
               </div>
             </div>
             <div className="flex justify-center  pt-4">
               <button
-                className="bg-orange-500 text-white px-4  w-[80%] self-center rounded-[20px] py-2 text-[15px]"
+                className="bg-orange-500 text-white px-4  w-[80%] self-center rounded-[20px] py-2 text-[11px]"
                 onClick={handleRecognitionClick}
                 disabled={loading}
               >
@@ -186,7 +187,7 @@ const Idrecognition = () => {
               Quickly and securely capture, extract, and verify data from diverse ID cards, passports, DL, and other documents with our proven, AI-first approach.
             </div>
           </div>
-          <div className="bg-gray-200 rounded-xl w-[60%] ">
+          <div className="bg-gray-200 rounded-xl h-[80vh] w-[60%] ">
             <nav>
               <div className="flex flex-wrap justify-around px-4 bg-white h-12 items-center">
                 <div
@@ -234,7 +235,7 @@ const Idrecognition = () => {
                           key={index}
                           src={`data:image/jpeg;base64,${item.image}`}
                           alt={`Image ${index}`}
-                          className="w-full object-contain h-[250px] rounded-lg"
+                          className="w-full object-contain h-[30vh] rounded-lg"
                         />
                       ))}
                     </div>

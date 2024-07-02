@@ -188,7 +188,7 @@ const Emotion = () => {
                 <div className="">
                   <div
                     {...getRootProps()}
-                    className="flex items-center border-2 cursor-pointer border-orange-200 w-[300px] border-dashed rounded-xl h-[280px]"
+                    className="flex items-center border-2 cursor-pointer border-orange-200 w-[300px] border-dashed rounded-xl h-[35vh]"
                   >
                     <input {...getInputProps()} />
                     {uploadedImage ? (
@@ -226,25 +226,25 @@ const Emotion = () => {
                   <img
                     src={image1}
                     alt="image"
-                    className=" w-full h-36  object-fill   rounded-lg"
+                    className=" w-full h-[10vh] object-fill   rounded-lg"
                     onClick={() => handleImageClick(image1)}
                   />
                   <img
                     src={image2}
                     alt="image"
-                    className="w-full  h-36 object-fill  rounded-lg"
+                    className="w-full  h-[10vh] object-fill  rounded-lg"
                     onClick={() => handleImageClick(image2)}
                   />
                   <img
                     src={image3}
                     alt="image"
-                    className="w-full h-36 object-fill  rounded-lg"
+                    className="w-full h-[10vh]  object-fill  rounded-lg"
                     onClick={() => handleImageClick(image3)}
                   />
                   <img
                     src={image4}
                     alt="image"
-                    className="w-full h-36 object-fill  rounded-lg"
+                    className="w-full h-[10vh] object-fill  rounded-lg"
                     onClick={() => handleImageClick(image4)}
                   />
                 </div>
@@ -252,7 +252,7 @@ const Emotion = () => {
             </div>
             <button
               onClick={handleSubmit}
-              className="bg-orange-500 text-white px-4 w-[80%] self-center mt-2 rounded-[20px] py-2 text-[15px]"
+              className="bg-orange-500 text-white px-4 w-[80%] self-center mt-2 rounded-[20px] py-2 text-[11px]"
             >
               Check Emotion Result
             </button>
